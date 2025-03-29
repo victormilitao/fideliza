@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Button } from '../components/button'
+import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 
 export const Home = () => {
@@ -8,7 +8,7 @@ export const Home = () => {
       <div className='p-4 absolute w-full flex justify-end'>
         <div className='right-0'>
           <Link to={'/login'}>
-            <Button>Sair</Button>
+            <Button variant='link'>Sair</Button>
           </Link>
         </div>
       </div>
@@ -16,8 +16,8 @@ export const Home = () => {
         <div className='flex flex-col gap-6 w-3xs'>
           <Input label='Celular' type='text' />
           <Button>Enviar selos</Button>
-          <Button>Conferir selos</Button>
-          <Button>Premiar</Button>
+          <Button variant='secondary'>Conferir selos</Button>
+          <Button variant='secondary'>Premiar</Button>
         </div>
       </div>
     </>

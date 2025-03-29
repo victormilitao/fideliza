@@ -17,10 +17,9 @@ export const Button = ({
       className={`cursor-pointer h-10 min-w-fit py-1 px-6 rounded-sm transition-transform duration-300 ease-in-out ${
         className || ''
       }`}
+      {...rest}
     >
-      <button className='cursor-pointer' {...rest}>
-        <span className='text-sm'>{children}</span>
-      </button>
+      <span className='text-sm'>{children}</span>
     </ButtonStyled>
   )
 }

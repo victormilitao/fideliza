@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom'
 import { Button } from '../components/button/button'
 import { Input } from '../components/input'
+import { BottomSheet } from '@/components/bottom-sheet'
+import { useState } from 'react'
 
 export const Home = () => {
+  const [openSheet, setOpenSheet] = useState(false)
+  const handleBonus = () => {
+    setOpenSheet(!openSheet)
+  }
   return (
     <>
       <div className='p-4 absolute w-full flex justify-end'>
@@ -17,7 +23,13 @@ export const Home = () => {
           <Input label='Celular' type='text' />
           <Button>Enviar selos</Button>
           <Button variant='secondary'>Conferir selos</Button>
-          <Button variant='secondary'>Premiar</Button>
+            
+              <Button variant='secondary' onClick={handleBonus}>
+                Premiar
+              </Button>
+            
+          <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
+          </BottomSheet>
         </div>
       </div>
     </>

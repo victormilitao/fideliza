@@ -3,7 +3,9 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
+  SheetTitle,
 } from '@/components/ui/sheet'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 type BottomSheetProps = {
   children?: React.ReactNode
@@ -18,9 +20,12 @@ export const BottomSheet = ({
 }: BottomSheetProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side='bottom'>
-        <SheetHeader>
-          <SheetDescription>{children}</SheetDescription>
+      <SheetContent side='bottom' className='p-5'>
+        <SheetHeader className='text-center'>
+          <VisuallyHidden>
+            <SheetTitle />
+          </VisuallyHidden>
+          <SheetDescription asChild>{children}</SheetDescription>
         </SheetHeader>
       </SheetContent>
     </Sheet>

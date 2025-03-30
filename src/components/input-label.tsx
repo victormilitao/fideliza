@@ -4,7 +4,7 @@ type InputLabelProps = {
 
 export const InputLabel = ({ children }: InputLabelProps) => {
   return (
-    <label className='text-neutral-700 text-xs'>
+    <label className='text-xs'>
       {children}
     </label>
   )

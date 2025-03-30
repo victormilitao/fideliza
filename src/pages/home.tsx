@@ -3,6 +3,7 @@ import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { useState } from 'react'
+import { Reward } from './reward'
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
@@ -20,15 +21,16 @@ export const Home = () => {
       </div>
       <div className='flex flex-col items-center justify-center h-screen'>
         <div className='flex flex-col gap-6 w-3xs'>
-          <Input label='Celular' type='text' />
+          <Input label='Celular' type='text' placeholder='(00) 0 0000 0000' />
           <Button>Enviar selos</Button>
           <Button variant='secondary'>Conferir selos</Button>
-            
-              <Button variant='secondary' onClick={handleBonus}>
-                Premiar
-              </Button>
-            
+
+          <Button variant='secondary' onClick={handleBonus}>
+            Premiar
+          </Button>
+
           <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
+            <Reward />
           </BottomSheet>
         </div>
       </div>

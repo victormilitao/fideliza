@@ -14,7 +14,7 @@ const bgColors = {
 
 const hover = {
   primary: '--color-primary-700',
-  secondary: '',
+  secondary: '--color-primary-100',
   link: '',
 }
 
@@ -27,6 +27,12 @@ const colors = {
 const borderColors = {
   primary: '',
   secondary: '1px solid var(--color-primary-600)',
+  link: '',
+}
+
+const borderColorsHover = {
+  primary: '',
+  secondary: '',
   link: '',
 }
 
@@ -43,6 +49,7 @@ export const ButtonStyled = styled.button<ButtonVariantProps>`
     ${(props) => {
       return `
         background-color: var(${hover[props.variant]});
+        border: ${borderColorsHover[props.variant]};
       `
     }}
   }

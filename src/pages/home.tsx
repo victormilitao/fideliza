@@ -20,8 +20,8 @@ export const Home = () => {
         </div>
       </div>
       <div className='flex flex-col items-center justify-center h-screen'>
-        <div className='flex flex-col gap-6 w-3xs'>
-          <Input label='Celular' type='text' placeholder='(00) 0 0000 0000' />
+        <div className='flex flex-col gap-3 w-3xs'>
+          <Input className='mb-2' label='Celular' type='text' placeholder='(00) 0 0000 0000' />
           <Button>Enviar selos</Button>
           <Button variant='secondary'>Conferir selos</Button>
 

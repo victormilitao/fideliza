@@ -4,27 +4,30 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+} from '@/components/ui/sheet'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 type BottomSheetProps = {
-  children?: React.ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-};
+  children?: React.ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
 
-export const BottomSheet = ({children, open, onOpenChange}: BottomSheetProps) => {
-  return <Sheet open={open} onOpenChange={onOpenChange}>
-  <SheetTrigger>{children}</SheetTrigger>
-  <SheetContent side="bottom">
-    <SheetHeader>
-      <SheetTitle>Are you absolutely sure?</SheetTitle>
-      <SheetDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </SheetDescription>
-    </SheetHeader>
-  </SheetContent>
-</Sheet>
-
+export const BottomSheet = ({
+  children,
+  open,
+  onOpenChange,
+}: BottomSheetProps) => {
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side='bottom' className='p-5'>
+        <SheetHeader className='text-center'>
+          <VisuallyHidden>
+            <SheetTitle />
+          </VisuallyHidden>
+          <SheetDescription asChild>{children}</SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  )
 }

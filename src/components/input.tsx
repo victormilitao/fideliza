@@ -11,7 +11,7 @@ export const Input = ({ className, label, ...rest }: InputProps) => {
     <div className='flex flex-col gap-'>
       <InputLabel>{label}</InputLabel>
       <input
-        className={`border border-gray-400 p-2 rounded-l-sm min-w-3xs min-h-10 ${
+        className={` ${
           className || ''
         }`}
         {...rest}

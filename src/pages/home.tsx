@@ -4,12 +4,20 @@ import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { useState } from 'react'
 import { Reward } from './reward'
+import { useToast } from '@/hooks/useToast'
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
+  const { success } = useToast()
+
   const handleBonus = () => {
     setOpenSheet(!openSheet)
   }
+
+  const handleSendSticker = () => {
+    success('Selo enviado.')
+  }
+
   return (
     <>
       <div className='p-4 absolute w-full flex justify-end'>
@@ -21,8 +29,13 @@ export const Home = () => {
       </div>
       <div className='flex flex-col items-center justify-center h-screen'>
         <div className='flex flex-col gap-3 w-3xs'>
-          <Input className='mb-2' label='Celular' type='text' placeholder='(00) 0 0000 0000' />
-          <Button>Enviar selos</Button>
+          <Input
+            className='mb-2'
+            label='Celular'
+            type='text'
+            placeholder='(00) 0 0000 0000'
+          />
+          <Button onClick={handleSendSticker}>Enviar selos</Button>
           <Button variant='secondary'>Conferir selos</Button>
 
           <Button variant='secondary' onClick={handleBonus}>

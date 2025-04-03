@@ -5,16 +5,26 @@ interface IconProps {
   name: keyof typeof LucideIcons
   size?: number
   color?: string
+  strokeWidth?: number
+  fill?: string
+  className?: string
 }
 
 const Icon: React.FC<IconProps> = ({
   name,
   size = 24,
   color = 'currentColor',
+  strokeWidth = 1,
+  fill = '',
+  className = '',
 }) => {
   const LucideIcon = LucideIcons[name] as React.ComponentType<{
     size?: number
     color?: string
+    strokeWidth?: number
+    style?: React.CSSProperties
+    fill?: string
+    className?: string
   }>
 
   if (!LucideIcon) {
@@ -22,7 +32,15 @@ const Icon: React.FC<IconProps> = ({
     return null
   }
 
-  return <LucideIcon size={size} color={color} />
+  return (
+    <LucideIcon
+      size={size}
+      color={color}
+      strokeWidth={strokeWidth}
+      className={className}
+      {...(fill && { fill })}
+    />
+  )
 }
 
 export default Icon

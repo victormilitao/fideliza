@@ -1,27 +1,29 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @theme {
   --color-backgrounbd: var(--color-neutral-200);
 
-  --color-primary-100: #EEF8FF;
-  --color-primary-400: #3067AC;
-  --color-primary-300: #94C5F1;
+  --color-primary-100: #eef8ff;
+  --color-primary-300: #94c5f1;
+  --color-primary-400: #3067ac;
   --color-primary-500: #053275;
-  --color-primary-600: #021C54;
-  --color-primary-700: #000E38;
+  --color-primary-600: #021c54;
+  --color-primary-700: #000e38;
 
-  --color-neutral-200: #FFFFFF;
-  --color-neutral-500: #A7A7A7;
+  --color-neutral-200: #ffffff;
+  --color-neutral-400: #cbcbcb;
+  --color-neutral-500: #a7a7a7;
   --color-neutral-700: #161616;
 
-  --color-error-100: #FFF3F3;
-  --color-error-400: #E05F5F;
+  --color-error-100: #fff3f3;
+  --color-error-400: #e05f5f;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('./assets/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
+  src: url('./assets/fonts/Roboto-VariableFont_wdth,wght.ttf')
+    format('truetype');
   font-weight: 100 900;
   font-style: normal;
 }
@@ -80,7 +82,17 @@
     @apply bg-background text-neutral-700;
   }
   input {
-    @apply border border-neutral-500 p-2 rounded-sm min-w-3xs min-h-10
+    @apply border border-neutral-500 p-2 rounded-sm min-w-3xs min-h-10;
   }
 }
 
+@layer utilities {
+  .fill-icon {
+    .lucide-ticket-check path:nth-child(2) {
+      stroke: var(--color-neutral-200);
+    }
+    .lucide-ticket-check {
+      filter: drop-shadow(4px 4px 10px #00000040);
+    }
+  }
+}

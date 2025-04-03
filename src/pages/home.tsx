@@ -5,10 +5,12 @@ import { BottomSheet } from '@/components/bottom-sheet'
 import { useState } from 'react'
 import { Reward } from './reward'
 import { useToast } from '@/hooks/useToast'
+import { useNavigate } from 'react-router-dom'
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
   const { success } = useToast()
+  const navigate = useNavigate()
 
   const handleBonus = () => {
     setOpenSheet(!openSheet)
@@ -16,6 +18,10 @@ export const Home = () => {
 
   const handleSendSticker = () => {
     success('Selo enviado.')
+  }
+
+  const handleGoToTickets = () => {
+    navigate('/tickets')
   }
 
   return (
@@ -36,7 +42,10 @@ export const Home = () => {
             placeholder='(00) 0 0000 0000'
           />
           <Button onClick={handleSendSticker}>Enviar selos</Button>
-          <Button variant='secondary'>Conferir selos</Button>
+
+          <Button variant='secondary' onClick={handleGoToTickets}>
+            Conferir selos
+          </Button>
 
           <Button variant='secondary' onClick={handleBonus}>
             Premiar

@@ -39,7 +39,8 @@ export const Home = () => {
             className='mb-2'
             label='Celular'
             type='text'
-            placeholder='(00) 0 0000 0000'
+            placeholder='(00) 0 0000-0000'
+            maskType='phone'
           />
           <Button onClick={handleSendSticker}>Enviar selos</Button>
 

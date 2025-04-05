@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '../components/input'
 import { Button } from '../components/button/button'
 import { Link } from 'react-router-dom'
+import { BottomSheet } from '@/components/bottom-sheet'
+import { Reward } from './reward'
 
-const Login: React.FC = () => {
+export const Login: React.FC = () => {
   return (
     <div className='flex items-center justify-center h-screen'>
       <div className='flex flex-col gap-6 w-3xs'>
@@ -19,5 +21,3 @@ const Login: React.FC = () => {
     </div>
   )
 }
-
-export default Login

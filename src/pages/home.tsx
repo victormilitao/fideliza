@@ -21,14 +21,14 @@ export const Home = () => {
   }
 
   const handleGoToTickets = () => {
-    navigate('/tickets')
+    navigate('/estabelecimento/tickets')
   }
 
   return (
     <>
       <div className='p-4 absolute w-full flex justify-end'>
         <div className='right-0'>
-          <Link to={'/login'}>
+          <Link to={'/estabelecimento/login'}>
             <Button variant='link'>Sair</Button>
           </Link>
         </div>

@@ -13,6 +13,7 @@ type InputProps = {
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 export const Input = ({
+  type = 'text',
   className,
   label,
   error,
@@ -21,10 +22,11 @@ export const Input = ({
   ...rest
 }: InputProps) => {
   const inputRef = useInputMask(maskType, customMask)
+
   return (
     <div className={`${className || ''} flex flex-col`}>
       <InputLabel>{label}</InputLabel>
-      <input ref={inputRef} {...rest} />
+      <input type={type} ref={inputRef} {...rest} />
       {error && <Error msg={error} />}
     </div>
   )

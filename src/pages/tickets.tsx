@@ -21,7 +21,7 @@ export const Tickets = () => {
         <div className='flex flex-wrap gap-7 justify-center'>
           {tickets.map((ticket) => (
             <div key={ticket.id} className='fill-icon text-neutral-400'>
-              {!ticket.checked && <Icon name='Ticket' size={80} />}
+              {!ticket.checked && <Icon name='Ticket' size={80} strokeWidth={0.7} />}
               {ticket.checked && (
                 <Icon
                   name='TicketCheck'

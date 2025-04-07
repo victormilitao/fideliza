@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export type ButtonVariant = 'primary' | 'secondary' | 'link'
 
 interface ButtonVariantProps {
-  variant: ButtonVariant
+  $variant: ButtonVariant
 }
 
 const bgColors = {
@@ -37,19 +37,19 @@ const borderColorsHover = {
 }
 
 export const ButtonStyled = styled.button<ButtonVariantProps>`
-  ${(props) => {
+  ${({ $variant }) => {
     return `
-      background-color: var(${bgColors[props.variant]});
-      color: var(${colors[props.variant]});
-      border: ${borderColors[props.variant]};
+      background-color: var(${bgColors[$variant]});
+      color: var(${colors[$variant]});
+      border: ${borderColors[$variant]};
     `
   }}
 
   &:hover {
-    ${(props) => {
+    ${({ $variant }) => {
       return `
-        background-color: var(${hover[props.variant]});
-        border: ${borderColorsHover[props.variant]};
+        background-color: var(${hover[$variant]});
+        border: ${borderColorsHover[$variant]};
       `
     }}
   }

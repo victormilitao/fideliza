@@ -7,13 +7,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = ({
   children,
-  variant,
+  variant = 'primary',
   className,
   ...rest
 }: ButtonProps) => {
   return (
     <ButtonStyled
-      variant={variant || 'primary'}
+      $variant={variant}
       className={`cursor-pointer h-10 min-w-fit py-1 px-6 rounded-sm transition-transform duration-300 ease-in-out ${
         className || ''
       }`}

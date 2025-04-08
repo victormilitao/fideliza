@@ -1,5 +1,3 @@
-// tests/utils/mask-utils.test.ts
-
 import { describe, expect, it } from 'vitest'
 import { getMaskConfig, maskMap } from '@/utils/mask-utils'
 

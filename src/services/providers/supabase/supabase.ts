@@ -1,15 +1,8 @@
-import supabase from './config'
-import { Credentials } from '@/services/types/api.type'
 import { ApiFunctions } from '@/services/types/api-functions.type'
+import { signInWithPassword } from './api-functions/signInWithPassword'
 
 const supabaseApi: ApiFunctions = {
-  signInWithPassword: async (credentials: Credentials) => {
-    try {
-      return await supabase.auth.signInWithPassword(credentials)
-    } catch (err) {
-      console.error('Unexpected error:', err)
-    }
-  },
+  signInWithPassword: signInWithPassword,
 }
 
 export default supabaseApi

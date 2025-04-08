@@ -1,5 +1,7 @@
-import { Credentials, SignInWithPasswordResponse } from "./api.type"
+import { Credentials, Response, SignInWithPasswordResponse } from './api.type'
 
 export type ApiFunctions = {
-  signInWithPassword: (credentials: Credentials) => Promise<SignInWithPasswordResponse>,
+  signInWithPassword: (
+    credentials: Credentials
+  ) => Promise<Response<SignInWithPasswordResponse>>
 }

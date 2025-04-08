@@ -1,6 +1,12 @@
+export type Response<T> = {
+  data: T | null
+  error: Error | null
+}
+
 export type SignInWithPasswordResponse = {
-  data: any
-  error: string
+  user?: any
+  session?: any
+  weakPassword?: any
 }
 
 export type Credentials = {

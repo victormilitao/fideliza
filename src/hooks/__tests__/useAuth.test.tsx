@@ -5,9 +5,8 @@ import { useToast } from '@/hooks/useToast'
 import { useNavigate } from 'react-router-dom'
 import api from '@/services/api'
 import { useAuth } from '../useAuth'
-import { Credentials } from '@/services/types/api.type'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Credentials } from '@/services/types/auth.type'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -16,7 +15,6 @@ const createWrapper = () => {
   )
 }
 
-// Mocks
 vi.mock('@/hooks/useToast', () => ({
   useToast: vi.fn(),
 }))

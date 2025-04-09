@@ -1,34 +1,15 @@
 import React, { useState } from 'react'
 import { Input } from '../components/input'
 import { Button } from '../components/button/button'
-import { useNavigate } from 'react-router-dom'
-import { useToast } from '@/hooks/useToast'
-import api from '@/services/api'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const toast = useToast()
-  const navigate = useNavigate()
+  const { login, loading } = useAuth()
 
-  const handleLogin = async () => {
-    try {
-      const { data, error } = await api.signInWithPassword({
-        email,
-        password,
-      })
-
-      if (error) {
-        toast.error('E-mail ou senha incorretos.')
-        console.error('Error signing in:', error)
-      } else {
-        console.log('User signed in:', data)
-        navigate('/')
-      }
-    } catch (err) {
-      console.error('Unexpected error:', err)
-      toast.error('Ocorreu um erro inesperado. Tente novamente.')
-    }
+  const handleLogin = () => {
+    login({ email, password })
   }
 
   return (

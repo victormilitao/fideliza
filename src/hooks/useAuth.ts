@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import {
-  Credentials,
   Response,
-  SignInWithPasswordResponse,
 } from '@/services/types/api.type'
+import { Credentials, SignInWithPasswordResponse } from '@/services/types/auth.type'
 
 export const useAuth = () => {
   const toast = useToast()

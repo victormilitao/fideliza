@@ -1,9 +1,8 @@
 import {
-  Credentials,
   Response,
-  SignInWithPasswordResponse,
 } from '@/services/types/api.type'
 import supabase from '../config'
+import { Credentials, SignInWithPasswordResponse } from '@/services/types/auth.type'
 
 export const signInWithPassword = async (
   credentials: Credentials

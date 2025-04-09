@@ -8,9 +8,7 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('')
   const { login, loading } = useAuth()
 
-  const handleLogin = () => {
-    login({ email, password })
-  }
+  const handleLogin = () => login({ email, password })
 
   return (
     <div className='flex items-center justify-center h-screen'>

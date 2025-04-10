@@ -1,5 +1,8 @@
+import { User } from "@/types/user.type"
+
 export type SignInWithPasswordResponse = {
-  user?: any
+  access_token?: string
+  user?: User
   session?: any
   weakPassword?: any
 }

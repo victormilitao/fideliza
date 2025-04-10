@@ -6,11 +6,13 @@ import { useState } from 'react'
 import { Reward } from './reward'
 import { useToast } from '@/hooks/useToast'
 import { useNavigate } from 'react-router-dom'
+import { useLogout } from '@/hooks/useLogout'
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
   const { success } = useToast()
   const navigate = useNavigate()
+  const { logout } = useLogout()
 
   const handleBonus = () => {
     setOpenSheet(!openSheet)
@@ -24,12 +26,18 @@ export const Home = () => {
     navigate('/estabelecimento/tickets')
   }
 
+  const handleLogout = () => {
+    logout()
+  }
+
   return (
     <>
       <div className='p-4 absolute w-full flex justify-end'>
         <div className='right-0'>
           <Link to={'/estabelecimento/login'}>
-            <Button variant='link'>Sair</Button>
+            <Button variant='link' onClick={handleLogout}>
+              Sair
+            </Button>
           </Link>
         </div>
       </div>

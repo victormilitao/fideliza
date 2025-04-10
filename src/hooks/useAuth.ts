@@ -2,14 +2,17 @@ import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
+import { Response } from '@/services/types/api.type'
 import {
-  Response,
-} from '@/services/types/api.type'
-import { Credentials, SignInWithPasswordResponse } from '@/services/types/auth.type'
+  Credentials,
+  SignInWithPasswordResponse,
+} from '@/services/types/auth.type'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export const useAuth = () => {
   const toast = useToast()
   const navigate = useNavigate()
+  const { setAccessToken } = useAuthStore()
 
   const { mutate: login, isPending: loading } = useMutation<
     Response<SignInWithPasswordResponse>,
@@ -26,6 +29,7 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       console.log('User signed in:', data)
+      setAccessToken(data.data?.session)
       navigate('/')
     },
     onError: (error: unknown) => {

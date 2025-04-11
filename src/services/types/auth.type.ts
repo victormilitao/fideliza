@@ -2,7 +2,7 @@ import { User } from "@/types/user.type"
 
 export type SignInWithPasswordResponse = {
   access_token?: string
-  user?: User
+  user: User | null
   session?: any
   weakPassword?: any
 }

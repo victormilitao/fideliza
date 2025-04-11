@@ -24,7 +24,6 @@ export const Login: React.FC = () => {
   })
 
   const handleLogin = (data: LoginSchema) => {
-    console.dir(data)
     login(data)
   }
 

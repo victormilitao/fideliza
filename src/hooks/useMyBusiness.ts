@@ -15,6 +15,7 @@ export const useMyBusiness = () => {
       if (error) throw new Error(error.message)
       return data
     },
+    staleTime: Infinity,
   })
 
   return {

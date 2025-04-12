@@ -7,7 +7,7 @@ export const useInputMask = (
   maskType?: MaskType,
   customMask?: CustomMask
 ) => {
-  if(!maskType || (maskType && !customMask)) return undefined
+  if(!maskType && !customMask) return undefined
   const maskConfig = getMaskConfig(maskType, customMask)
   return useMask(maskConfig)
 }

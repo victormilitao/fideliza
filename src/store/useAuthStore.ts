@@ -1,25 +1,27 @@
+import { Session, SignInWithPasswordResponse } from '@/services/types/auth.type'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 type AuthStore = {
-  accessToken: string | null
+  session: Session | null
   isLoggedIn: boolean
-  setAccessToken: (token: string) => void
+  setSession: (response: SignInWithPasswordResponse) => void
   clearSession: () => void
 }
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
-      accessToken: null,
+      session: null,
       isLoggedIn: false,
-      setAccessToken: (accessToken) => set({ accessToken, isLoggedIn: true }),
-      clearSession: () => set({ accessToken: null, isLoggedIn: false }),
+      setSession: (response) =>
+        set({ session: response.session, isLoggedIn: true }),
+      clearSession: () => set({ session: null, isLoggedIn: false }),
     }),
     {
       name: 'auth-storage',
       partialize: (state) => ({
-        accessToken: state.accessToken,
+        session: state.session,
         isLoggedIn: state.isLoggedIn,
       }),
     }

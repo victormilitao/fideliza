@@ -3,22 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Stamp } from '@/types/stamp.type'
+import { useMyBusiness } from './useMyBusiness'
 
 export const useAddStamp = () => {
   const toast = useToast()
   const navigate = useNavigate()
+  const { business } = useMyBusiness()
 
   const { mutate: addStamp, isPending: loading } = useMutation<
     void,
     Error,
-    Stamp
+    Partial<Stamp>
   >({
-    mutationFn: async (stamp: Stamp) => {
+    mutationFn: async (partialStamp: Partial<Stamp>) => {
+      const stamp = { ...partialStamp, businessId: business?.id }
       await api.addStamp(stamp)
     },
     onSuccess: (data) => {
       console.dir(data)
-      toast.success('Selo enviado com sucesso!')
       navigate('/estabelecimento/tickets')
     },
     onError: (error: unknown) => {

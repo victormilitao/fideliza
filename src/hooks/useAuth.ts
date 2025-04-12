@@ -12,7 +12,7 @@ import { useAuthStore } from '@/store/useAuthStore'
 export const useAuth = () => {
   const toast = useToast()
   const navigate = useNavigate()
-  const { setAccessToken } = useAuthStore()
+  const { setSession } = useAuthStore()
 
   const { mutate: login, isPending: loading } = useMutation<
     Response<SignInWithPasswordResponse>,
@@ -28,8 +28,7 @@ export const useAuth = () => {
       return { data, error }
     },
     onSuccess: (data) => {
-      console.log('User signed in:', data)
-      setAccessToken(data.data?.session)
+      if (data?.data) setSession(data.data)
       navigate('/')
     },
     onError: (error: unknown) => {

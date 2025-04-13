@@ -19,9 +19,8 @@ export const useAddStamp = () => {
       const stamp = { ...partialStamp, businessId: business?.id }
       await api.addStamp(stamp)
     },
-    onSuccess: (data) => {
-      console.dir(data)
-      navigate('/estabelecimento/tickets')
+    onSuccess: (_, params) => {
+      navigate('/estabelecimento/tickets', { state: { params } })
     },
     onError: (error: unknown) => {
       console.error('Error:', error)

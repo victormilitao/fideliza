@@ -4,26 +4,23 @@ import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { useState } from 'react'
 import { Reward } from './reward'
-import { useToast } from '@/hooks/useToast'
 import { useNavigate } from 'react-router-dom'
 import { useLogout } from '@/hooks/useLogout'
-import { useAddStamp } from '@/hooks/useAddStamp'
+import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
 
 export const Home = () => {
   const [phone, setPhone] = useState('')
   const [openSheet, setOpenSheet] = useState(false)
-  const { success } = useToast()
   const navigate = useNavigate()
   const { logout } = useLogout()
-  const { addStamp } = useAddStamp()
+  const { sendStamp } = useSendStampByPhone()
 
   const handleBonus = () => {
     setOpenSheet(!openSheet)
   }
 
   const handleSendSticker = () => {
-    addStamp({ userId: '6ae5cdc8-2125-4e47-a85d-1b98f79eaec7' })
-    success('Selo enviado.')
+    sendStamp(phone)
     setPhone('')
   }
 

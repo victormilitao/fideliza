@@ -1,8 +1,12 @@
 import { Button } from '@/components/button/button'
 import Icon from '@/components/icon'
-import { Link } from 'react-router-dom'
+import { Stamp } from '@/types/stamp.type'
+import { Link, useLocation } from 'react-router-dom'
 
 export const Tickets = () => {
+  const location = useLocation()
+  const { userId } = (location.state.params as Stamp) || {}
+
   const tickets = [
     { id: 1, date: '2023-10-01', checked: true },
     { id: 2, date: '2023-10-01', checked: true },
@@ -21,7 +25,9 @@ export const Tickets = () => {
         <div className='flex flex-wrap gap-7 justify-center'>
           {tickets.map((ticket) => (
             <div key={ticket.id} className='fill-icon text-neutral-400'>
-              {!ticket.checked && <Icon name='Ticket' size={80} strokeWidth={0.7} />}
+              {!ticket.checked && (
+                <Icon name='Ticket' size={80} strokeWidth={0.7} />
+              )}
               {ticket.checked && (
                 <Icon
                   name='TicketCheck'

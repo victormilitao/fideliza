@@ -1,10 +1,12 @@
 import { User } from "@/types/user.type"
 
 export type SignInWithPasswordResponse = {
-  access_token?: string
-  user?: User
-  session?: any
-  weakPassword?: any
+  session?: Session | null
+  user: User | null
+}
+
+export type Session = {
+  access_token: string
 }
 
 export type Credentials = {

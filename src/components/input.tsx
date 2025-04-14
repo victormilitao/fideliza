@@ -26,7 +26,7 @@ export const Input = ({
   return (
     <div className={`${className || ''} flex flex-col`}>
       <InputLabel>{label}</InputLabel>
-      <input type={type} ref={inputRef} {...rest} />
+      <input type={type} {...rest} ref={inputRef} />
       {error && <Error msg={error} />}
     </div>
   )

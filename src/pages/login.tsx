@@ -1,14 +1,31 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Input } from '../components/input'
 import { Button } from '../components/button/button'
 import { useAuth } from '@/hooks/useAuth'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const schema = z.object({
+  email: z.string().email('Email inválido').nonempty('Campo obrigatório'),
+  password: z.string().nonempty('Campo obrigatório'),
+})
+
+type LoginSchema = z.infer<typeof schema>
 
 export const Login: React.FC = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const { login, loading } = useAuth()
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(schema),
+  })
 
-  const handleLogin = () => login({ email, password })
+  const handleLogin = (data: LoginSchema) => {
+    login(data)
+  }
 
   return (
     <div className='flex items-center justify-center h-screen'>
@@ -16,21 +33,38 @@ export const Login: React.FC = () => {
         <h2 className='text-center'>
           <b>Acesse sua conta</b>
         </h2>
-        <Input
-          label='Email'
-          type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          label='Senha'
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+        <Controller
+          name='email'
+          control={control}
+          render={({ field }) => (
+            <Input
+              label='Email'
+              type='email'
+              {...field}
+              error={errors.email?.message}
+            />
+          )}
         />
 
-        <Button className='w-full' onClick={handleLogin}>
-          Entrar
+        <Controller
+          name='password'
+          control={control}
+          render={({ field }) => (
+            <Input
+              label='Senha'
+              type='password'
+              {...field}
+              error={errors.password?.message}
+            />
+          )}
+        />
+
+        <Button
+          className='w-full'
+          onClick={handleSubmit(handleLogin)}
+          disabled={loading}
+        >
+          {loading ? 'Entrando...' : 'Entrar'}
         </Button>
       </div>
     </div>

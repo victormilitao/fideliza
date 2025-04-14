@@ -1,35 +1,52 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { useState } from 'react'
 import { Reward } from './reward'
-import { useToast } from '@/hooks/useToast'
-import { useNavigate } from 'react-router-dom'
 import { useLogout } from '@/hooks/useLogout'
+import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
+import { useForm, Controller } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useUserByPhone } from '@/hooks/useUserByPhone'
+
+const schema = z.object({
+  phone: z.string().nonempty('Campo obrigatório'),
+})
+type FormSchema = z.infer<typeof schema>
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
-  const { success } = useToast()
-  const navigate = useNavigate()
   const { logout } = useLogout()
+  const { sendStamp } = useSendStampByPhone()
+  const { getUserByPhone } = useUserByPhone()
+  const navigate = useNavigate()
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormSchema>({
+    resolver: zodResolver(schema),
+    defaultValues: { phone: '' },
+  })
 
   const handleBonus = () => {
     setOpenSheet(!openSheet)
   }
 
-  const handleSendSticker = () => {
-    success('Selo enviado.')
+  const handleSendSticker = (data: FormSchema) => {
+    sendStamp(data.phone)
   }
 
-  const handleGoToTickets = () => {
-    navigate('/estabelecimento/tickets')
+  const handleGoToTickets = async (data: FormSchema) => {
+    const { data: person } = await getUserByPhone(data.phone)
+    navigate('/estabelecimento/tickets', { state: { params: person?.user_id } })
   }
 
   const handleLogout = () => {
     logout()
   }
-
   return (
     <>
       <div className='p-4 absolute w-full flex justify-end'>
@@ -43,16 +60,26 @@ export const Home = () => {
       </div>
       <div className='flex flex-col items-center justify-center h-screen'>
         <div className='flex flex-col gap-3 w-3xs'>
-          <Input
-            className='mb-2'
-            label='Celular'
-            type='text'
-            placeholder='(00) 0 0000-0000'
-            maskType='phone'
+          <Controller
+            name='phone'
+            control={control}
+            rules={{ required: 'Campo obrigatório' }}
+            render={({ field }) => (
+              <Input
+                className='mb-2'
+                label='Celular'
+                type='tel'
+                placeholder='(00) 0 0000-0000'
+                maskType='phone'
+                {...field}
+                error={errors.phone?.message}
+              />
+            )}
           />
-          <Button onClick={handleSendSticker}>Enviar selos</Button>
 
-          <Button variant='secondary' onClick={handleGoToTickets}>
+          <Button onClick={handleSubmit(handleSendSticker)}>Enviar selo</Button>
+
+          <Button variant='secondary' onClick={handleSubmit(handleGoToTickets)}>
             Conferir selos
           </Button>
 

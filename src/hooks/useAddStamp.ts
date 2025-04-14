@@ -20,7 +20,8 @@ export const useAddStamp = () => {
       await api.addStamp(stamp)
     },
     onSuccess: (_, params) => {
-      navigate('/estabelecimento/tickets', { state: { params } })
+      const {userId} = params
+      navigate('/estabelecimento/tickets', { state: { params: userId } })
     },
     onError: (error: unknown) => {
       console.error('Error:', error)

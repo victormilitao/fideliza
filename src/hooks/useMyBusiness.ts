@@ -13,6 +13,7 @@ export const useMyBusiness = () => {
       if (error) throw new Error(error.message)
       return data
     },
+    enabled: !!user,
     staleTime: Infinity,
   })
 

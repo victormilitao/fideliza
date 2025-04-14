@@ -2,7 +2,7 @@ import React from 'react'
 import { Input } from '../components/input'
 import { Button } from '../components/button/button'
 import { useAuth } from '@/hooks/useAuth'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -16,9 +16,9 @@ type LoginSchema = z.infer<typeof schema>
 export const Login: React.FC = () => {
   const { login, loading } = useAuth()
   const {
-    register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<LoginSchema>({
     resolver: zodResolver(schema),
   })
@@ -33,18 +33,30 @@ export const Login: React.FC = () => {
         <h2 className='text-center'>
           <b>Acesse sua conta</b>
         </h2>
-        <Input
-          label='Email'
-          type='email'
-          {...register('email')}
-          error={errors.email?.message}
+        <Controller
+          name='email'
+          control={control}
+          render={({ field }) => (
+            <Input
+              label='Email'
+              type='email'
+              {...field}
+              error={errors.email?.message}
+            />
+          )}
         />
 
-        <Input
-          label='Senha'
-          type='password'
-          {...register('password')}
-          error={errors.password?.message}
+        <Controller
+          name='password'
+          control={control}
+          render={({ field }) => (
+            <Input
+              label='Senha'
+              type='password'
+              {...field}
+              error={errors.password?.message}
+            />
+          )}
         />
 
         <Button

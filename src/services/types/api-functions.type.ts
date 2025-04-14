@@ -12,5 +12,8 @@ export type ApiFunctions = {
   addStamp: ({ businessId, userId }: Stamp) => void
   getUserLoggedIn: () => Promise<Response<User>>
   getUserByPhone: (phone: string) => Promise<Response<User>>
-  getStampsByUserId: (userId: string) => Promise<Response<Stamp[]>>
+  getStampsByUserId: (
+    userId: string,
+    businessId: string
+  ) => Promise<Response<Stamp[]>>
 }

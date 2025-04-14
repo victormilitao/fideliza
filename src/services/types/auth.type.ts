@@ -1,7 +1,7 @@
 import { User } from "@/types/user.type"
 
 export type SignInWithPasswordResponse = {
-  session?: Session
+  session?: Session | null
   user: User | null
 }
 

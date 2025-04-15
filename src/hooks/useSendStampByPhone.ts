@@ -22,8 +22,13 @@ export const useSendStampByPhone = () => {
         return
       }
 
-      await addStamp({ userId: response.data?.user_id })
-      success('Selo enviado.')
+      try {
+        await addStamp({ userId: response.data?.user_id })
+        success('Selo enviado.')
+      } catch (err: any) {
+        console.error('Erro ao adicionar selo:', err)
+        error(err.message || 'Erro ao enviar selo.')
+      }
     },
     [addStamp, error, success, getUserByPhone]
   )

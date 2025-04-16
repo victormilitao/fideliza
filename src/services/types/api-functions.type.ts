@@ -3,6 +3,7 @@ import { Response } from './api.type'
 import { Credentials, SignInWithPasswordResponse } from './auth.type'
 import { Stamp } from '@/types/stamp.type'
 import { User } from '@/types/user.type'
+import { Profile } from '@/types/profile'
 
 export type ApiFunctions = {
   signInWithPassword: (
@@ -16,4 +17,5 @@ export type ApiFunctions = {
     userId: string,
     businessId: string
   ) => Promise<Response<Stamp[]>>
+  getProfile: (userId: string) => Promise<Response<Profile>>
 }

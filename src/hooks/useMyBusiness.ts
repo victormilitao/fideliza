@@ -1,6 +1,6 @@
 import api from '@/services/api'
 import { useQuery } from '@tanstack/react-query'
-import { useUserLoggedIn } from './useUserLogged'
+import { useUserLoggedIn } from './useUserLoggedIn'
 
 export const useMyBusiness = () => {
   const { user } = useUserLoggedIn()

@@ -12,6 +12,6 @@ export const useStampsByUserId = (userId?: string) => {
       const { data } = await api.getStampsByUserId(userId, business?.id)
       return data
     },
-    enabled: !!userId,
+    enabled: !!userId && !!business?.id,
   })
 }

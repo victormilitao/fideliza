@@ -10,7 +10,6 @@ export const useMyBusiness = () => {
     queryFn: async () => {
       if (!user) throw new Error('User not logged in')
       const { data, error } = await api.getMyBusiness(user)
-      console.log('errorrrrrrrrrrrrrrrrrrrrrrrrrrr ', error)
       if (error) throw new Error(error.message)
       return data
     },

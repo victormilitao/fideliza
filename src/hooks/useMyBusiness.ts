@@ -1,6 +1,6 @@
 import api from '@/services/api'
 import { useQuery } from '@tanstack/react-query'
-import { useUserLoggedIn } from './useUserLogged'
+import { useUserLoggedIn } from './useUserLoggedIn'
 
 export const useMyBusiness = () => {
   const { user } = useUserLoggedIn()
@@ -10,6 +10,7 @@ export const useMyBusiness = () => {
     queryFn: async () => {
       if (!user) throw new Error('User not logged in')
       const { data, error } = await api.getMyBusiness(user)
+      console.log('errorrrrrrrrrrrrrrrrrrrrrrrrrrr ', error)
       if (error) throw new Error(error.message)
       return data
     },

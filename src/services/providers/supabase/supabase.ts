@@ -6,6 +6,8 @@ import { getUserByPhone } from './api-functions/getUserByPhone'
 import { getStampsByUserId } from './api-functions/getStampsByUserId'
 import { ApiFunctions } from '@/services/types/api-functions.type'
 import { getProfile } from './api-functions/getProfile'
+import { checkUserExists } from './api-functions/checkUserExists'
+import { signUp } from './api-functions/signUp'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -15,6 +17,8 @@ const supabaseApi: ApiFunctions = {
   getUserByPhone: getUserByPhone,
   getStampsByUserId: getStampsByUserId,
   getProfile: getProfile,
+  checkUserExists: checkUserExists,
+  signUp: signUp
 }
 
 export default supabaseApi

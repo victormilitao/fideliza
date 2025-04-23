@@ -18,4 +18,6 @@ export type ApiFunctions = {
     businessId: string
   ) => Promise<Response<Stamp[]>>
   getProfile: (userId: string) => Promise<Response<Profile>>
+  checkUserExists: (phone: string) => Promise<Response<User>>
+  signUp: (phone: string) => Promise<Response<User>>
 }

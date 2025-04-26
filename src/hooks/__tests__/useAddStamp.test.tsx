@@ -28,9 +28,20 @@ vi.mock('../useMyBusiness', () => ({
 vi.mock('@/services/api', () => ({
   default: {
     addStamp: vi.fn(),
-    checkUserExists: vi.fn(),
+    getUserByPhone: vi.fn(),
+    signUp: vi.fn(),
   },
 }))
+
+const mockNavigate = vi.fn()
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  }
+})
 
 describe('useAddStamp', () => {
   const mockToast = { error: vi.fn(), success: vi.fn(), show: vi.fn() }
@@ -47,29 +58,40 @@ describe('useAddStamp', () => {
     vi.clearAllMocks()
   })
 
-  it('should successfully add a stamp', async () => {
+  it('should successfully add a stamp with user existing', async () => {
+    const userId = '123'
+    const phone = '321'
+    const businessId = '1'
+
     vi.mocked(api.addStamp).mockResolvedValue(undefined)
-    vi.mocked(api.checkUserExists).mockResolvedValue({ data: { id: '123' }, error: null })
+    vi.mocked(api.getUserByPhone).mockResolvedValue({
+      data: { user_id: userId },
+      error: null,
+    })
 
     const { result } = renderHook(() => useAddStamp(), {
       wrapper: createWrapper(),
     })
 
     await act(async () => {
-      result.current.addStamp({ stamp: { userId: '123' }, phone: '321' })
+      result.current.addStamp({ stamp: { userId } })
     })
 
     await waitFor(() => {
+      expect(api.getUserByPhone).not.toHaveBeenCalledWith(phone)
       expect(api.addStamp).toHaveBeenCalledWith({
-        userId: '123',
-        businessId: '1',
+        userId,
+        businessId,
       })
     })
   })
 
   it('should handle errors when adding a stamp fails', async () => {
     vi.mocked(api.addStamp).mockRejectedValue(new Error('Failed to add stamp'))
-    vi.mocked(api.checkUserExists).mockResolvedValue({ data: null, error: null }) // Mock checkUserExists
+    vi.mocked(api.getUserByPhone).mockResolvedValue({
+      data: { user_id: '123' },
+      error: null,
+    })
 
     const { result } = renderHook(() => useAddStamp(), {
       wrapper: createWrapper(),
@@ -81,6 +103,63 @@ describe('useAddStamp', () => {
 
     await waitFor(() => {
       expect(mockToast.error).toHaveBeenCalledWith('Failed to add stamp')
+    })
+  })
+
+  it('should sign up the user and add a stamp when user does not exist', async () => {
+    const userId = '456'
+    const phone = '321'
+
+    vi.mocked(api.getUserByPhone).mockResolvedValue({
+      data: null,
+      error: null,
+    })
+    vi.mocked(api.addStamp).mockResolvedValue(undefined)
+    vi.mocked(api.signUp).mockResolvedValue({
+      data: { id: userId },
+      error: null,
+    })
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      result.current.addStamp({ stamp: {}, phone })
+    })
+
+    await waitFor(() => {
+      expect(api.getUserByPhone).toHaveBeenCalledWith(phone)
+      expect(api.signUp).toHaveBeenCalledWith(phone)
+      expect(api.addStamp).toHaveBeenCalledWith({
+        userId: '456',
+        businessId: '1',
+      })
+    })
+  })
+
+  it('should navigate to tickets page after successfully adding a stamp', async () => {
+    const userId = '123'
+    const phone = '321'
+
+    vi.mocked(api.addStamp).mockResolvedValue(undefined)
+    vi.mocked(api.getUserByPhone).mockResolvedValue({
+      data: { user_id: userId },
+      error: null,
+    })
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      result.current.addStamp({ stamp: { userId }, phone })
+    })
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/estabelecimento/tickets', {
+        state: { params: userId },
+      })
     })
   })
 })

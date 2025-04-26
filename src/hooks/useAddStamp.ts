@@ -6,8 +6,8 @@ import { Stamp } from '@/types/stamp.type'
 import { useMyBusiness } from './useMyBusiness'
 
 type Props = {
-  stamp: Partial<Stamp>
-  phone: string
+  stamp?: Partial<Stamp>
+  phone?: string
 }
 
 export const useAddStamp = () => {
@@ -16,21 +16,32 @@ export const useAddStamp = () => {
   const { business } = useMyBusiness()
 
   const { mutate: addStamp, isPending: loading } = useMutation<
-    void,
+    Stamp,
     Error,
     Props
   >({
     mutationFn: async (props: Props) => {
-      const stamp = { ...props.stamp, businessId: business?.id }
+      let stamp = { ...props.stamp, businessId: business?.id }
+
+      let personExists
+      let newUser
+      if (!stamp?.userId && props.phone) {
+        personExists = await api.getUserByPhone(props.phone)
+
+        if (!personExists?.data) {
+          newUser = await api.signUp(props.phone)
+        }
+        stamp.userId = newUser?.data?.id || personExists?.data?.user_id
+      }
+
+      console.log('props', props)
+      console.log('stamp', stamp)
       if (!stamp?.userId) throw new Error('Add stamps - No user id')
-
-      const userExists = await api.checkUserExists(stamp.userId)
-      if (!userExists) await api.signUp(props.phone)
-
       await api.addStamp(stamp)
+      return stamp
     },
-    onSuccess: (_, params) => {
-      const { userId } = params.stamp
+    onSuccess: (updatedStamp) => {
+      const { userId } = updatedStamp
       navigate('/estabelecimento/tickets', { state: { params: userId } })
     },
     onError: (error: unknown) => {

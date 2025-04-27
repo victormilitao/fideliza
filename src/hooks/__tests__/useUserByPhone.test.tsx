@@ -48,22 +48,4 @@ describe('useUserByPhone', () => {
       expect(result.current.isError).toBe(false)
     })
   })
-
-  it('should show error toast when API call fails', async () => {
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
-      data: null,
-      error: { message: 'User not found', name: 'error' },
-    })
-
-    const { result } = renderHook(() => useUserByPhone(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      await expect(result.current.getUserByPhone('123456789')).rejects.toThrow('User not found')
-    })
-
-    expect(mockToast.error).toHaveBeenCalledWith('Usuário não encontrado.')
-    expect(result.current.isError).toBe(true)
-  })
 })

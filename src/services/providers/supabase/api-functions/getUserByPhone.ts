@@ -10,7 +10,7 @@ export const getUserByPhone = async (
       .from('person')
       .select('*')
       .eq('phone', phone)
-      .single()
+      .maybeSingle()
 
     return {
       data: person || null,

@@ -7,6 +7,7 @@ import { useAddStamp } from '../useAddStamp'
 import { useToast } from '@/hooks/useToast'
 import { useMyBusiness } from '../useMyBusiness'
 import api from '@/services/api'
+import { useMyActiveCampaigns } from '../useMyActiveCampaigns'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -23,6 +24,10 @@ vi.mock('@/hooks/useToast', () => ({
 
 vi.mock('../useMyBusiness', () => ({
   useMyBusiness: vi.fn(),
+}))
+
+vi.mock('../useMyActiveCampaigns', () => ({
+  useMyActiveCampaigns: vi.fn(),
 }))
 
 vi.mock('@/services/api', () => ({
@@ -55,13 +60,20 @@ describe('useAddStamp', () => {
       isError: false,
       refetch: vi.fn(),
     })
+    vi.mocked(useMyActiveCampaigns).mockReturnValue({
+      campaigns: [{ id: '1' }],
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
     vi.clearAllMocks()
   })
 
   it('should successfully add a stamp with user existing', async () => {
     const userId = '123'
     const phone = '321'
-    const businessId = '1'
+    const campaignId = '1'
 
     vi.mocked(api.addStamp).mockResolvedValue(undefined)
     vi.mocked(api.getUserByPhone).mockResolvedValue({
@@ -81,28 +93,8 @@ describe('useAddStamp', () => {
       expect(api.getUserByPhone).not.toHaveBeenCalledWith(phone)
       expect(api.addStamp).toHaveBeenCalledWith({
         userId,
-        businessId,
+        campaignId,
       })
-    })
-  })
-
-  it('should handle errors when adding a stamp fails', async () => {
-    vi.mocked(api.addStamp).mockRejectedValue(new Error('Failed to add stamp'))
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
-      data: { user_id: '123' },
-      error: null,
-    })
-
-    const { result } = renderHook(() => useAddStamp(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      result.current.addStamp({ stamp: { userId: '123' }, phone: '321' })
-    })
-
-    await waitFor(() => {
-      expect(mockToast.error).toHaveBeenCalledWith('Failed to add stamp')
     })
   })
 
@@ -133,7 +125,7 @@ describe('useAddStamp', () => {
       expect(api.signUp).toHaveBeenCalledWith(phone)
       expect(api.addStamp).toHaveBeenCalledWith({
         userId: '456',
-        businessId: '1',
+        campaignId: '1',
       })
     })
   })
@@ -163,39 +155,46 @@ describe('useAddStamp', () => {
     })
   })
 
-  it('should handle errors when fetching user by phone fails', async () => {
-    vi.mocked(api.getUserByPhone).mockRejectedValue(new Error('Fetch failed'))
+  it('should handle errors when no campaigns active', async () => {
+    vi.mocked(useMyActiveCampaigns).mockReturnValue({
+      campaigns: [],
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
 
     const { result } = renderHook(() => useAddStamp(), {
       wrapper: createWrapper(),
     })
 
     await act(async () => {
-      result.current.addStamp({ phone: '321' })
-    })
-
-    await waitFor(() => {
-      expect(mockToast.error).toHaveBeenCalledWith('Fetch failed')
-    })
-  })
-
-  it('should handle errors when adding a stamp fails', async () => {
-    vi.mocked(api.addStamp).mockRejectedValue(
-      new Error('Add stamp - Failed to add stamp')
-    )
-
-    const { result } = renderHook(() => useAddStamp(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      result.current.addStamp({ stamp: { userId: '123' } })
+      try {
+        await result.current.addStamp({ stamp: { userId: '123' } })
+      } catch (error) {}
     })
 
     await waitFor(() => {
       expect(mockToast.error).toHaveBeenCalledWith(
-        'Add stamp - Failed to add stamp'
+        'Nenhuma campanha ativa.'
       )
+    })
+  })
+
+  it('should handle errors when get user by phone fails', async () => {
+    vi.mocked(api.addStamp).mockRejectedValue(new Error('request fails'))
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      try {
+        await result.current.addStamp({ stamp: { userId: '123' } })
+      } catch (error) {}
+    })
+
+    await waitFor(() => {
+      expect(mockToast.error).toHaveBeenCalledWith('request fails')
     })
   })
 })

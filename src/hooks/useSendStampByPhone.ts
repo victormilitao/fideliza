@@ -15,7 +15,6 @@ export const useSendStampByPhone = () => {
         success('Selo enviado.')
       } catch (err) {
         console.error('add stamp error:', err)
-        error('Erro ao enviar selo.')
       }
     },
     [addStamp, error, success]

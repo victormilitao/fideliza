@@ -8,6 +8,7 @@ import { ApiFunctions } from '@/services/types/api-functions.type'
 import { getProfile } from './api-functions/getProfile'
 import { checkUserExists } from './api-functions/checkUserExists'
 import { signUp } from './api-functions/signUp'
+import { getMyActiveCampaigns } from './api-functions/getMyActiveCampaigns'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -18,7 +19,8 @@ const supabaseApi: ApiFunctions = {
   getStampsByUserId: getStampsByUserId,
   getProfile: getProfile,
   checkUserExists: checkUserExists,
-  signUp: signUp
+  signUp: signUp,
+  getMyActiveCampaigns: getMyActiveCampaigns,
 }
 
 export default supabaseApi

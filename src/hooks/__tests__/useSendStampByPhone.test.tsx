@@ -64,7 +64,6 @@ describe('useSendStampByPhone', () => {
 
     await waitFor(() => {
       expect(mockAddStamp).toHaveBeenCalledWith({ phone: '123456789' })
-      expect(mockToast.error).toHaveBeenCalledWith('Erro ao enviar selo.')
     })
   })
 })

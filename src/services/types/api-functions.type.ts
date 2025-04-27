@@ -5,13 +5,14 @@ import { Stamp } from '@/types/stamp.type'
 import { User } from '@/types/user.type'
 import { Profile } from '@/types/profile'
 import { Person } from '@/types/person.type'
+import { Campaign } from '@/types/campaign.type'
 
 export type ApiFunctions = {
   signInWithPassword: (
     credentials: Credentials
   ) => Promise<Response<SignInWithPasswordResponse>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
-  addStamp: ({ businessId, userId }: Stamp) => void
+  addStamp: ({ campaignId, userId }: Stamp) => void
   getUserLoggedIn: () => Promise<Response<User>>
   getUserByPhone: (phone: string) => Promise<Response<Person>>
   getStampsByUserId: (
@@ -21,4 +22,5 @@ export type ApiFunctions = {
   getProfile: (userId: string) => Promise<Response<Profile>>
   checkUserExists: (phone: string) => Promise<Response<User>>
   signUp: (phone: string) => Promise<Response<User>>
+  getMyActiveCampaigns: (businessId: string) => Promise<Response<Campaign[]>>
 }

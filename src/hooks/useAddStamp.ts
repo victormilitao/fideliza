@@ -4,6 +4,7 @@ import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Stamp } from '@/types/stamp.type'
 import { useMyBusiness } from './useMyBusiness'
+import { useMyActiveCampaigns } from './useMyActiveCampaigns'
 
 type Props = {
   stamp?: Partial<Stamp>
@@ -14,20 +15,23 @@ export const useAddStamp = () => {
   const toast = useToast()
   const navigate = useNavigate()
   const { business } = useMyBusiness()
+  const { campaigns } = useMyActiveCampaigns(business?.id || '')
 
-  const { mutate: addStamp, isPending: loading } = useMutation<
+  const { mutateAsync: addStamp, isPending: loading } = useMutation<
     Stamp,
     Error,
     Props
   >({
     mutationFn: async (props: Props) => {
+      if (!campaigns?.length || campaigns.length === 0) {
+        throw new Error('Nenhuma campanha ativa.')
+      }
       if (!props?.stamp?.userId && !props.phone) {
         throw new Error('Add stamp - params missing')
       }
-      let stamp = { ...props.stamp, businessId: business?.id }
 
-      let personExists
-      let newUser
+      let stamp = { ...props.stamp, campaignId: campaigns[0].id }
+      let personExists, newUser
       if (!stamp?.userId && props.phone) {
         personExists = await api.getUserByPhone(props.phone)
 
@@ -38,6 +42,7 @@ export const useAddStamp = () => {
       }
 
       if (!stamp?.userId) throw new Error('Add stamp - No user id')
+
       await api.addStamp(stamp)
       return stamp
     },

@@ -5,6 +5,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import api from '@/services/api'
 import { useStampsByUserId } from '../useStampsByUserId'
 import { useMyBusiness } from '../useMyBusiness'
+import { useMyActiveCampaigns } from '../useMyActiveCampaigns'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -23,8 +24,19 @@ vi.mock('../useMyBusiness', () => ({
   useMyBusiness: vi.fn(),
 }))
 
+vi.mock('../useMyActiveCampaigns', () => ({
+  useMyActiveCampaigns: vi.fn(),
+}))
+
 describe('useStampsByUserId', () => {
   beforeEach(() => {
+    vi.mocked(useMyActiveCampaigns).mockReturnValue({
+      campaigns: [{ id: '1' }],
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
     vi.clearAllMocks()
   })
 
@@ -37,7 +49,7 @@ describe('useStampsByUserId', () => {
       refetch: vi.fn(),
     })
     vi.mocked(api.getStampsByUserId).mockResolvedValue({
-      data: [{ id: '1', userId: '1', businessId: '1' }],
+      data: [{ id: '1', userId: '1', campaignId: '1' }],
       error: null,
     })
 
@@ -47,7 +59,7 @@ describe('useStampsByUserId', () => {
 
     await waitFor(() => {
       expect(result.current.data).toEqual([
-        { id: '1', userId: '1', businessId: '1' },
+        { id: '1', userId: '1', campaignId: '1' },
       ])
       expect(result.current.isError).toBe(false)
     })
@@ -61,8 +73,10 @@ describe('useStampsByUserId', () => {
       isError: false,
       refetch: vi.fn(),
     })
-    
-    vi.mocked(api.getStampsByUserId).mockRejectedValue(new Error('Error fetching stamps'))
+
+    vi.mocked(api.getStampsByUserId).mockRejectedValue(
+      new Error('Error fetching stamps')
+    )
 
     const { result } = renderHook(() => useStampsByUserId('1'), {
       wrapper: createWrapper(),

@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom'
 export const Tickets = () => {
   const location = useLocation()
   const userId = (location.state.params) || {}
-  console.dir(userId)
   const { data: stamps } = useStampsByUserId(userId)
 
   return (

@@ -162,4 +162,40 @@ describe('useAddStamp', () => {
       })
     })
   })
+
+  it('should handle errors when fetching user by phone fails', async () => {
+    vi.mocked(api.getUserByPhone).mockRejectedValue(new Error('Fetch failed'))
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      result.current.addStamp({ phone: '321' })
+    })
+
+    await waitFor(() => {
+      expect(mockToast.error).toHaveBeenCalledWith('Fetch failed')
+    })
+  })
+
+  it('should handle errors when adding a stamp fails', async () => {
+    vi.mocked(api.addStamp).mockRejectedValue(
+      new Error('Add stamp - Failed to add stamp')
+    )
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      result.current.addStamp({ stamp: { userId: '123' } })
+    })
+
+    await waitFor(() => {
+      expect(mockToast.error).toHaveBeenCalledWith(
+        'Add stamp - Failed to add stamp'
+      )
+    })
+  })
 })

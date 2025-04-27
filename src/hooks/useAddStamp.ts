@@ -21,6 +21,9 @@ export const useAddStamp = () => {
     Props
   >({
     mutationFn: async (props: Props) => {
+      if (!props?.stamp?.userId && !props.phone) {
+        throw new Error('Add stamp - params missing')
+      }
       let stamp = { ...props.stamp, businessId: business?.id }
 
       let personExists
@@ -34,9 +37,7 @@ export const useAddStamp = () => {
         stamp.userId = newUser?.data?.id || personExists?.data?.user_id
       }
 
-      console.log('props', props)
-      console.log('stamp', stamp)
-      if (!stamp?.userId) throw new Error('Add stamps - No user id')
+      if (!stamp?.userId) throw new Error('Add stamp - No user id')
       await api.addStamp(stamp)
       return stamp
     },

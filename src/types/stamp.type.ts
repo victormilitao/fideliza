@@ -1,5 +1,6 @@
 export type Stamp = {
   id?: string
-  userId?:string
+  personId?:string
   campaignId?: string
+  cardId?: string
 }

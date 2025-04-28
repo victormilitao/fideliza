@@ -6,15 +6,16 @@ import { User } from '@/types/user.type'
 import { Profile } from '@/types/profile'
 import { Person } from '@/types/person.type'
 import { Campaign } from '@/types/campaign.type'
+import { Card } from '@/types/card.type'
 
 export type ApiFunctions = {
   signInWithPassword: (
     credentials: Credentials
   ) => Promise<Response<SignInWithPasswordResponse>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
-  addStamp: ({ campaignId, userId }: Stamp) => void
+  addStamp: (personId: string, campaignId: string) => void
   getUserLoggedIn: () => Promise<Response<User>>
-  getUserByPhone: (phone: string) => Promise<Response<Person>>
+  getPersonByPhone: (phone: string) => Promise<Response<Person>>
   getStampsByUserId: (
     userId: string,
     businessId: string
@@ -23,4 +24,13 @@ export type ApiFunctions = {
   checkUserExists: (phone: string) => Promise<Response<User>>
   signUp: (phone: string) => Promise<Response<User>>
   getMyActiveCampaigns: (businessId: string) => Promise<Response<Campaign[]>>
+  findOrCreatePerson: (phone: string) => Promise<Response<Person>>
+  findOrCreateCard: (
+    personId: string,
+    campaignId: string
+  ) => Promise<Response<Card>>
+  findCurrentCard: (
+    personId: string,
+    campaignId: string
+  ) => Promise<Response<Card>>
 }

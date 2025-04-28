@@ -7,8 +7,7 @@ import { useMyBusiness } from './useMyBusiness'
 import { useMyActiveCampaigns } from './useMyActiveCampaigns'
 
 type Props = {
-  stamp?: Partial<Stamp>
-  phone?: string
+  personId: string
 }
 
 export const useAddStamp = () => {
@@ -22,33 +21,18 @@ export const useAddStamp = () => {
     Error,
     Props
   >({
-    mutationFn: async (props: Props) => {
-      if (!campaigns?.length || campaigns.length === 0) {
+    mutationFn: async ({ personId }: Props) => {
+      if (!campaigns || campaigns.length === 0) {
         throw new Error('Nenhuma campanha ativa.')
       }
-      if (!props?.stamp?.userId && !props.phone) {
-        throw new Error('Add stamp - params missing')
-      }
 
-      let stamp = { ...props.stamp, campaignId: campaigns[0].id }
-      let personExists, newUser
-      if (!stamp?.userId && props.phone) {
-        personExists = await api.getUserByPhone(props.phone)
-
-        if (!personExists?.data) {
-          newUser = await api.signUp(props.phone)
-        }
-        stamp.userId = newUser?.data?.id || personExists?.data?.user_id
-      }
-
-      if (!stamp?.userId) throw new Error('Add stamp - No user id')
-
-      await api.addStamp(stamp)
+      const campaignId = campaigns[0].id || ''
+      const stamp = await api.addStamp(personId, campaignId)
       return stamp
     },
     onSuccess: (updatedStamp) => {
-      const { userId } = updatedStamp
-      navigate('/estabelecimento/tickets', { state: { params: userId } })
+      const { personId } = updatedStamp
+      navigate('/estabelecimento/tickets', { state: { params: personId } })
     },
     onError: (error: unknown) => {
       console.error('Error:', error)

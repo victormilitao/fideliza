@@ -32,7 +32,7 @@ describe('useUserByPhone', () => {
   })
 
   it('should return user data when phone is valid', async () => {
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
+    vi.mocked(api.getPersonByPhone).mockResolvedValue({
       data: { id: '1' },
       error: null,
     })

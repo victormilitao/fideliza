@@ -33,7 +33,7 @@ vi.mock('../useMyActiveCampaigns', () => ({
 vi.mock('@/services/api', () => ({
   default: {
     addStamp: vi.fn(),
-    getUserByPhone: vi.fn(),
+    getPersonByPhone: vi.fn(),
     signUp: vi.fn(),
   },
 }))
@@ -76,7 +76,7 @@ describe('useAddStamp', () => {
     const campaignId = '1'
 
     vi.mocked(api.addStamp).mockResolvedValue(undefined)
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
+    vi.mocked(api.getPersonByPhone).mockResolvedValue({
       data: { user_id: userId },
       error: null,
     })
@@ -90,7 +90,7 @@ describe('useAddStamp', () => {
     })
 
     await waitFor(() => {
-      expect(api.getUserByPhone).not.toHaveBeenCalledWith(phone)
+      expect(api.getPersonByPhone).not.toHaveBeenCalledWith(phone)
       expect(api.addStamp).toHaveBeenCalledWith({
         userId,
         campaignId,
@@ -102,7 +102,7 @@ describe('useAddStamp', () => {
     const userId = '456'
     const phone = '321'
 
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
+    vi.mocked(api.getPersonByPhone).mockResolvedValue({
       data: null,
       error: null,
     })
@@ -121,7 +121,7 @@ describe('useAddStamp', () => {
     })
 
     await waitFor(() => {
-      expect(api.getUserByPhone).toHaveBeenCalledWith(phone)
+      expect(api.getPersonByPhone).toHaveBeenCalledWith(phone)
       expect(api.signUp).toHaveBeenCalledWith(phone)
       expect(api.addStamp).toHaveBeenCalledWith({
         userId: '456',
@@ -135,7 +135,7 @@ describe('useAddStamp', () => {
     const phone = '321'
 
     vi.mocked(api.addStamp).mockResolvedValue(undefined)
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
+    vi.mocked(api.getPersonByPhone).mockResolvedValue({
       data: { user_id: userId },
       error: null,
     })

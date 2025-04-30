@@ -5,6 +5,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSendStampByPhone } from '../useSendStampByPhone'
 import { useToast } from '@/hooks/useToast'
 import { useAddStamp } from '../useAddStamp'
+import api from '@/services/api'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -21,15 +22,26 @@ vi.mock('../useAddStamp', () => ({
   useAddStamp: vi.fn(),
 }))
 
+vi.mock('@/services/api', () => ({
+  default: {
+    findOrCreatePerson: vi.fn(),
+  },
+}))
+
 describe('useSendStampByPhone', () => {
   const mockToast = { error: vi.fn(), success: vi.fn(), show: vi.fn() }
   const mockAddStamp = vi.fn()
+  const person = { id: '123', name: 'John Doe', phone: '123456789' }
 
   beforeEach(() => {
     vi.mocked(useToast).mockReturnValue(mockToast)
     vi.mocked(useAddStamp).mockReturnValue({
       addStamp: mockAddStamp,
       loading: false,
+    })
+    vi.mocked(api.findOrCreatePerson).mockResolvedValue({
+      data: person,
+      error: null,
     })
     vi.clearAllMocks()
   })
@@ -46,13 +58,14 @@ describe('useSendStampByPhone', () => {
     })
 
     await waitFor(() => {
-      expect(mockAddStamp).toHaveBeenCalledWith({ phone: '123456789' })
+      expect(mockAddStamp).toHaveBeenCalledWith({ personId: person.id })
       expect(mockToast.success).toHaveBeenCalledWith('Selo enviado.')
     })
   })
 
-  it('should handle errors when adding a stamp fails', async () => {
-    mockAddStamp.mockRejectedValue(new Error('Failed to add stamp'))
+  it('should handle errors when person not exists', async () => {
+    const mockApiResponse = { data: null, error: new Error() }
+    vi.mocked(api.findOrCreatePerson).mockResolvedValue(mockApiResponse)
 
     const { result } = renderHook(() => useSendStampByPhone(), {
       wrapper: createWrapper(),
@@ -63,7 +76,9 @@ describe('useSendStampByPhone', () => {
     })
 
     await waitFor(() => {
-      expect(mockAddStamp).toHaveBeenCalledWith({ phone: '123456789' })
+      expect(mockToast.error).toHaveBeenCalledWith(
+        'Erro ao encontrar ou criar a pessoa.'
+      )
     })
   })
 })

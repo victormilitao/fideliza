@@ -1,10 +1,12 @@
 /// <reference types="vitest" />
-import { renderHook, act } from '@testing-library/react'
+import { renderHook, act, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { useUserByPhone } from '../useUserByPhone'
+import { Person } from '@/types/person.type'
+import { Response } from '@/services/types/api.type'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -20,6 +22,7 @@ vi.mock('@/hooks/useToast', () => ({
 vi.mock('@/services/api', () => ({
   default: {
     getUserByPhone: vi.fn(),
+    getPersonByPhone: vi.fn(),
   },
 }))
 
@@ -41,9 +44,13 @@ describe('useUserByPhone', () => {
       wrapper: createWrapper(),
     })
 
+    let response: Response<Person> | undefined
     await act(async () => {
-      const response = await result.current.getUserByPhone('123456789')
-      expect(response.data).toEqual({ id: '1' })
+      response = await result.current.getUserByPhone('123456789')
+    })
+
+    await waitFor(() => {
+      expect(response).toEqual({ data: { id: '1' }, error: null })
       expect(mockToast.error).not.toHaveBeenCalled()
       expect(result.current.isError).toBe(false)
     })

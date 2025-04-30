@@ -21,14 +21,19 @@ export const useAddStamp = () => {
     Error,
     Props
   >({
-    mutationFn: async ({ personId }: Props) => {
+    mutationFn: async ({ personId }: Props): Promise<Stamp> => {
       if (!campaigns || campaigns.length === 0) {
         throw new Error('Nenhuma campanha ativa.')
       }
 
       const campaignId = campaigns[0].id || ''
-      const stamp = await api.addStamp(personId, campaignId)
-      return stamp
+      const response = await api.addStamp(personId, campaignId)
+
+      if (!response || !response.data) {
+        throw new Error('Erro ao adicionar selo.')
+      }
+    
+      return response.data
     },
     onSuccess: (updatedStamp) => {
       const { personId } = updatedStamp

@@ -7,11 +7,12 @@ export const getStampsByUserId = async (
   campaignId: string
 ): Promise<Response<Stamp[]>> => {
   try {
+    
     const { data: stamps, error } = await supabase
       .from('stamp')
       .select('*')
-      .eq('user_id', userId)
-      .eq('campaign_id', campaignId)
+      .eq('person_id', userId)
+      // .eq('card_id', campaignId)
 
     return {
       data: stamps || null,

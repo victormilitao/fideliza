@@ -15,9 +15,11 @@ export const findOrCreateCard = async (
     const { data: newCard, error: error } = await supabase
       .from('cards')
       .insert([{ person_id: personId, campaign_id: campaignId }])
+      .select()
+      .maybeSingle()
 
-    if (error) {
-      console.error('findOrCreateCard - error:', error.message)
+    if (error || !newCard) {
+      console.error('findOrCreateCard:', error)
       return { data: null, error }
     }
 

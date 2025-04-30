@@ -22,6 +22,10 @@ export const useAddStamp = () => {
     Props
   >({
     mutationFn: async ({ personId }: Props): Promise<Stamp> => {
+      if (!business) {
+        throw new Error('Estabelecimento não encontrado. Tente novamente.')
+      }
+
       if (!campaigns || campaigns.length === 0) {
         throw new Error('Nenhuma campanha ativa.')
       }
@@ -32,12 +36,14 @@ export const useAddStamp = () => {
       if (!response || !response.data) {
         throw new Error('Erro ao adicionar selo.')
       }
-    
+
       return response.data
     },
     onSuccess: (updatedStamp) => {
-      const { personId } = updatedStamp
-      navigate('/estabelecimento/tickets', { state: { params: personId } })
+      const { person_id } = updatedStamp
+      navigate('/estabelecimento/tickets', {
+        state: { params: { personId: person_id } },
+      })
     },
     onError: (error: unknown) => {
       console.error('Error:', error)

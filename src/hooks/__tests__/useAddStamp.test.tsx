@@ -73,7 +73,7 @@ describe('useAddStamp', () => {
   it('should navigate to tickets page after successfully adding a stamp', async () => {
     const personId = '123'
     const cardId = '1'
-    const stamp = { id: '1', personId, cardId }
+    const stamp = { id: '1', personId, person_id: personId, cardId }
 
     vi.mocked(api.addStamp).mockResolvedValue({ data: stamp, error: null })
     vi.mocked(api.getPersonByPhone).mockResolvedValue({
@@ -91,7 +91,7 @@ describe('useAddStamp', () => {
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/estabelecimento/tickets', {
-        state: { params: personId },
+        state: { params: { personId } },
       })
     })
   })
@@ -128,7 +128,10 @@ describe('useAddStamp', () => {
       isError: false,
       refetch: vi.fn(),
     })
-    vi.mocked(api.addStamp).mockResolvedValue({ data: null, error: new Error() })
+    vi.mocked(api.addStamp).mockResolvedValue({
+      data: null,
+      error: new Error(),
+    })
 
     const { result } = renderHook(() => useAddStamp(), {
       wrapper: createWrapper(),

@@ -2,7 +2,7 @@ import { Response } from '@/services/types/api.type'
 import supabase from '../config'
 import { Person } from '@/types/person.type'
 
-export const getUserByPhone = async (
+export const getPersonByPhone = async (
   phone: string
 ): Promise<Response<Person>> => {
   try {

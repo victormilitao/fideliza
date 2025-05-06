@@ -5,9 +5,8 @@ import { Link, useLocation } from 'react-router-dom'
 
 export const Tickets = () => {
   const location = useLocation()
-  const userId = (location.state.params) || {}
-  console.dir(userId)
-  const { data: stamps } = useStampsByUserId(userId)
+  const { personId } = location.state.params || {}
+  const { data: stamps } = useStampsByUserId(personId)
 
   return (
     <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>

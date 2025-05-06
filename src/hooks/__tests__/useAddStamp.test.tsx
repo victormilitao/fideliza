@@ -7,6 +7,7 @@ import { useAddStamp } from '../useAddStamp'
 import { useToast } from '@/hooks/useToast'
 import { useMyBusiness } from '../useMyBusiness'
 import api from '@/services/api'
+import { useMyActiveCampaigns } from '../useMyActiveCampaigns'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -25,10 +26,14 @@ vi.mock('../useMyBusiness', () => ({
   useMyBusiness: vi.fn(),
 }))
 
+vi.mock('../useMyActiveCampaigns', () => ({
+  useMyActiveCampaigns: vi.fn(),
+}))
+
 vi.mock('@/services/api', () => ({
   default: {
     addStamp: vi.fn(),
-    getUserByPhone: vi.fn(),
+    getPersonByPhone: vi.fn(),
     signUp: vi.fn(),
   },
 }))
@@ -55,96 +60,24 @@ describe('useAddStamp', () => {
       isError: false,
       refetch: vi.fn(),
     })
+    vi.mocked(useMyActiveCampaigns).mockReturnValue({
+      campaigns: [{ id: '1' }],
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
     vi.clearAllMocks()
   })
 
-  it('should successfully add a stamp with user existing', async () => {
-    const userId = '123'
-    const phone = '321'
-    const businessId = '1'
-
-    vi.mocked(api.addStamp).mockResolvedValue(undefined)
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
-      data: { user_id: userId },
-      error: null,
-    })
-
-    const { result } = renderHook(() => useAddStamp(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      result.current.addStamp({ stamp: { userId } })
-    })
-
-    await waitFor(() => {
-      expect(api.getUserByPhone).not.toHaveBeenCalledWith(phone)
-      expect(api.addStamp).toHaveBeenCalledWith({
-        userId,
-        businessId,
-      })
-    })
-  })
-
-  it('should handle errors when adding a stamp fails', async () => {
-    vi.mocked(api.addStamp).mockRejectedValue(new Error('Failed to add stamp'))
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
-      data: { user_id: '123' },
-      error: null,
-    })
-
-    const { result } = renderHook(() => useAddStamp(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      result.current.addStamp({ stamp: { userId: '123' }, phone: '321' })
-    })
-
-    await waitFor(() => {
-      expect(mockToast.error).toHaveBeenCalledWith('Failed to add stamp')
-    })
-  })
-
-  it('should sign up the user and add a stamp when user does not exist', async () => {
-    const userId = '456'
-    const phone = '321'
-
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
-      data: null,
-      error: null,
-    })
-    vi.mocked(api.addStamp).mockResolvedValue(undefined)
-    vi.mocked(api.signUp).mockResolvedValue({
-      data: { id: userId },
-      error: null,
-    })
-
-    const { result } = renderHook(() => useAddStamp(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      result.current.addStamp({ stamp: {}, phone })
-    })
-
-    await waitFor(() => {
-      expect(api.getUserByPhone).toHaveBeenCalledWith(phone)
-      expect(api.signUp).toHaveBeenCalledWith(phone)
-      expect(api.addStamp).toHaveBeenCalledWith({
-        userId: '456',
-        businessId: '1',
-      })
-    })
-  })
-
   it('should navigate to tickets page after successfully adding a stamp', async () => {
-    const userId = '123'
-    const phone = '321'
+    const personId = '123'
+    const cardId = '1'
+    const stamp = { id: '1', personId, person_id: personId, cardId }
 
-    vi.mocked(api.addStamp).mockResolvedValue(undefined)
-    vi.mocked(api.getUserByPhone).mockResolvedValue({
-      data: { user_id: userId },
+    vi.mocked(api.addStamp).mockResolvedValue({ data: stamp, error: null })
+    vi.mocked(api.getPersonByPhone).mockResolvedValue({
+      data: { id: '1' },
       error: null,
     })
 
@@ -153,49 +86,65 @@ describe('useAddStamp', () => {
     })
 
     await act(async () => {
-      result.current.addStamp({ stamp: { userId }, phone })
+      result.current.addStamp({ personId })
     })
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/estabelecimento/tickets', {
-        state: { params: userId },
+        state: { params: { personId } },
       })
     })
   })
 
-  it('should handle errors when fetching user by phone fails', async () => {
-    vi.mocked(api.getUserByPhone).mockRejectedValue(new Error('Fetch failed'))
+  it('should handle errors when no campaigns active', async () => {
+    vi.mocked(useMyActiveCampaigns).mockReturnValue({
+      campaigns: [],
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
 
     const { result } = renderHook(() => useAddStamp(), {
       wrapper: createWrapper(),
     })
 
     await act(async () => {
-      result.current.addStamp({ phone: '321' })
+      try {
+        await result.current.addStamp({ personId: '123' })
+      } catch (error) {}
     })
 
     await waitFor(() => {
-      expect(mockToast.error).toHaveBeenCalledWith('Fetch failed')
+      expect(mockToast.error).toHaveBeenCalledWith('Nenhuma campanha ativa.')
     })
   })
 
-  it('should handle errors when adding a stamp fails', async () => {
-    vi.mocked(api.addStamp).mockRejectedValue(
-      new Error('Add stamp - Failed to add stamp')
-    )
+  it('should handle errors when no response by api', async () => {
+    vi.mocked(useMyActiveCampaigns).mockReturnValue({
+      campaigns: [{ id: '1' }],
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(api.addStamp).mockResolvedValue({
+      data: null,
+      error: new Error(),
+    })
 
     const { result } = renderHook(() => useAddStamp(), {
       wrapper: createWrapper(),
     })
 
     await act(async () => {
-      result.current.addStamp({ stamp: { userId: '123' } })
+      try {
+        await result.current.addStamp({ personId: '123' })
+      } catch (error) {}
     })
 
     await waitFor(() => {
-      expect(mockToast.error).toHaveBeenCalledWith(
-        'Add stamp - Failed to add stamp'
-      )
+      expect(mockToast.error).toHaveBeenCalledWith('Erro ao adicionar selo.')
     })
   })
 })

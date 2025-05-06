@@ -5,7 +5,13 @@ import { useUserLoggedIn } from './useUserLoggedIn'
 export const useMyBusiness = () => {
   const { user } = useUserLoggedIn()
 
-  const { data: business, error, isLoading, isError, refetch } = useQuery({
+  const {
+    data: business,
+    error,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ['my-business', user?.id],
     queryFn: async () => {
       if (!user) throw new Error('User not logged in')

@@ -4,14 +4,15 @@ import { Stamp } from '@/types/stamp.type'
 
 export const getStampsByUserId = async (
   userId: string,
-  businessId: string
+  // campaignId: string
 ): Promise<Response<Stamp[]>> => {
   try {
+    
     const { data: stamps, error } = await supabase
       .from('stamp')
       .select('*')
-      .eq('user_id', userId)
-      .eq('business_id', businessId)
+      .eq('person_id', userId)
+      // .eq('card_id', campaignId)
 
     return {
       data: stamps || null,

@@ -49,7 +49,7 @@ describe('useStampsByUserId', () => {
       refetch: vi.fn(),
     })
     vi.mocked(api.getStampsByUserId).mockResolvedValue({
-      data: [{ id: '1', userId: '1', campaignId: '1' }],
+      data: [{ id: '1', person_id: '1', campaignId: '1' }],
       error: null,
     })
 
@@ -59,7 +59,7 @@ describe('useStampsByUserId', () => {
 
     await waitFor(() => {
       expect(result.current.data).toEqual([
-        { id: '1', userId: '1', campaignId: '1' },
+        { id: '1', person_id: '1', campaignId: '1' },
       ])
       expect(result.current.isError).toBe(false)
     })

@@ -4,7 +4,7 @@ import { Stamp } from '@/types/stamp.type'
 
 export const getStampsByUserId = async (
   userId: string,
-  campaignId: string
+  // campaignId: string
 ): Promise<Response<Stamp[]>> => {
   try {
     

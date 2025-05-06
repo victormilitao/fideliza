@@ -12,6 +12,7 @@ export const findCurrentCard = async (
       .select('*')
       .eq('person_id', personId)
       .eq('campaign_id', campaignId)
+      .is('completed_at', null)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle()

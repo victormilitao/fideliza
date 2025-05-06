@@ -33,4 +33,11 @@ export type ApiFunctions = {
     personId: string,
     campaignId: string
   ) => Promise<Response<Card>>
+  getStampsByCardId(cardId: string): Promise<Response<Stamp[]>>
+  getCampaignById: (campaignId: string) => Promise<Response<Campaign>>
+  checkCompletedCard: (
+    cardId: string,
+    campaignId: string
+  ) => Promise<Response<boolean>>
+  markCardAsCompleted: (cardId: string) => Promise<Response<Card>>
 }

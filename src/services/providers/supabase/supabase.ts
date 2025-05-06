@@ -12,6 +12,10 @@ import { getMyActiveCampaigns } from './api-functions/getMyActiveCampaigns'
 import { findOrCreatePerson } from './api-functions/findOrCreatePerson'
 import { findOrCreateCard } from './api-functions/findOrCreateCard'
 import { findCurrentCard } from './api-functions/findCurrentCard'
+import { getStampsByCardId } from './api-functions/getStampsByCardId'
+import { getCampaignById } from './api-functions/getCampaignById'
+import { checkCompletedCard } from './api-functions/checkCompletedCard'
+import { markCardAsCompleted } from './api-functions/markCardAsCompleted'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -27,6 +31,10 @@ const supabaseApi: ApiFunctions = {
   findOrCreatePerson: findOrCreatePerson,
   findOrCreateCard: findOrCreateCard,
   findCurrentCard: findCurrentCard,
+  getStampsByCardId: getStampsByCardId,
+  getCampaignById: getCampaignById,
+  checkCompletedCard: checkCompletedCard,
+  markCardAsCompleted: markCardAsCompleted
 }
 
 export default supabaseApi

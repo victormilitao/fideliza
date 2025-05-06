@@ -13,7 +13,7 @@ export const addStamp = async (
       campaignId
     )
 
-    if (cardError) {
+    if (cardError || !card?.id) {
       console.error('addStamp: ', cardError)
       return { data: null, error: cardError }
     }
@@ -28,6 +28,8 @@ export const addStamp = async (
       console.error('addStamp - error:', error)
       return { data: null, error }
     }
+
+    await api.checkCompletedCard(card?.id, campaignId)
 
     return { data: stamp, error: error }
   } catch (err) {

@@ -8,7 +8,7 @@ export const markCardAsCompleted = async (
   try {
     const { data: card, error: error } = await supabase
       .from('cards')
-      .update({ completed_at: new Date() })
+      .update({ completed_at: new Date(), prize_code: '5555' })
       .eq('id', cardId)
       .select()
       .maybeSingle()

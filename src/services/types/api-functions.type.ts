@@ -40,4 +40,6 @@ export type ApiFunctions = {
     campaignId: string
   ) => Promise<Response<boolean>>
   markCardAsCompleted: (cardId: string) => Promise<Response<Card>>
+  findCompletedCard: (personId: string) => Promise<Response<Card>>
+  reward: (cardId: string, code: string) => Promise<Response<boolean>>
 }

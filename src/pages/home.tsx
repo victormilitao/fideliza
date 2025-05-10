@@ -10,6 +10,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUserByPhone } from '@/hooks/useUserByPhone'
+import { useCompletedCard } from '@/hooks/useCompletedCard'
 
 const schema = z.object({
   phone: z.string().nonempty('Campo obrigatório'),
@@ -21,6 +22,8 @@ export const Home = () => {
   const { logout } = useLogout()
   const { sendStamp } = useSendStampByPhone()
   const { getUserByPhone } = useUserByPhone()
+  const [cardId, setCardId] = useState<string>('')
+  const { findCompletedCard } = useCompletedCard()
   const navigate = useNavigate()
   const {
     handleSubmit,
@@ -31,8 +34,10 @@ export const Home = () => {
     defaultValues: { phone: '' },
   })
 
-  const handleBonus = () => {
-    setOpenSheet(!openSheet)
+  const handleBonus = async (data: FormSchema) => {
+    const card = await findCompletedCard(data.phone)
+    setCardId(card?.id || '')
+    setOpenSheet(!!card)
   }
 
   const handleSendSticker = (data: FormSchema) => {
@@ -47,6 +52,7 @@ export const Home = () => {
   const handleLogout = () => {
     logout()
   }
+
   return (
     <>
       <div className='p-4 absolute w-full flex justify-end'>
@@ -83,12 +89,12 @@ export const Home = () => {
             Conferir selos
           </Button>
 
-          <Button variant='secondary' onClick={handleBonus}>
+          <Button variant='secondary' onClick={handleSubmit(handleBonus)}>
             Premiar
           </Button>
 
           <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
-            <Reward />
+            <Reward cardId={cardId} closeSheet={() => setOpenSheet(false)} />
           </BottomSheet>
         </div>
       </div>

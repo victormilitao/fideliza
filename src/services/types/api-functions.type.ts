@@ -42,4 +42,5 @@ export type ApiFunctions = {
   markCardAsCompleted: (cardId: string) => Promise<Response<Card>>
   findCompletedCard: (personId: string) => Promise<Response<Card>>
   reward: (cardId: string, code: string) => Promise<Response<boolean>>
+  getCardsByPersonId: (personId: string) => Promise<Response<Card[]>>
 }

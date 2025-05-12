@@ -1,37 +1,58 @@
 import { Button } from '@/components/button/button'
 import Icon from '@/components/icon'
-import { useStampsByUserId } from '@/hooks/useStampsByUserId'
+import { useCardsByPerson } from '@/hooks/useCardsByPerson'
+import { useMyActiveCampaigns } from '@/hooks/useMyActiveCampaigns'
+import { useMyBusiness } from '@/hooks/useMyBusiness'
+import { Person } from '@/types/person.type'
 import { Link, useLocation } from 'react-router-dom'
+import { applyMask } from '@/utils/mask-utils'
 
 export const Tickets = () => {
   const location = useLocation()
-  const { personId } = location.state.params || {}
-  const { data: stamps } = useStampsByUserId(personId)
+  const { person }: { person: Person } = location.state?.params || {}
+  const { data: cards } = useCardsByPerson(person?.id)
+  const { business } = useMyBusiness()
+  const { campaigns } = useMyActiveCampaigns(business?.id || '')
+
+  if (!campaigns?.length) return null
+
+  const { stamps_required } = campaigns?.[0]
+  const maskedPhone = applyMask(person.phone || '', 'phone')
 
   return (
     <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>
       <div className='w-[90%] flex flex-col items-center gap-2'>
-        <p className='text-sm'>Selos de (00) 00000 - 0000</p>
-        <p className='text-xl font-bold text-primary-600'>
-          {stamps?.length}/10
-        </p>
-        <div className='flex flex-wrap gap-7 justify-center'>
-          {[...Array(10)].map((_, index) => (
-            <div key={index} className='fill-icon text-neutral-400'>
-              {!stamps?.[index] && (
-                <Icon name='Ticket' size={80} strokeWidth={0.7} />
-              )}
-              {stamps?.[index] && (
-                <Icon
-                  name='TicketCheck'
-                  color='var(--color-primary-700)'
-                  size={80}
-                  fill='var(--color-primary-700)'
-                />
-              )}
+        <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
+        {cards?.map((card, index) => (
+          <div className='flex flex-col items-center gap-2' key={card.id}>
+            <p className='text-xl'>Cartela {index + 1}</p>
+            <p className='text-xl font-bold text-primary-600'>
+              {card.stamp.length}/{stamps_required}
+            </p>
+            <div className='flex flex-wrap gap-7 justify-center'>
+              {[...Array(stamps_required)].map((_, index) => (
+                <div key={index} className='fill-icon text-neutral-400'>
+                  {!card.stamp?.[index] && (
+                    <Icon name='Ticket' size={80} strokeWidth={0.7} />
+                  )}
+                  {card.stamp?.[index] && (
+                    <Icon
+                      name='TicketCheck'
+                      color='var(--color-primary-700)'
+                      size={80}
+                      fill='var(--color-primary-700)'
+                    />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            {index < cards.length - 1 && (
+              <div className='relative w-full'>
+                <hr className='absolute -left-full -right-full border-t text-neutral-400' />
+              </div>
+            )}
+          </div>
+        ))}
       </div>
       <div className='mt-auto sm:mt-60'>
         <Link to={'/'}>

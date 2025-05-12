@@ -46,7 +46,9 @@ export const Home = () => {
 
   const handleGoToTickets = async (data: FormSchema) => {
     const { data: person } = await getUserByPhone(data.phone)
-    navigate('/estabelecimento/tickets', { state: { params: person?.user_id } })
+    navigate('/estabelecimento/tickets', {
+      state: { params: { person: person } },
+    })
   }
 
   const handleLogout = () => {

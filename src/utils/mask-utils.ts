@@ -17,3 +17,23 @@ export const getMaskConfig = (
 ) => {
   return customMask ?? (maskType ? maskMap[maskType] : undefined)
 }
+
+export const applyMask = (value: string, maskType: MaskType): string => {
+  const maskConfig = getMaskConfig(maskType)
+  if (!maskConfig) return value
+
+  let maskedValue = maskConfig.mask
+  let valueIndex = 0
+
+  for (let i = 0; i < maskedValue.length; i++) {
+    if (maskedValue[i] === '_') {
+      maskedValue =
+        maskedValue.substring(0, i) +
+        (value[valueIndex] || '') +
+        maskedValue.substring(i + 1)
+      valueIndex++
+    }
+  }
+
+  return maskedValue
+}

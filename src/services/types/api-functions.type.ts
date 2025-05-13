@@ -12,6 +12,7 @@ export type ApiFunctions = {
   signInWithPassword: (
     credentials: Credentials
   ) => Promise<Response<SignInWithPasswordResponse>>
+  signInWithCode: (credentials: Credentials) => Promise<Response<boolean>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
   addStamp: (personId: string, campaignId: string) => Promise<Response<Stamp>>
   getUserLoggedIn: () => Promise<Response<User>>
@@ -43,4 +44,5 @@ export type ApiFunctions = {
   findCompletedCard: (personId: string) => Promise<Response<Card>>
   reward: (cardId: string, code: string) => Promise<Response<boolean>>
   getCardsByPersonId: (personId: string) => Promise<Response<Card[]>>
+  createProfile: (userId: string) => Promise<Response<Profile>>
 }

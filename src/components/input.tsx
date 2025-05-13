@@ -19,6 +19,7 @@ export const Input = ({
   error,
   maskType,
   customMask,
+  value,
   ...rest
 }: InputProps) => {
   const inputRef = useInputMask(maskType, customMask)
@@ -26,7 +27,7 @@ export const Input = ({
   return (
     <div className={`${className || ''} flex flex-col`}>
       <InputLabel>{label}</InputLabel>
-      <input type={type} {...rest} ref={inputRef} />
+      <input type={type} {...rest} ref={inputRef} value={value ?? ''} />
       {error && <Error msg={error} />}
     </div>
   )

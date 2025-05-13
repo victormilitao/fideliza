@@ -19,9 +19,12 @@ import { markCardAsCompleted } from './api-functions/markCardAsCompleted'
 import { findCompletedCard } from './api-functions/findCompletedCard'
 import { reward } from './api-functions/reward'
 import { getCardsByPersonId } from './api-functions/getCardsByPersonId'
+import { signInWithCode } from './api-functions/signInWithCode'
+import { createProfile } from './api-functions/createProfile'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
+  signInWithCode: signInWithCode,
   getMyBusiness: getMyBusiness,
   addStamp: addStamp,
   getUserLoggedIn: getUserLoggedIn,
@@ -41,6 +44,7 @@ const supabaseApi: ApiFunctions = {
   findCompletedCard: findCompletedCard,
   reward: reward,
   getCardsByPersonId: getCardsByPersonId,
+  createProfile: createProfile,
 }
 
 export default supabaseApi

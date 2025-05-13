@@ -16,6 +16,8 @@ export const findOrCreatePerson = async (
     const { data: newPerson, error: personError } = await supabase
       .from('person')
       .insert([{ user_id: user?.id, phone: phone }])
+      .select()
+      .maybeSingle()
 
     if (personError) {
       console.error('findOrCreatePerson - error:', personError.message)

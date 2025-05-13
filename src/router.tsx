@@ -5,26 +5,38 @@ import { Login } from './pages/login'
 import { LoginCustomer } from './pages/customer/login'
 import { useAuthStore } from './store/useAuthStore'
 
-export const PrivateRoute = () => {
-  const { isLoggedIn } = useAuthStore()
+const CustomerRoute = () => {
+  const { isLoggedIn, profile } = useAuthStore()
+  return isLoggedIn && profile?.role === 'customer' ? (
+    <Outlet />
+  ) : (
+    <Navigate to='/usuario/login' />
+  )
+}
 
-  return isLoggedIn ? <Outlet /> : <Navigate to='/login' />
+const BusinessOwnerRoute = () => {
+  const { isLoggedIn, profile } = useAuthStore()
+  return isLoggedIn && profile?.role === 'business_owner' ? (
+    <Outlet />
+  ) : (
+    <Navigate to='/login' />
+  )
 }
 
 export const Router = () => {
   return (
     <Routes>
-      <Route element={<PrivateRoute />}>
+      <Route element={<BusinessOwnerRoute />}>
         <Route path='/' element={<Home />} />
+        <Route path='/estabelecimento/tickets' element={<Tickets />} />
+      </Route>
+
+      <Route element={<CustomerRoute />}>
+        <Route path='/usuario' />
       </Route>
 
       <Route path='login' element={<Login />} />
-      <Route path='/estabelecimento' element={<PrivateRoute />}>
-        <Route path='tickets' element={<Tickets />} />
-      </Route>
-
       <Route path='/usuario/login' element={<LoginCustomer />} />
-      <Route path='/usuario'></Route>
     </Routes>
   )
 }

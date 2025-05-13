@@ -12,6 +12,7 @@ export type ApiFunctions = {
   signInWithPassword: (
     credentials: Credentials
   ) => Promise<Response<SignInWithPasswordResponse>>
+  signInWithCode: (credentials: Credentials) => Promise<Response<boolean>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
   addStamp: (personId: string, campaignId: string) => Promise<Response<Stamp>>
   getUserLoggedIn: () => Promise<Response<User>>

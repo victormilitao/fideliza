@@ -21,6 +21,7 @@ import { reward } from './api-functions/reward'
 import { getCardsByPersonId } from './api-functions/getCardsByPersonId'
 import { signInWithCode } from './api-functions/signInWithCode'
 import { createProfile } from './api-functions/createProfile'
+import { getPersonByUserId } from './api-functions/getPersonByUserId'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -45,6 +46,7 @@ const supabaseApi: ApiFunctions = {
   reward: reward,
   getCardsByPersonId: getCardsByPersonId,
   createProfile: createProfile,
+  getPersonByUserId: getPersonByUserId,
 }
 
 export default supabaseApi

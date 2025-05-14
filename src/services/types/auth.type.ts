@@ -9,6 +9,7 @@ export type SignInWithPasswordResponse = {
 
 export type Session = {
   access_token: string
+  user: User
 }
 
 export type Credentials = {

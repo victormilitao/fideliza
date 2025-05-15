@@ -24,8 +24,8 @@ export const BusinessCards = ({ businesses }: BusinessCardsProps) => {
               <p className='text-sm font-semibold'>{business.name}</p>
               <p className='text-sm text-neutral-600'>{business.address}</p>
               <div className='flex items-center gap-5'>
-                {business?.campaigns?.[0].cards?.length
-                  ? business?.campaigns?.[0].cards.map((card) => (
+                {business
+                  ? business.campaign?.cards?.map((card) => (
                       <div key={card.id}>
                         <BusinessStamps
                           card={card}

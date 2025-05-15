@@ -9,4 +9,5 @@ export type Business = {
   address?: string
   cards?: Card[]
   campaigns?: Campaign[]
+  campaign?: Campaign
 }

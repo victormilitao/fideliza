@@ -7,6 +7,7 @@ import api from '@/services/api'
 import { useAuth } from '../useAuth'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Credentials } from '@/services/types/auth.type'
+import { BUSINESS_OWNER } from '@/types/profile'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -26,6 +27,7 @@ vi.mock('react-router-dom', () => ({
 vi.mock('@/services/api', () => ({
   default: {
     signInWithPassword: vi.fn(),
+    getProfile: vi.fn(),
   },
 }))
 
@@ -42,6 +44,11 @@ describe('useAuth', () => {
   it('should navigate on successful login', async () => {
     vi.mocked(api.signInWithPassword as Mock).mockResolvedValue({
       data: { user: { id: 1, email: 'test@example.com' } },
+      error: null,
+    })
+
+    vi.mocked(api.getProfile as Mock).mockResolvedValue({
+      data: { profile: { role: BUSINESS_OWNER } },
       error: null,
     })
 

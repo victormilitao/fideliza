@@ -4,18 +4,18 @@ import { Button } from '@/components/button/button'
 import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { applyMask } from '@/utils/mask-utils'
 import { BusinessCards } from './business-cards'
-import { useCardsByPerson } from '@/hooks/useCardsByPerson'
+import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
 
 export const Home = () => {
   const { logout } = useLogout()
   const { person } = useLoggedPerson()
   const maskedPhone = applyMask(person?.phone, 'phone')
   const navigate = useNavigate()
-  const { data: cards } = useCardsByPerson(person?.id)
+  const { data: businesses } = useBusinessCardsByPerson(person?.id)
 
   const handleGoToTickets = () => {
     navigate('/estabelecimento/tickets', {
-      // state: { params: { person: person } },
+      state: { params: { person: person } },
     })
   }
 
@@ -34,11 +34,15 @@ export const Home = () => {
           </Link>
         </div>
       </div>
-      <div className='flex flex-col items-center justify-center h-screen'>
-        <div>
-          <p className='text-sm'>Meus selos</p>
-          <p>{maskedPhone}</p>
-          <BusinessCards cards={cards} />
+      <div className='flex flex-col sm:items-center sm:justify-center sm:h-screen'>
+        <div className='flex flex-col gap-3 p-4' onClick={handleGoToTickets}>
+          <div>
+            <p className='text-sm'>Meus selos</p>
+            <p>{maskedPhone}</p>
+          </div>
+          <div>
+            <BusinessCards businesses={businesses} />
+          </div>
         </div>
       </div>
     </>

@@ -1,17 +1,19 @@
-import Icon from '@/components/icon'
 import { Business } from '@/types/business.type'
-import { Card } from '@/types/card.type'
+import { useNavigate } from 'react-router-dom'
+import { BusinessStamps } from './business-stamps'
 
 type BusinessCardsProps = {
   businesses: Business[] | null | undefined
 }
 
-type BusinessStampsProps = {
-  card: Card
-  stamps_required: number
-}
-
 export const BusinessCards = ({ businesses }: BusinessCardsProps) => {
+  const navigate = useNavigate()
+  const handleGoToTickets = (businessId: string | undefined) => {
+    navigate('/usuario/tickets', {
+      state: { params: { businessId  } },
+    })
+  }
+
   return (
     <div className='min-w-3xs max-w-lg'>
       {businesses && businesses.length > 0 && (
@@ -19,6 +21,7 @@ export const BusinessCards = ({ businesses }: BusinessCardsProps) => {
           {businesses.map((business) => (
             <div
               key={business?.id}
+              onClick={() => handleGoToTickets(business.id)}
               className='shadow-[0_0_12px_0_#0000001A] bg-white rounded-lg p-4 flex flex-col gap-2'
             >
               <p className='text-sm font-semibold'>{business.name}</p>
@@ -41,26 +44,6 @@ export const BusinessCards = ({ businesses }: BusinessCardsProps) => {
           ))}
         </div>
       )}
-    </div>
-  )
-}
-
-export const BusinessStamps = ({
-  card,
-  stamps_required,
-}: BusinessStampsProps) => {
-  return (
-    <div className='flex items-center gap-2'>
-      <div className='fill-icon text-neutral-400'>
-        <Icon
-          name='TicketCheck'
-          color='var(--color-primary-700)'
-          fill='var(--color-primary-700)'
-        />
-      </div>
-      <div className='font-bold text-neutral-700'>
-        {card?.stamp?.length}/{stamps_required}
-      </div>
     </div>
   )
 }

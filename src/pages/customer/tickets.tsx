@@ -1,22 +1,21 @@
 import { Button } from '@/components/button/button'
 import Icon from '@/components/icon'
 import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
-import { useMyBusiness } from '@/hooks/useMyBusiness'
-import { Person } from '@/types/person.type'
 import { Link, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
+import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 
 export const Tickets = () => {
   const location = useLocation()
-  const { person }: { person: Person } = location.state?.params || {}
+  const { businessId }: { businessId: string } = location.state?.params || {}
+  const { person } = useLoggedPerson()
   const { data: businesses } = useBusinessCardsByPerson(person?.id)
-  const { business: myBusiness } = useMyBusiness()
 
-  if (!businesses?.length) return null
+  if (!businesses?.length && !businessId) return null
 
-  const business = businesses.find((business) => business.id === myBusiness?.id)
+  const business = businesses?.find((business) => business.id === businessId)
   const { stamps_required, cards } = business?.campaign || {}
-  const maskedPhone = applyMask(person.phone || '', 'phone')
+  const maskedPhone = applyMask(person?.phone || '', 'phone')
 
   return (
     <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>
@@ -54,7 +53,7 @@ export const Tickets = () => {
         ))}
       </div>
       <div className='mt-auto sm:mt-60'>
-        <Link to={'/'}>
+        <Link to={'/usuario'}>
           <Button variant='secondary' className='w-3xs'>
             Voltar
           </Button>

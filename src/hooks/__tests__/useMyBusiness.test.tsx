@@ -6,6 +6,8 @@ import { useMyBusiness } from '../useMyBusiness'
 import { act } from 'react'
 import { useUserLoggedIn } from '../useUserLoggedIn'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useAuthStore } from '@/store/useAuthStore'
+import { BUSINESS_OWNER } from '@/types/profile'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -16,6 +18,10 @@ const createWrapper = () => {
 
 vi.mock('../useUserLoggedIn', () => ({
   useUserLoggedIn: vi.fn(),
+}))
+
+vi.mock('@/store/useAuthStore', () => ({
+  useAuthStore: vi.fn(),
 }))
 
 vi.mock('@/services/api', () => ({
@@ -33,6 +39,10 @@ describe('useMyBusiness', () => {
       isLoading: false,
       isError: false,
       refetch: vi.fn(),
+    })
+
+    vi.mocked(useAuthStore).mockReturnValue({
+      profile: { role: BUSINESS_OWNER },
     })
 
     vi.mocked(api.getMyBusiness).mockResolvedValue({

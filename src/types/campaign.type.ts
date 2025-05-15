@@ -1,3 +1,6 @@
+import { Business } from './business.type'
+import { Card } from './card.type'
+
 export type Campaign = {
   id?: string
   created_at?: string
@@ -5,4 +8,6 @@ export type Campaign = {
   business_id?: string
   prize?: string
   stamps_required?: number
+  business?: Business
+  cards?: Card[]
 }

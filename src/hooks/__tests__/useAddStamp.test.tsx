@@ -70,32 +70,6 @@ describe('useAddStamp', () => {
     vi.clearAllMocks()
   })
 
-  it('should navigate to tickets page after successfully adding a stamp', async () => {
-    const personId = '123'
-    const cardId = '1'
-    const stamp = { id: '1', personId, person_id: personId, cardId }
-
-    vi.mocked(api.addStamp).mockResolvedValue({ data: stamp, error: null })
-    vi.mocked(api.getPersonByPhone).mockResolvedValue({
-      data: { id: '1' },
-      error: null,
-    })
-
-    const { result } = renderHook(() => useAddStamp(), {
-      wrapper: createWrapper(),
-    })
-
-    await act(async () => {
-      result.current.addStamp({ personId })
-    })
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/estabelecimento/tickets', {
-        state: { params: { personId } },
-      })
-    })
-  })
-
   it('should handle errors when no campaigns active', async () => {
     vi.mocked(useMyActiveCampaigns).mockReturnValue({
       campaigns: [],

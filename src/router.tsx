@@ -1,5 +1,6 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { Home } from './pages/home'
+import { Home as HomeCustomer } from './pages/customer/home'
 import { Tickets } from './pages/tickets'
 import { Login } from './pages/login'
 import { LoginCustomer } from './pages/customer/login'
@@ -32,7 +33,7 @@ export const Router = () => {
       </Route>
 
       <Route element={<CustomerRoute />}>
-        <Route path='/usuario' />
+        <Route path='/usuario' element={<HomeCustomer />} />
       </Route>
 
       <Route path='login' element={<Login />} />

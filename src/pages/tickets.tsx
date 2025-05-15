@@ -1,7 +1,6 @@
 import { Button } from '@/components/button/button'
 import Icon from '@/components/icon'
-import { useCardsByPerson } from '@/hooks/useCardsByPerson'
-import { useMyActiveCampaigns } from '@/hooks/useMyActiveCampaigns'
+import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
 import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { Person } from '@/types/person.type'
 import { Link, useLocation } from 'react-router-dom'
@@ -10,13 +9,14 @@ import { applyMask } from '@/utils/mask-utils'
 export const Tickets = () => {
   const location = useLocation()
   const { person }: { person: Person } = location.state?.params || {}
-  const { data: cards } = useCardsByPerson(person?.id)
-  const { business } = useMyBusiness()
-  const { campaigns } = useMyActiveCampaigns(business?.id || '')
+  const { data: businesses } = useBusinessCardsByPerson(person?.id)
+  const { business: myBusiness } = useMyBusiness()
 
-  if (!campaigns?.length) return null
+  if (!businesses?.length) return null
 
-  const { stamps_required } = campaigns?.[0]
+  const business = businesses.find((business) => business.id === myBusiness?.id)
+  const campaigns = business?.campaigns
+  const { stamps_required, cards } = campaigns?.[0] || {}
   const maskedPhone = applyMask(person.phone || '', 'phone')
 
   return (

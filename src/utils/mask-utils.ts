@@ -18,9 +18,12 @@ export const getMaskConfig = (
   return customMask ?? (maskType ? maskMap[maskType] : undefined)
 }
 
-export const applyMask = (value: string, maskType: MaskType): string => {
+export const applyMask = (
+  value: string | undefined,
+  maskType: MaskType
+): string | undefined => {
   const maskConfig = getMaskConfig(maskType)
-  if (!maskConfig) return value
+  if (!value || !maskConfig) return value
 
   let maskedValue = maskConfig.mask
   let valueIndex = 0

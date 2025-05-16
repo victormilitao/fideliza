@@ -4,6 +4,8 @@ import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
 import { Link, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
 import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
+import { BusinessCard } from './business-card'
+import { CampaignRules } from './campaign-rules'
 
 export const Tickets = () => {
   const location = useLocation()
@@ -15,12 +17,18 @@ export const Tickets = () => {
 
   const business = businesses?.find((business) => business.id === businessId)
   const { stamps_required, cards } = business?.campaign || {}
-  const maskedPhone = applyMask(person?.phone || '', 'phone')
+  const maskedPhone = applyMask(person?.phone, 'phone')
 
   return (
     <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>
       <div className='w-[90%] flex flex-col items-center gap-2'>
-        <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
+        <div className='min-w-3xs max-w-lg'>
+          <p className='text-sm'>Meus selos</p>
+          <p>{maskedPhone}</p>
+        </div>
+        <BusinessCard business={business || {}}>
+          <CampaignRules campaign={business?.campaign || {}}/>
+        </BusinessCard>
         {cards?.map((card, index) => (
           <div className='flex flex-col items-center gap-2' key={card.id}>
             <p className='text-xl'>Cartela {index + 1}</p>

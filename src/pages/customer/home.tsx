@@ -28,7 +28,7 @@ export const Home = () => {
         </div>
       </div>
       <div className='flex flex-col sm:items-center sm:justify-center sm:h-screen'>
-        <div className='flex flex-col gap-3 p-4 cursor-pointer'>
+        <div className='flex flex-col gap-3 p-4'>
           <div>
             <p className='text-sm'>Meus selos</p>
             <p>{maskedPhone}</p>

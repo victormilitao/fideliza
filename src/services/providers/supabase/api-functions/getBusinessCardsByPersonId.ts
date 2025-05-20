@@ -22,7 +22,6 @@ export const getBusinessCardsByPersonId = async (
       )
       .eq('campaigns.cards.person_id', personId)
       .is('campaigns.cards.prized_at', null)
-      .order('created_at', { ascending: true, foreignTable: 'campaigns' })
 
     handleResponse(data as Business[])
 

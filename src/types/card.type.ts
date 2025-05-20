@@ -7,4 +7,7 @@ export type Card = {
   campaignId?: string
   stamp: Stamp[]
   campaign?: Campaign
+  completed_at?: string
+  prize_code?: string
+  prized_at?: string
 }

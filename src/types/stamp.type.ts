@@ -4,4 +4,5 @@ export type Stamp = {
   person_id?:string
   campaignId?: string
   cardId?: string
+  card_id?: string
 }

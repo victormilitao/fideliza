@@ -30,6 +30,7 @@ export const addStamp = async (
     }
 
     await api.checkCompletedCard(card?.id, campaignId)
+    api.sendAddStampMessage(stamp)
 
     return { data: stamp, error: error }
   } catch (err) {

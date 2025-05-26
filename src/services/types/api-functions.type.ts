@@ -49,5 +49,7 @@ export type ApiFunctions = {
   createProfile: (userId: string) => Promise<Response<Profile>>
   getPersonByUserId: (userId: string) => Promise<Response<Person>>
   getPersonById: (id: string) => Promise<Response<Person>>
+  sendAddStampMessage: (stamp: Stamp) => Promise<Response<boolean>>
   sendSms: (phone: string, message: string) => Promise<Response<boolean>>
+  getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
 }

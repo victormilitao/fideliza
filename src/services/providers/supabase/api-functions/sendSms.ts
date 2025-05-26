@@ -6,10 +6,11 @@ export const sendSms = async (
   message: string
 ): Promise<Response<boolean>> => {
   try {
-    console.dir(phone)
+    const phoneCountry = '+55' + phone
+    console.dir(phoneCountry)
     console.dir(message)
     // const { error } = await supabase.functions.invoke('send-sms', {
-    //   body: { phone, message },
+    //   body: { phoneCountry, message },
     // })
 
     // if (error) return { data: null, error }

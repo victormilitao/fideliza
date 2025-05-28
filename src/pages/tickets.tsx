@@ -26,15 +26,15 @@ export const Tickets = () => {
           <div className='flex flex-col items-center gap-2' key={card.id}>
             <p className='text-xl'>Cartela {index + 1}</p>
             <p className='text-xl font-bold text-primary-600'>
-              {card.stamp.length}/{stamps_required}
+              {card.stamps.length}/{stamps_required}
             </p>
             <div className='flex flex-wrap gap-7 justify-center'>
               {[...Array(stamps_required)].map((_, index) => (
                 <div key={index} className='fill-icon text-neutral-400'>
-                  {!card.stamp?.[index] && (
+                  {!card.stamps?.[index] && (
                     <Icon name='Ticket' size={80} strokeWidth={0.7} />
                   )}
-                  {card.stamp?.[index] && (
+                  {card.stamps?.[index] && (
                     <Icon
                       name='TicketCheck'
                       color='var(--color-primary-700)'

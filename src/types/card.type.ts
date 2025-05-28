@@ -5,6 +5,9 @@ export type Card = {
   id?: string
   personId?: string
   campaignId?: string
-  stamp: Stamp[]
+  stamps: Stamp[]
   campaign?: Campaign
+  completed_at?: string
+  prize_code?: string
+  prized_at?: string
 }

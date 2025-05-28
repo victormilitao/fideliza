@@ -14,20 +14,21 @@ export const checkCompletedCard = async (
       return { data: null, error: stampsError }
     }
 
-    if (stamps?.length === 0) return { data: false, error: null }
+    if (!stamps || stamps?.length <= 0) return { data: false, error: null }
 
     const { data: campaign, error: campaignError } = await api.getCampaignById(
       campaignId
     )
-    if (campaignError) {
+    if (campaignError || !campaign) {
       console.error('checkCompletedCard:', campaignError)
       return { data: null, error: campaignError }
     }
 
-    const response = campaign?.stamps_required === stamps?.length
-    response && (await api.markCardAsCompleted(cardId))
+    const cardCompleted = campaign?.stamps_required === stamps?.length
 
-    return { data: response, error: null }
+    cardCompleted && await api.markCardAsCompleted(cardId)
+
+    return { data: cardCompleted, error: null }
   } catch (err) {
     console.error('Signup - Unexpected error:', err)
     return { data: null, error: err as Error }

@@ -22,6 +22,10 @@ import { getBusinessCardsByPersonId } from './api-functions/getBusinessCardsByPe
 import { signInWithCode } from './api-functions/signInWithCode'
 import { createProfile } from './api-functions/createProfile'
 import { getPersonByUserId } from './api-functions/getPersonByUserId'
+import { sendSms } from './api-functions/sendSms'
+import { getPersonById } from './api-functions/getPersonById'
+import { sendAddStampMessage } from './api-functions/sendAddStampMessage'
+import { getStampStructure } from './api-functions/getStampStructure'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -47,6 +51,10 @@ const supabaseApi: ApiFunctions = {
   getBusinessCardsByPersonId: getBusinessCardsByPersonId,
   createProfile: createProfile,
   getPersonByUserId: getPersonByUserId,
+  getPersonById: getPersonById,
+  sendAddStampMessage: sendAddStampMessage,
+  sendSms: sendSms,
+  getStampStructure: getStampStructure,
 }
 
 export default supabaseApi

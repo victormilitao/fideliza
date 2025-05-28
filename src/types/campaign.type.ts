@@ -10,4 +10,5 @@ export type Campaign = {
   stamps_required?: number
   business?: Business
   cards?: Card[]
+  card?: Card
 }

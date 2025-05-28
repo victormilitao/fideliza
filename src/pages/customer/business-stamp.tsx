@@ -20,7 +20,7 @@ export const BusinessStamp = ({
         />
       </div>
       <div className='font-bold text-neutral-700'>
-        {card?.stamp?.length}/{stamps_required}
+        {card?.stamps?.length}/{stamps_required}
       </div>
     </div>
   )

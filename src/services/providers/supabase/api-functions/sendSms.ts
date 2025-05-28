@@ -1,5 +1,5 @@
 import { Response } from '@/services/types/api.type'
-import supabase from '../config'
+// import supabase from '../config'
 
 export const sendSms = async (
   phone: string,

@@ -8,6 +8,12 @@ import {
   SignInWithPasswordResponse,
 } from '@/services/types/auth.type'
 import { useAuthStore } from '@/store/useAuthStore'
+import { Person } from '@/types/person.type'
+
+type LoginParams = {
+  credentials: Credentials
+  person: Person | null
+}
 
 export const useAuth = () => {
   const toast = useToast()
@@ -15,11 +21,15 @@ export const useAuth = () => {
   const { setSession } = useAuthStore()
 
   const { mutateAsync: checkPersonExisting, isPending: checkLoading } =
-    useMutation<Response<boolean>, Error, string>({
-      mutationFn: async (phone: string): Promise<Response<boolean>> => {
+    useMutation<Response<Person>, Error, string>({
+      mutationFn: async (phone: string): Promise<Response<Person>> => {
         const { data, error } = await api.getPersonByPhone(phone)
-        if (error || !data) throw new Error('Usuário não encontrado.')
-        return { data: !!data, error }
+        if (error || !data?.id) throw new Error('Usuário não encontrado.')
+
+        const { error: codeError } = await api.generateCodeLogin(data.id)
+        if (codeError) throw new Error('Erro ao gerar código.')
+
+        return { data, error }
       },
       onError: (error: unknown) => {
         console.error('checkPersonExisting error:', error)
@@ -34,12 +44,12 @@ export const useAuth = () => {
   const { mutate: login, isPending: loading } = useMutation<
     Response<SignInWithPasswordResponse>,
     Error,
-    Credentials
+    LoginParams
   >({
-    mutationFn: async (
-      credentials: Credentials
-    ): Promise<Response<SignInWithPasswordResponse>> => {
-      const { data: isValidCode } = await api.signInWithCode(credentials)
+    mutationFn: async ({ credentials, person }: LoginParams): Promise<Response<SignInWithPasswordResponse>> => {
+      if (!person) throw new Error('Usuário não encontrado.')
+        
+      const { data: isValidCode } = await api.signInWithCode(credentials, person)
       if (!isValidCode) throw new Error('O código informado está incorreto.')
 
       const { data, error } = await api.signInWithPassword(credentials)

@@ -1,6 +1,7 @@
 import { Response } from '@/services/types/api.type'
 import supabase from '../config'
 import { Card } from '@/types/card.type'
+import { generateCode } from '@/utils/generateCode'
 
 export const markCardAsCompleted = async (
   cardId: string
@@ -8,7 +9,7 @@ export const markCardAsCompleted = async (
   try {
     const { data: card, error: error } = await supabase
       .from('cards')
-      .update({ completed_at: new Date(), prize_code: '5555' })
+      .update({ completed_at: new Date(), prize_code: generateCode() })
       .eq('id', cardId)
       .select()
       .maybeSingle()

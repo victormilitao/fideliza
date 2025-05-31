@@ -7,6 +7,7 @@ import z from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth } from '@/hooks/customer/useAuth'
+import { Person } from '@/types/person.type'
 
 const schema = z.object({
   phone: z.string().nonempty('Telefone inválido').nonempty('Campo obrigatório'),
@@ -17,6 +18,7 @@ type LoginSchema = z.infer<typeof schema>
 export const LoginCustomer: React.FC = () => {
   const [openSheet, setOpenSheet] = useState<boolean>(false)
   const [phone, setPhone] = useState<string>('')
+  const [person, setPerson] = useState<Person | null>(null)
   const { checkPersonExisting } = useAuth()
   const {
     handleSubmit,
@@ -30,6 +32,7 @@ export const LoginCustomer: React.FC = () => {
     const sanitizedPhone = data.phone.replace(/\D/g, '')
     const response = await checkPersonExisting(sanitizedPhone)
     if (response.data) {
+      setPerson(response.data)
       setPhone(sanitizedPhone)
       setOpenSheet(!openSheet)
     }
@@ -60,7 +63,7 @@ export const LoginCustomer: React.FC = () => {
         </Button>
 
         <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
-          <AccessCode phone={phone} />
+          <AccessCode phone={phone} person={person} />
         </BottomSheet>
       </div>
     </div>

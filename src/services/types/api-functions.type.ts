@@ -12,7 +12,7 @@ export type ApiFunctions = {
   signInWithPassword: (
     credentials: Credentials
   ) => Promise<Response<SignInWithPasswordResponse>>
-  signInWithCode: (credentials: Credentials) => Promise<Response<boolean>>
+  signInWithCode: (credentials: Credentials, person: Person) => Promise<Response<boolean>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
   addStamp: (personId: string, campaignId: string) => Promise<Response<Stamp>>
   getUserLoggedIn: () => Promise<Response<User>>
@@ -52,4 +52,5 @@ export type ApiFunctions = {
   sendAddStampMessage: (stamp: Stamp) => Promise<Response<boolean>>
   sendSms: (phone: string, message: string) => Promise<Response<boolean>>
   getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
+  generateCodeLogin: (personId: string) => Promise<Response<boolean>>
 }

@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/input-otp'
 import { useAuth } from '@/hooks/customer/useAuth'
 import { useToast } from '@/hooks/useToast'
+import { Person } from '@/types/person.type'
 import { applyMask } from '@/utils/mask-utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
@@ -17,7 +18,7 @@ const schema = z.object({
 })
 type FormSchema = z.infer<typeof schema>
 
-export const AccessCode = ({ phone }: { phone: string }) => {
+export const AccessCode = ({ phone, person }: { phone: string, person: Person | null }) => {
   const toast = useToast()
   const {
     handleSubmit,
@@ -34,7 +35,7 @@ export const AccessCode = ({ phone }: { phone: string }) => {
     try {
       const email = phone + '@fideliza.com'
       const password = 'password'
-      login({ email, password, code: data.code })
+      login({ credentials: {email, password, code: data.code}, person })
     } catch (error) {
       toast.error('O código informado está incorreto.')
     }

@@ -15,7 +15,7 @@ export const getBusinessCardsByPersonId = async (
           *,
           cards (
             *,
-            stamp(*)
+            stamps(*)
           )
         )
       `

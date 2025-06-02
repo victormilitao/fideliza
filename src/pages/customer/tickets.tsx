@@ -1,11 +1,11 @@
 import { Button } from '@/components/button/button'
-import Icon from '@/components/icon'
 import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
 import { Link, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
 import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { BusinessCard } from './business-card'
 import { CampaignRules } from './campaign-rules'
+import { Card } from './card'
 
 export const Tickets = () => {
   const location = useLocation()
@@ -30,37 +30,13 @@ export const Tickets = () => {
           <CampaignRules campaign={business?.campaign || {}} />
         </BusinessCard>
         {cards?.map((card, index) => (
-          <div className='flex flex-col items-center gap-2' key={card.id}>
-            <p className='text-xl'>Cartela {index + 1}</p>
-            {card.completed_at && (
-              <div>
-                <Icon
-                  name='PartyPopper'
-                  color='var(--color-primary-500)'
-                  size={40}
-                />
-              </div>
-            )}
-            <p className='text-xl font-bold text-primary-600'>
-              {card.stamps.length}/{stamps_required}
-            </p>
-            <div className='flex flex-wrap gap-7 justify-center'>
-              {[...Array(stamps_required)].map((_, index) => (
-                <div key={index} className='fill-icon text-neutral-400'>
-                  {!card.stamps?.[index] && (
-                    <Icon name='Ticket' size={80} strokeWidth={0.7} />
-                  )}
-                  {card.stamps?.[index] && (
-                    <Icon
-                      name='TicketCheck'
-                      color='var(--color-primary-700)'
-                      size={80}
-                      fill='var(--color-primary-700)'
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+          <div>
+            <Card
+              key={card.id}
+              card={card}
+              index={index + 1}
+              stampsRequired={stamps_required || 0}
+            />
             {index < cards.length - 1 && (
               <div className='relative w-full'>
                 <hr className='absolute -left-full -right-full border-t text-neutral-400' />

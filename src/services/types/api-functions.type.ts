@@ -7,6 +7,7 @@ import { Profile } from '@/types/profile'
 import { Person } from '@/types/person.type'
 import { Campaign } from '@/types/campaign.type'
 import { Card } from '@/types/card.type'
+import { PersonCode } from '@/types/personCode.type'
 
 export type ApiFunctions = {
   signInWithPassword: (
@@ -52,5 +53,5 @@ export type ApiFunctions = {
   sendAddStampMessage: (stamp: Stamp) => Promise<Response<boolean>>
   sendSms: (phone: string, message: string) => Promise<Response<boolean>>
   getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
-  generateCodeLogin: (personId: string) => Promise<Response<boolean>>
+  generateCodeLogin: (personId: string) => Promise<Response<PersonCode>>
 }

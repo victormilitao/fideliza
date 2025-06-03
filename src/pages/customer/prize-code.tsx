@@ -5,11 +5,8 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
-import { useToast } from '@/hooks/useToast'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { Controller, set, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import z from 'zod'
 
 const schema = z.object({
@@ -19,13 +16,7 @@ type FormSchema = z.infer<typeof schema>
 
 export const PrizeCode = ({ prizeCode }: { prizeCode: string }) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false)
-  const toast = useToast()
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormSchema>({
-    resolver: zodResolver(schema),
+  const { control } = useForm<FormSchema>({
     defaultValues: { code: '' },
   })
 
@@ -55,20 +46,30 @@ export const PrizeCode = ({ prizeCode }: { prizeCode: string }) => {
               <Controller
                 name='code'
                 control={control}
-                render={({ field }) => (
+                render={() => (
                   <InputOTP
                     maxLength={4}
-                    value={field.value || prizeCode} // Initialize with prizeCode
-                    onChange={field.onChange}
-                    containerClassName='has-[:disabled]:opacity-50 bg-primary-100 text-primary-700'
-                    className='text-primary-700'
+                    value={prizeCode}
+                    containerClassName='text-primary-700 font-bold'
                     disabled={true}
                   >
                     <InputOTPGroup>
-                      <InputOTPSlot index={0} className='!text-primary-700 font-bold' />
-                      <InputOTPSlot index={1} className='!text-primary-700' />
-                      <InputOTPSlot index={2} className='!text-primary-700' />
-                      <InputOTPSlot index={3} className='!text-primary-700' />
+                      <InputOTPSlot
+                        index={0}
+                        className='text-3xl bg-primary-100'
+                      />
+                      <InputOTPSlot
+                        index={1}
+                        className='text-3xl bg-primary-100'
+                      />
+                      <InputOTPSlot
+                        index={2}
+                        className='text-3xl bg-primary-100'
+                      />
+                      <InputOTPSlot
+                        index={3}
+                        className='text-3xl bg-primary-100'
+                      />
                     </InputOTPGroup>
                   </InputOTP>
                 )}

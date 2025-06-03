@@ -1,6 +1,6 @@
 import Icon from '@/components/icon'
 import { Card as CardType } from '@/types/card.type'
-import { PrizeCode } from './prize-code'
+import { PrizeCode } from '../../pages/customer/prize-code'
 
 type CardProps = {
   index?: number

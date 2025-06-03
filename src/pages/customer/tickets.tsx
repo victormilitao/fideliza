@@ -5,7 +5,7 @@ import { applyMask } from '@/utils/mask-utils'
 import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { BusinessCard } from './business-card'
 import { CampaignRules } from './campaign-rules'
-import { Card } from './card'
+import { Card } from '../../components/customer/card'
 
 export const Tickets = () => {
   const location = useLocation()

@@ -19,7 +19,7 @@ export const addStamp = async (
     }
 
     const { data: stamp, error } = await supabase
-      .from('stamp')
+      .from('stamps')
       .insert([{ card_id: card?.id, person_id: personId }])
       .select()
       .maybeSingle()

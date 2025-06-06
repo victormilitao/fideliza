@@ -4,6 +4,7 @@ import { Stamp } from './stamp.type'
 export type Card = {
   id?: string
   personId?: string
+  person_id?: string
   campaignId?: string
   stamps: Stamp[]
   campaign?: Campaign

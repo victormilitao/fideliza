@@ -54,4 +54,5 @@ export type ApiFunctions = {
   sendSms: (phone: string, message: string) => Promise<Response<boolean>>
   getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
   generateCodeLogin: (personId: string) => Promise<Response<PersonCode>>
+  generateLoginToken: (personId: string) => Promise<Response<string>>
 }

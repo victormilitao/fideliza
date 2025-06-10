@@ -7,7 +7,7 @@ export const getStampsByCardId = async (
 ): Promise<Response<Stamp[]>> => {
   try {
     const { data: stamps, error: error } = await supabase
-      .from('stamp')
+      .from('stamps')
       .select()
       .eq('card_id', cardId)
 

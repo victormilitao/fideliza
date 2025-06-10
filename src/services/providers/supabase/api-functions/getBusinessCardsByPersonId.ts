@@ -6,28 +6,22 @@ export const getBusinessCardsByPersonId = async (
   personId: string
 ): Promise<Response<Business[]>> => {
   try {
-    const { data, error } = await supabase
-      .from('business')
-      .select(
-        `
-        *,
-        campaigns (
-          *,
-          cards (
-            *,
-            stamps(*)
-          )
-        )
-      `
+    const { data, error } = await supabase.rpc(
+      'get_business_structure_by_person',
+      { p_person_id: personId }
+    )
+
+    if (error || !data) {
+      throw new Error(
+        `getBusinessCardsByPersonId - Error fetching data: ${error}`
       )
-      .eq('campaigns.cards.person_id', personId)
-      .is('campaigns.cards.prized_at', null)
+    }
 
     handleResponse(data as Business[])
 
     return { data, error }
   } catch (err) {
-    console.error('getCardsByPersonId - Unexpected error:', err)
+    console.error('getBusinessCardsByPersonId - Unexpected error:', err)
     return { data: null, error: err as Error }
   }
 }

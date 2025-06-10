@@ -9,7 +9,7 @@ export const getStampsByUserId = async (
   try {
     
     const { data: stamps, error } = await supabase
-      .from('stamp')
+      .from('stamps')
       .select('*')
       .eq('person_id', userId)
       // .eq('card_id', campaignId)

@@ -27,6 +27,8 @@ import { getPersonById } from './api-functions/getPersonById'
 import { sendAddStampMessage } from './api-functions/sendAddStampMessage'
 import { getStampStructure } from './api-functions/getStampStructure'
 import { generateCodeLogin } from './api-functions/customer/generateCodeLogin'
+import { generateLoginToken } from './api-functions/generateLoginToken'
+import { getPersonByToken } from './api-functions/customer/getPersonByToken'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -57,6 +59,8 @@ const supabaseApi: ApiFunctions = {
   sendSms: sendSms,
   getStampStructure: getStampStructure,
   generateCodeLogin: generateCodeLogin,
+  generateLoginToken: generateLoginToken,
+  getPersonByToken: getPersonByToken,
 }
 
 export default supabaseApi

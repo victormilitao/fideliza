@@ -25,7 +25,7 @@ const sendMessage = async (business: Business) => {
   const personId = business?.campaign?.card?.person_id || ''
   const { data } = await api.getPersonById(personId)
   const { data: token } = await api.generateLoginToken(personId)
-  const link = `${window.location.origin}/usuario/login/token?token=${token}`
+  const link = `${window.location.origin}/usuario/login/token/${token}`
   if (!data?.phone || !business || !stamps || !business.campaign) return
 
   if (stamps?.length === 1) {

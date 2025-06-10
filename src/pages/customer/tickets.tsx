@@ -30,9 +30,8 @@ export const Tickets = () => {
           <CampaignRules campaign={business?.campaign || {}} />
         </BusinessCard>
         {cards?.map((card, index) => (
-          <div>
+          <div key={card.id}>
             <Card
-              key={card.id}
               card={card}
               index={index + 1}
               stampsRequired={stamps_required || 0}

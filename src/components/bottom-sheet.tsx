@@ -1,9 +1,7 @@
 import {
   Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
+  SheetContent, SheetHeader,
+  SheetTitle
 } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
@@ -25,8 +23,8 @@ export const BottomSheet = ({
           <VisuallyHidden>
             <SheetTitle />
           </VisuallyHidden>
-          <SheetDescription asChild>{children}</SheetDescription>
         </SheetHeader>
+        {children}
       </SheetContent>
     </Sheet>
   )

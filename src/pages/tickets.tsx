@@ -19,7 +19,7 @@ export const Tickets = () => {
   const maskedPhone = applyMask(person.phone || '', 'phone')
 
   return (
-    <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>
+    <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen overflow-x-hidden'>
       <div className='w-[90%] flex flex-col items-center gap-2'>
         <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
         {cards?.map((card, index) => (
@@ -46,8 +46,8 @@ export const Tickets = () => {
               ))}
             </div>
             {index < cards.length - 1 && (
-              <div className='relative w-full'>
-                <hr className='absolute -left-full -right-full border-t text-neutral-400' />
+              <div className='w-full'>
+                <hr className='w-screen -mx-[calc((100vw-100%)/2)] border-t text-neutral-400' />
               </div>
             )}
           </div>

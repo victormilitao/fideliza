@@ -16,7 +16,7 @@ export const getStampStructure = async (
           *,
           cards:cards!inner (
             *,
-            stamp:stamps(*)
+            stamps:stamps(*)
           )
         )
       `

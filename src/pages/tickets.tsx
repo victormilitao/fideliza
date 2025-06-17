@@ -24,7 +24,7 @@ export const Tickets = () => {
         <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
         {cards?.map((card, index) => (
           <div className='flex flex-col items-center gap-2' key={card.id}>
-            <p className='text-xl'>Cartela {index + 1}</p>
+            { cards.length > 1 && <p className='text-xl'>Cartela  {index + 1}</p>}
             <p className='text-xl font-bold text-primary-600'>
               {card.stamps.length}/{stamps_required}
             </p>

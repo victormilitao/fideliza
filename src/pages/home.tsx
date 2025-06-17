@@ -29,6 +29,7 @@ export const Home = () => {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<FormSchema>({
     resolver: zodResolver(schema),
     defaultValues: { phone: '' },
@@ -38,10 +39,12 @@ export const Home = () => {
     const card = await findCompletedCard(data.phone)
     setCardId(card?.id || '')
     setOpenSheet(!!card)
+    reset()
   }
 
   const handleSendSticker = (data: FormSchema) => {
     sendStamp(data.phone)
+    reset()
   }
 
   const handleGoToTickets = async (data: FormSchema) => {
@@ -49,6 +52,7 @@ export const Home = () => {
     navigate('/estabelecimento/tickets', {
       state: { params: { person: person } },
     })
+    reset()
   }
 
   const handleLogout = () => {
@@ -77,7 +81,7 @@ export const Home = () => {
                 className='mb-2'
                 label='Celular'
                 type='tel'
-                placeholder='(00) 0 0000-0000'
+                placeholder='(00) 0 0000 0000'
                 maskType='phone'
                 {...field}
                 error={errors.phone?.message}

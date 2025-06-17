@@ -52,7 +52,7 @@ export const LoginCustomer: React.FC = () => {
               {...field}
               label='Celular'
               maskType='phone'
-              placeholder='(00) 0 0000-0000'
+              placeholder='(00) 0 0000 0000'
               error={errors.phone?.message}
             />
           )}

@@ -33,7 +33,7 @@ export const Tickets = () => {
           <div key={card.id}>
             <Card
               card={card}
-              index={index + 1}
+              index={cards.length > 1 ? index + 1 : undefined}
               stampsRequired={stamps_required || 0}
             />
             {index < cards.length - 1 && (

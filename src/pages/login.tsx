@@ -33,39 +33,41 @@ export const Login: React.FC = () => {
         <h2 className='text-center'>
           <b>Acesse sua conta</b>
         </h2>
-        <Controller
-          name='email'
-          control={control}
-          render={({ field }) => (
-            <Input
-              label='Email'
-              type='email'
-              {...field}
-              error={errors.email?.message}
-            />
-          )}
-        />
+        <form onSubmit={handleSubmit(handleLogin)} className='flex flex-col gap-6'>
+          <Controller
+            name='email'
+            control={control}
+            render={({ field }) => (
+              <Input
+                label='Email'
+                type='email'
+                {...field}
+                error={errors.email?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name='password'
-          control={control}
-          render={({ field }) => (
-            <Input
-              label='Senha'
-              type='password'
-              {...field}
-              error={errors.password?.message}
-            />
-          )}
-        />
+          <Controller
+            name='password'
+            control={control}
+            render={({ field }) => (
+              <Input
+                label='Senha'
+                type='password'
+                {...field}
+                error={errors.password?.message}
+              />
+            )}
+          />
 
-        <Button
-          className='w-full'
-          onClick={handleSubmit(handleLogin)}
-          disabled={loading}
-        >
-          {loading ? 'Entrando...' : 'Entrar'}
-        </Button>
+          <Button
+            className='w-full'
+            type='submit'
+            disabled={loading}
+          >
+            {loading ? 'Entrando...' : 'Entrar'}
+          </Button>
+        </form>
       </div>
     </div>
   )

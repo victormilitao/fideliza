@@ -6,7 +6,7 @@ export type MaskOptions = {
 }
 
 export const maskMap: Record<MaskType, MaskOptions> = {
-  phone: { mask: '(__) _ ____-____', replacement: { _: /\d/ } },
+  phone: { mask: '(__) _ ____ ____', replacement: { _: /\d/ } },
   cpf: { mask: '___.___.___-__', replacement: { _: /\d/ } },
   date: { mask: '__/__/____', replacement: { _: /\d/ } },
 }

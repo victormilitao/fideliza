@@ -13,6 +13,8 @@ export const findCompletedCard = async (
       .not('completed_at', 'is', null)
       .not('prize_code', 'is', null)
       .is('prized_at', null)
+      .order('completed_at', { ascending: true })
+      .limit(1)
       .maybeSingle()
 
     if (error) {

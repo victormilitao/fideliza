@@ -31,10 +31,11 @@ export const Reward = ({
     defaultValues: { code: '' },
   })
   const { reward } = useReward()
-  const handleBonus = (data: FormSchema) => {
+
+  const handleBonus = async (data: FormSchema) => {
     if (cardId && data.code) {
-      reward(cardId, data.code)
-      closeSheet()
+      const response = await reward(cardId, data.code)
+      response && closeSheet()
     }
   }
 

@@ -13,8 +13,9 @@ export const useReward = () => {
           toastError('O código informado está incorreto.')
           return
         }
-
+        
         success('Premiação realizada.')
+        return true
       } catch (err) {
         console.error('add stamp error:', err)
       }

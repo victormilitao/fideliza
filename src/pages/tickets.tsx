@@ -46,7 +46,7 @@ export const Tickets = () => {
               ))}
             </div>
             {index < cards.length - 1 && (
-              <div className='w-full'>
+              <div className='w-full mb-5'>
                 <hr className='w-screen -mx-[calc((100vw-100%)/2)] border-t text-neutral-400' />
               </div>
             )}

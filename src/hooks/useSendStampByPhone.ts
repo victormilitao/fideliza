@@ -1,14 +1,16 @@
 import api from '@/services/api'
 import { useAddStamp } from './useAddStamp'
 import { useToast } from './useToast'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export const useSendStampByPhone = () => {
   const { success, error } = useToast()
   const { addStamp } = useAddStamp()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const sendStamp = useCallback(
     async (phone: string) => {
+      setLoading(true)
       const sanitizedPhone = phone.replace(/\D/g, '')
 
       try {
@@ -21,10 +23,12 @@ export const useSendStampByPhone = () => {
         success('Selo enviado.')
       } catch (err) {
         console.error('add stamp error:', err)
+      } finally {
+        setLoading(false)
       }
     },
     [addStamp, error, success]
   )
 
-  return { sendStamp }
+  return { sendStamp, loading }
 }

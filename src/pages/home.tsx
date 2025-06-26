@@ -20,7 +20,7 @@ type FormSchema = z.infer<typeof schema>
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
   const { logout } = useLogout()
-  const { sendStamp } = useSendStampByPhone()
+  const { sendStamp, loading: sendStampLoading } = useSendStampByPhone()
   const { getUserByPhone } = useUserByPhone()
   const [cardId, setCardId] = useState<string>('')
   const { findCompletedCard } = useCompletedCard()
@@ -89,7 +89,12 @@ export const Home = () => {
             )}
           />
 
-          <Button onClick={handleSubmit(handleSendSticker)}>Enviar selo</Button>
+          <Button
+            onClick={handleSubmit(handleSendSticker)}
+            loading={sendStampLoading}
+          >
+            Enviar selo
+          </Button>
 
           <Button variant='secondary' onClick={handleSubmit(handleGoToTickets)}>
             Conferir selos

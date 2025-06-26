@@ -53,7 +53,7 @@ export const Tickets = () => {
           </div>
         ))}
       </div>
-      <div className='mt-auto sm:mt-60'>
+      <div className='mt-5 sm:mt-40'>
         <Link to={'/'}>
           <Button variant='secondary' className='w-3xs'>
             Voltar

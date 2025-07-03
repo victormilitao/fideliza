@@ -3,13 +3,15 @@ import supabase from '../config'
 import { Card } from '@/types/card.type'
 
 export const findCompletedCard = async (
-  personId: string
+  personId: string,
+  campaignsIds: string[]
 ): Promise<Response<Card>> => {
   try {
     const { data: card, error } = await supabase
       .from('cards')
       .select('*')
       .eq('person_id', personId)
+      .in('campaign_id', campaignsIds)
       .not('completed_at', 'is', null)
       .not('prize_code', 'is', null)
       .is('prized_at', null)

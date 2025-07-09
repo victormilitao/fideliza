@@ -29,6 +29,7 @@ import { getStampStructure } from './api-functions/getStampStructure'
 import { generateCodeLogin } from './api-functions/customer/generateCodeLogin'
 import { generateLoginToken } from './api-functions/generateLoginToken'
 import { getPersonByToken } from './api-functions/customer/getPersonByToken'
+import { getPersonByPhoneWithProfile } from './api-functions/getPersonByPhoneWithProfile'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -37,6 +38,7 @@ const supabaseApi: ApiFunctions = {
   addStamp: addStamp,
   getUserLoggedIn: getUserLoggedIn,
   getPersonByPhone: getPersonByPhone,
+  getPersonByPhoneWithProfile: getPersonByPhoneWithProfile,
   getStampsByUserId: getStampsByUserId,
   getProfile: getProfile,
   checkUserExists: checkUserExists,

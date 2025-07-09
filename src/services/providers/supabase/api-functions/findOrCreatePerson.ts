@@ -7,11 +7,15 @@ export const findOrCreatePerson = async (
   phone: string
 ): Promise<Response<Person>> => {
   try {
-    const { data: person } = await api.getPersonByPhone(phone)
+    const { data: person } = await api.getPersonByPhoneWithProfile(phone)
 
     if (person) return { data: person, error: null }
 
-    const { data: user } = await api.signUp(phone)
+    const { data: user, error: signUpError } = await api.signUp(phone)
+    if (!user?.id || signUpError) {
+      console.error('Erro no signUp:', signUpError)
+      return { data: null, error: signUpError }
+    }
 
     const { data: newPerson, error: personError } = await supabase
       .from('person')
@@ -19,9 +23,18 @@ export const findOrCreatePerson = async (
       .select()
       .maybeSingle()
 
-    if (personError) {
-      console.error('findOrCreatePerson - error:', personError.message)
+    if (!newPerson?.id || personError) {
+      console.error('findOrCreatePerson - error:', personError?.message)
       return { data: null, error: personError }
+    }
+
+    const { data: profile, error: profileError } = await api.createProfile(
+      user?.id, newPerson?.id
+    )
+
+    if (profileError || !profile) {
+      console.error('Erro no createProfile:', profileError)
+      return { data: null, error: profileError }
     }
 
     return { data: newPerson, error: null }

@@ -18,6 +18,7 @@ export type ApiFunctions = {
   addStamp: (personId: string, campaignId: string) => Promise<Response<Stamp>>
   getUserLoggedIn: () => Promise<Response<User>>
   getPersonByPhone: (phone: string) => Promise<Response<Person>>
+  getPersonByPhoneWithProfile: (phone: string) => Promise<Response<Person>>
   getStampsByUserId: (
     userId: string,
     businessId: string
@@ -47,7 +48,7 @@ export type ApiFunctions = {
   getBusinessCardsByPersonId: (
     personId: string
   ) => Promise<Response<Business[]>>
-  createProfile: (userId: string) => Promise<Response<Profile>>
+  createProfile: (userId: string, personId: string) => Promise<Response<Profile>>
   getPersonByUserId: (userId: string) => Promise<Response<Person>>
   getPersonById: (id: string) => Promise<Response<Person>>
   getPersonByToken: (token: string) => Promise<Response<Person>>

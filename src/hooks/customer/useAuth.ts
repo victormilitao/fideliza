@@ -23,7 +23,7 @@ export const useAuth = () => {
   const { mutateAsync: checkPersonExisting, isPending: checkLoading } =
     useMutation<Response<Person>, Error, string>({
       mutationFn: async (phone: string): Promise<Response<Person>> => {
-        const { data, error } = await api.getPersonByPhone(phone)
+        const { data, error } = await api.getPersonByPhoneWithProfile(phone)
         if (error || !data?.id) throw new Error('Usuário não encontrado.')
 
         const { data: personCode, error: codeError } =

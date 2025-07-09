@@ -11,7 +11,7 @@ export const useMyActiveCampaigns = (businessId: string) => {
       return data
     },
     enabled: !!businessId,
-    staleTime: 60 * 60,
+    staleTime: 60 * 60 * 1000 * 24, 
   })
 
   return {

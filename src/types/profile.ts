@@ -5,4 +5,5 @@ export type Profile = {
   id?: string
   role?: typeof BUSINESS_OWNER | typeof CUSTOMER
   user_id?: string
+  person_id?: string
 }

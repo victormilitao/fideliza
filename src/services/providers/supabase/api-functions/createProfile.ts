@@ -3,12 +3,13 @@ import supabase from '../config'
 import { Response } from '@/services/types/api.type'
 
 export const createProfile = async (
-  userId: string
+  userId: string,
+  personId: string
 ): Promise<Response<Profile>> => {
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .insert([{ user_id: userId, role: CUSTOMER }])
+      .insert([{ user_id: userId, role: CUSTOMER, person_id: personId }])
       .select()
       .maybeSingle()
 

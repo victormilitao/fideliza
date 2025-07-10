@@ -6,11 +6,11 @@ export const sendSms = async (
   message: string
 ): Promise<Response<boolean>> => {
   try {
-    const phoneCountry = '+55' + phone
-    console.dir(phoneCountry)
+    phone = '+55' + phone
+    console.dir(phone)
     console.dir(message)
     const { error } = await supabase.functions.invoke('send-whatsapp', {
-      body: { phoneCountry, message },
+      body: { phone, message },
     })
 
     if (error) return { data: null, error }

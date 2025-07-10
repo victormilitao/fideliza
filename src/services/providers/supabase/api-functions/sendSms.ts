@@ -1,5 +1,5 @@
 import { Response } from '@/services/types/api.type'
-// import supabase from '../config'
+import supabase from '../config'
 
 export const sendSms = async (
   phone: string,
@@ -9,11 +9,11 @@ export const sendSms = async (
     const phoneCountry = '+55' + phone
     console.dir(phoneCountry)
     console.dir(message)
-    // const { error } = await supabase.functions.invoke('send-sms', {
-    //   body: { phoneCountry, message },
-    // })
+    const { error } = await supabase.functions.invoke('send-sms', {
+      body: { phoneCountry, message },
+    })
 
-    // if (error) return { data: null, error }
+    if (error) return { data: null, error }
 
     return { data: true, error: null }
   } catch (err) {

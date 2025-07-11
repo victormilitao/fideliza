@@ -9,7 +9,7 @@ export const sendSms = async (
     phone = '+55' + phone
     console.dir(phone)
     console.dir(message)
-    const { error } = await supabase.functions.invoke('send-whatsapp', {
+    const { error } = await supabase.functions.invoke('send-sms', {
       body: { phone, message },
     })
 

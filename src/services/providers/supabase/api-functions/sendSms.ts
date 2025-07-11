@@ -1,19 +1,19 @@
 import { Response } from '@/services/types/api.type'
-// import supabase from '../config'
+import supabase from '../config'
 
 export const sendSms = async (
   phone: string,
   message: string
 ): Promise<Response<boolean>> => {
   try {
-    const phoneCountry = '+55' + phone
-    console.dir(phoneCountry)
+    phone = '+55' + phone
+    console.dir(phone)
     console.dir(message)
-    // const { error } = await supabase.functions.invoke('send-sms', {
-    //   body: { phoneCountry, message },
-    // })
+    const { error } = await supabase.functions.invoke('send-sms', {
+      body: { phone, message },
+    })
 
-    // if (error) return { data: null, error }
+    if (error) return { data: null, error }
 
     return { data: true, error: null }
   } catch (err) {

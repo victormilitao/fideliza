@@ -44,3 +44,5 @@ const Icon: React.FC<IconProps> = ({
 }
 
 export default Icon
+
+export type LucideIconNames = keyof typeof LucideIcons

@@ -1,10 +1,7 @@
 export const Header = () => {
   return (
-    <header className='flex justify-between items-center px-6 py-4'>
-      <h1 className='text-xl font-bold text-[#002060]'>Fideliza</h1>
-      <a href='/login' className='text-sm font-medium text-[#002060]'>
-        Acessar minha conta
-      </a>
+    <header className='flex justify-between items-center px-10 py-8'>
+      <h1 className='text-[2rem] font-bold text-primary-600'>Eloop</h1>
     </header>
   )
 }

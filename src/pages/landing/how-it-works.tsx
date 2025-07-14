@@ -1,6 +1,7 @@
-import howItWorks from '/landing/how-it-works.gif';
-import { Button } from '@/components/button/button';
-import Icon from '@/components/icon';
+import howItWorks from '/landing/how-it-works.gif'
+import { Button } from '@/components/button/button'
+import Icon from '@/components/icon'
+import { useNavigate } from 'react-router-dom'
 
 const steps = [
   {
@@ -27,35 +28,48 @@ const steps = [
     description:
       'Com recompensas atrativas e um sistema fácil de usar, seus clientes voltam mais vezes — e seu negócio cresce.',
   },
-];
+]
 
 export default function HowItWorks() {
+  const navigate = useNavigate()
+
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-10 items-center" id="comecar">
-      <div className="flex justify-center">
+    <section
+      className='max-w-5xl mx-auto px-6 py-16 grid lg:grid-cols-2 items-center'
+      id='comecar'
+    >
+      <div className='flex justify-center'>
         <img
           src={howItWorks}
-          alt="Demonstração do app"
-          className="rounded-md w-full max-w-sm"
+          alt='Demonstração do app'
+          className='rounded-md w-xs h-auto shadow-xl'
         />
       </div>
 
       <div className='max-w-[378px] mx-auto'>
-        <h2 className="text-xl font-bold text-primary-600 mb-6">Como funciona?</h2>
-        <ul className="space-y-8">
+        <h2 className='text-xl font-bold text-primary-600 mb-6'>
+          Como funciona?
+        </h2>
+        <ul className='space-y-8'>
           {steps.map(({ icon, title, description }) => (
-            <li key={title} className="flex items-start gap-4">
-              <div className="mt- bg-primary-100 text-primary-600 rounded-full p-4">{icon}</div>
+            <li key={title} className='flex items-start gap-4'>
+              <div className='mt- bg-primary-100 text-primary-600 rounded-full p-4'>
+                {icon}
+              </div>
               <div>
-                <p className="text-base font-bold text-neutral-700">{title}</p>
-                <p className="text-base text-neutral-700">{description}</p>
+                <p className='text-base font-bold text-neutral-700'>{title}</p>
+                <p className='text-base text-neutral-700'>{description}</p>
               </div>
             </li>
           ))}
         </ul>
 
-        <div className='mt-10'><Button className='w-full'>Acessar minha conta</Button></div>
+        <div className='mt-10'>
+          <Button className='w-full' onClick={() => navigate('/login')}>
+            Acessar minha conta
+          </Button>
+        </div>
       </div>
     </section>
-  );
+  )
 }

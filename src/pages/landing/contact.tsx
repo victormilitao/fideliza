@@ -15,7 +15,7 @@ export const Contact = () => {
           Converse com a gente direto no WhatsApp
         </p>
         <a
-          href='https://wa.me/5585981508552'
+          href='https://wa.me/5541987658901?text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20programa%20de%20fidelidade.'
           target='_blank'
           rel='noopener noreferrer'
           className='inline-flex items-center gap-2 bg-whatsapp text-white font-semibold px-6 py-3 rounded-lg text-lg transition'

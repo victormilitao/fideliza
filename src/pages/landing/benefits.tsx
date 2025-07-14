@@ -47,7 +47,7 @@ export default function Benefits() {
           />
         </div>
         <div>
-          <p className='text-base font-bold text-neutral-700 mb-2 px-5'>{title}</p>
+          <p className='text-base font-bold text-neutral-700 mb-2 mx-auto max-w-[200px]'>{title}</p>
           <p className='text-base text-neutral-700'>{text}</p>
         </div>
       </div>
@@ -55,13 +55,13 @@ export default function Benefits() {
   }
 
   return (
-    <section className='bg-white px-6 pt-20 pb-32 max-w-7xl mx-auto text-center'>
+    <section className='bg-white px-6 mt-20 pb-32 max-w-6xl mx-auto text-center'>
       <h2 className='text-2xl font-bold text-primary-600 mb-12'>
         É hora de criar um programa de fidelidade se você quer:
       </h2>
 
-      <div className='flex flex-col lg:grid lg:grid-cols-3 gap-10 items-center'>
-        <div className='space-y-10 mx-auto'>
+      <div className='flex flex-col lg:grid lg:grid-cols-3 lg:items-start gap-10 items-center'>
+        <div className='space-y-8 mx-auto'>
           {benefits.slice(0, 2).map((benefit) => (
             <Benefit {...benefit} />
           ))}
@@ -71,11 +71,11 @@ export default function Benefits() {
           <img
             src={benefitsImg}
             alt='Interface de premiação'
-            className='min-w-[420px]'
+            className='max-w-[470px] h-auto'
           />
         </div>
 
-        <div className='space-y-10 mx-auto'>
+        <div className='space-y-8 mx-auto'>
           {benefits.slice(2).map((benefit) => (
             <Benefit {...benefit} />
           ))}

@@ -8,7 +8,7 @@ interface ButtonVariantProps {
 
 const bgColors = {
   primary: '--color-primary-600',
-  secondary: '--color-neutral-200',
+  secondary: '--color-neutral-100',
   link: '',
 }
 
@@ -19,7 +19,7 @@ const hover = {
 }
 
 const colors = {
-  primary: '--color-neutral-200',
+  primary: '--color-neutral-100',
   secondary: '--color-primary-600',
   link: '--color-primary-600',
 }

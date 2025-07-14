@@ -8,6 +8,7 @@ import { LoginCustomer } from './pages/customer/login'
 import { useAuthStore } from './store/useAuthStore'
 import { BUSINESS_OWNER, CUSTOMER } from './types/profile'
 import { LoginByToken } from './pages/customer/login-by-token'
+import { Landing } from './pages/landing/landing'
 
 const CustomerRoute = () => {
   const { isLoggedIn, profile } = useAuthStore()
@@ -29,7 +30,7 @@ const BusinessOwnerRoute = () => {
 
 const RootRedirect = () => {
   const { isLoggedIn, profile } = useAuthStore()
-  if (!isLoggedIn) return <Navigate to='/login' />
+  if (!isLoggedIn) return <Landing />
   if (profile?.role === BUSINESS_OWNER)
     return <Navigate to='/estabelecimento' />
   if (profile?.role === CUSTOMER) return <Navigate to='/usuario' />

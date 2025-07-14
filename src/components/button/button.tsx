@@ -23,14 +23,14 @@ export const Button = ({
       {...rest}
     >
       <div className='flex items-center justify-center'>
-        {!loading && <span className='text-sm'>{children}</span>}
+        {!loading && <span className='text-sm font-bold'>{children}</span>}
         {loading && (
           <Icon
             name='LoaderCircle'
             size={16}
             strokeWidth={3}
-            color='var(--color-neutral-200)'
-            className='animate-spin ml-2 text-neutral-200'
+            color='var(--color-neutral-100)'
+            className='animate-spin ml-2 text-neutral-100'
           />
         )}
       </div>

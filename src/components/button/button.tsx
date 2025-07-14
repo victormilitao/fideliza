@@ -29,8 +29,8 @@ export const Button = ({
             name='LoaderCircle'
             size={16}
             strokeWidth={3}
-            color='var(--color-neutral-200)'
-            className='animate-spin ml-2 text-neutral-200'
+            color='var(--color-neutral-100)'
+            className='animate-spin ml-2 text-neutral-100'
           />
         )}
       </div>

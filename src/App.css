@@ -2,7 +2,7 @@
 @import 'tw-animate-css';
 
 @theme {
-  --color-backgrounbd: var(--color-neutral-200);
+  --color-backgrounbd: var(--color-neutral-100);
 
   --color-primary-100: #eef8ff;
   --color-primary-200: #C8E3F8;
@@ -13,7 +13,7 @@
   --color-primary-700: #000e38;
 
   --color-neutral-100: #ffffff;
-  --color-neutral-200: #ffffff;
+  --color-neutral-200: #F9F9F9;
   --color-neutral-400: #cbcbcb;
   --color-neutral-500: #a7a7a7;
   --color-neutral-700: #161616;
@@ -21,6 +21,8 @@
   --color-error-100: #fff3f3;
   --color-error-400: #e05f5f;
   --color-error-600: #990606;
+
+  --color-whatsapp: #25D366;
 }
 
 @font-face {
@@ -92,7 +94,7 @@
 @layer utilities {
   .fill-icon {
     .lucide-ticket-check path:nth-child(2) {
-      stroke: var(--color-neutral-200);
+      stroke: var(--color-neutral-100);
     }
     .lucide-ticket-check {
       filter: drop-shadow(4px 4px 10px #00000040);

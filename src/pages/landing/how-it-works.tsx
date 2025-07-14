@@ -40,7 +40,7 @@ export default function HowItWorks() {
         />
       </div>
 
-      <div className='max-w-[378px]'>
+      <div className='max-w-[378px] mx-auto'>
         <h2 className="text-xl font-bold text-primary-600 mb-6">Como funciona?</h2>
         <ul className="space-y-8">
           {steps.map(({ icon, title, description }) => (

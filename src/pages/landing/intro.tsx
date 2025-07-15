@@ -6,7 +6,7 @@ export default function Intro() {
   const navigate = useNavigate()
 
   return (
-    <section className='px-6 pt-8 lg:pt-10 pb-16 flex flex-col items-center justify-center lg:flex-row lg:justify-between gap-10 max-w-5xl mx-auto'>
+    <section className='px-6 pt-5 lg:pt-10 pb-16 flex flex-col items-center justify-center lg:flex-row lg:justify-between gap-10 max-w-5xl mx-auto'>
       <div className='mx-auto sm:max-w-[425px]'>
         <h2 className='text-[2rem] text-primary-600 font-bold'>
           Seu cliente coleciona selos.

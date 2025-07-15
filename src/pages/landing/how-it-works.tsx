@@ -35,10 +35,10 @@ export default function HowItWorks() {
 
   return (
     <section
-      className='max-w-5xl mx-auto px-6 py-16 grid lg:grid-cols-2 items-center'
+      className='max-w-5xl mx-auto px-6 py-8 lg:py-16 grid lg:grid-cols-2 items-center'
       id='comecar'
     >
-      <div className='flex justify-center'>
+      <div className='flex justify-center order-2 mt-10 lg:mt-0 lg:order-none'>
         <img
           src={howItWorks}
           alt='Demonstração do app'
@@ -46,7 +46,7 @@ export default function HowItWorks() {
         />
       </div>
 
-      <div className='max-w-[378px] mx-auto'>
+      <div className='max-w-[378px] mx-auto order-1 lg:order-none'>
         <h2 className='text-xl font-bold text-primary-600 mb-6'>
           Como funciona?
         </h2>

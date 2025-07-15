@@ -2,7 +2,7 @@ import Icon from '@/components/icon'
 
 export const Contact = () => {
   return (
-    <section className='bg-neutral-200 py-16 px-6'>
+    <section className='bg-neutral-200 py-12 px-6'>
       <div className='max-w-3xl mx-auto text-center'>
         <h2 className='text-3xl font-bold text-primary-600 flex justify-center items-start gap-2 mb-4'>
           <Icon name='MessageCircle' size={32} strokeWidth={2} />

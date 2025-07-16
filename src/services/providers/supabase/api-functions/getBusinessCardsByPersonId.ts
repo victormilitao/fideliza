@@ -11,13 +11,13 @@ export const getBusinessCardsByPersonId = async (
       { p_person_id: personId }
     )
 
-    if (error || !data) {
+    if (error) {
       throw new Error(
         `getBusinessCardsByPersonId - Error fetching data: ${error}`
       )
     }
 
-    handleResponse(data as Business[])
+    data?.length && handleResponse(data as Business[])
 
     return { data, error }
   } catch (err) {

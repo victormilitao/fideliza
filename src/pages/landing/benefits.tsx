@@ -55,7 +55,7 @@ export default function Benefits() {
   }
 
   return (
-    <section className='bg-white px-6 mt-20 pb-32 max-w-6xl mx-auto text-center'>
+    <section className='bg-white px-6 mt-12 lg:mt-20 pb-32 max-w-6xl mx-auto text-center'>
       <h2 className='text-2xl font-bold text-primary-600 mb-12'>
         É hora de criar um programa de fidelidade se você quer:
       </h2>

@@ -20,7 +20,7 @@ export const EmptyStateHome = () => {
         />
       </div>
       <div>
-        <p className='text-sm sm:text-base text-neutral-600'>
+        <p className='max-w-64 sm:max-w-full text-center text-sm sm:text-base text-neutral-600'>
           No momento, você não tem nenhum selo, mas assim que ganhar, ele vai
           aparecer aqui.
         </p>

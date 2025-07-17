@@ -1,7 +1,7 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { Home } from './pages/home'
 import { Home as HomeCustomer } from './pages/customer/home'
-import { Tickets } from './pages/tickets'
+import { Tickets } from './pages/business/tickets/tickets'
 import { Tickets as TicketsCustomer } from './pages/customer/tickets'
 import { Login } from './pages/login'
 import { LoginCustomer } from './pages/customer/login'

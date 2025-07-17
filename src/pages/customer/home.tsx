@@ -11,11 +11,13 @@ export const Home = () => {
   const { logout } = useLogout()
   const { person } = useLoggedPerson()
   const maskedPhone = applyMask(person?.phone, 'phone')
-  const { data: businesses } = useBusinessCardsByPerson(person?.id)
+  const { data: businesses, isLoading } = useBusinessCardsByPerson(person?.id)
 
   const handleLogout = () => {
     logout()
   }
+
+  if (isLoading) return null
 
   return (
     <>
@@ -34,7 +36,7 @@ export const Home = () => {
           <p>{maskedPhone}</p>
         </div>
         {businesses && <BusinessCards businesses={businesses} />}
-        {!businesses && <EmptyStateHome />}
+        {businesses?.length === 0 && <EmptyStateHome />}
       </div>
     </>
   )

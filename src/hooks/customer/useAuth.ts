@@ -30,8 +30,9 @@ export const useAuth = () => {
           await api.generateCodeLogin(data.id)
         if (codeError) throw new Error('Erro ao gerar código.')
 
-        if (personCode?.login)
+        if (personCode?.login) {
           api.sendSms(phone, 'Seu código de acesso é: ' + personCode?.login)
+        }
 
         return { data, error }
       },

@@ -1,10 +1,10 @@
 import { Button } from '@/components/button/button'
-import Icon from '@/components/icon'
 import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
 import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { Person } from '@/types/person.type'
 import { Link, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
+import { StampsRow } from './stamps-row'
 
 export const Tickets = () => {
   const location = useLocation()
@@ -17,33 +17,22 @@ export const Tickets = () => {
   const business = businesses.find((business) => business.id === myBusiness?.id)
   const { stamps_required, cards } = business?.campaign || {}
   const maskedPhone = applyMask(person.phone || '', 'phone')
-
+  console.dir(cards)
   return (
     <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen overflow-x-hidden'>
       <div className='w-[90%] flex flex-col items-center gap-2'>
         <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
         {cards?.map((card, index) => (
           <div className='flex flex-col items-center gap-2' key={card.id}>
-            { cards.length > 1 && <p className='text-xl'>Cartela  {index + 1}</p>}
+            {cards.length > 1 && <p className='text-xl'>Cartela {index + 1}</p>}
             <p className='text-xl font-bold text-primary-600'>
               {card.stamps.length}/{stamps_required}
             </p>
             <div className='flex flex-wrap gap-7 justify-center'>
-              {[...Array(stamps_required)].map((_, index) => (
-                <div key={index} className='fill-icon text-neutral-400'>
-                  {!card.stamps?.[index] && (
-                    <Icon name='Ticket' size={80} strokeWidth={0.7} />
-                  )}
-                  {card.stamps?.[index] && (
-                    <Icon
-                      name='TicketCheck'
-                      color='var(--color-primary-700)'
-                      size={80}
-                      fill='var(--color-primary-700)'
-                    />
-                  )}
-                </div>
-              ))}
+              <StampsRow
+                stamps={card.stamps}
+                stampsRequired={stamps_required || 0}
+              />
             </div>
             {index < cards.length - 1 && (
               <div className='w-full mb-5'>

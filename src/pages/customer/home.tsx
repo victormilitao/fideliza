@@ -5,16 +5,19 @@ import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { applyMask } from '@/utils/mask-utils'
 import { BusinessCards } from './business-cards'
 import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
+import { EmptyStateHome } from './emptyStateHome'
 
 export const Home = () => {
   const { logout } = useLogout()
   const { person } = useLoggedPerson()
   const maskedPhone = applyMask(person?.phone, 'phone')
-  const { data: businesses } = useBusinessCardsByPerson(person?.id)
+  const { data: businesses, isLoading } = useBusinessCardsByPerson(person?.id)
 
   const handleLogout = () => {
     logout()
   }
+
+  if (isLoading) return null
 
   return (
     <>
@@ -27,16 +30,13 @@ export const Home = () => {
           </Link>
         </div>
       </div>
-      <div className='flex flex-col sm:items-center sm:justify-center sm:h-screen'>
-        <div className='flex flex-col gap-3 p-4'>
-          <div>
-            <p className='text-sm'>Meus selos</p>
-            <p>{maskedPhone}</p>
-          </div>
-          <div>
-            <BusinessCards businesses={businesses} />
-          </div>
+      <div className='flex flex-col sm:items-center sm:justify-center sm:h-screen p-4 gap-4 h-screen'>
+        <div className='flex flex-col min-w-3xs items-start sm:justify-center'>
+          <p className='text-sm'>Meus selos</p>
+          <p>{maskedPhone}</p>
         </div>
+        {businesses && <BusinessCards businesses={businesses} />}
+        {businesses?.length === 0 && <EmptyStateHome />}
       </div>
     </>
   )

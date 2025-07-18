@@ -11,7 +11,7 @@ export const getBusinessCardsByPersonId = async (
       { p_person_id: personId }
     )
 
-    if (error || !data) {
+    if (error) {
       throw new Error(
         `getBusinessCardsByPersonId - Error fetching data: ${error}`
       )
@@ -19,14 +19,18 @@ export const getBusinessCardsByPersonId = async (
 
     handleResponse(data as Business[])
 
-    return { data, error }
+    return { data: data || [], error }
   } catch (err) {
     console.error('getBusinessCardsByPersonId - Unexpected error:', err)
-    return { data: null, error: err as Error }
+    return { data: [], error: err as Error }
   }
 }
 
 const handleResponse = (data: Business[]) => {
+  if (!data || !data.length) {
+    data = []
+    return
+  }
   data.forEach((business) => {
     if (business.campaigns?.[0]) business.campaign = business.campaigns[0]
   })

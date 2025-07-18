@@ -23,7 +23,7 @@ export const Button = ({
       {...rest}
     >
       <div className='flex items-center justify-center'>
-        {!loading && <span className='text-sm font-bold'>{children}</span>}
+        {!loading && <span className='text-sm'>{children}</span>}
         {loading && (
           <Icon
             name='LoaderCircle'

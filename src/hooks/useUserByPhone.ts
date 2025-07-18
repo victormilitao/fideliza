@@ -19,7 +19,7 @@ export const useUserByPhone = () => {
   >({
     mutationFn: async (phone: string): Promise<Response<Person>> => {
       const sanitizedPhone = phone.replace(/\D/g, '')
-      const { data, error } = await api.getPersonByPhone(sanitizedPhone)
+      const { data, error } = await api.getPersonByPhoneWithProfile(sanitizedPhone)
       return { data, error }
     },
     onError: (error: unknown) => {

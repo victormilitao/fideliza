@@ -2,6 +2,14 @@ import api from '@/services/api'
 import { Response } from '@/services/types/api.type'
 import { Business } from '@/types/business.type'
 import { Stamp } from '@/types/stamp.type'
+import {
+  CountStamps,
+  CountStampsSid,
+  FirstStamp,
+  FirstStampSid,
+  StampsCompleted,
+  StampsCompletedSid,
+} from '@/types/whatsapp-templates'
 
 export const sendAddStampMessage = async (
   stamp: Stamp
@@ -25,7 +33,7 @@ const sendMessage = async (business: Business) => {
   const personId = business?.campaign?.card?.person_id || ''
   const { data } = await api.getPersonById(personId)
   const { data: token } = await api.generateLoginToken(personId)
-  const link = `${window.location.origin}/usuario/login/token/${token}`
+  const link = token || ''
   if (!data?.phone || !business || !stamps || !business.campaign) return
 
   if (stamps?.length === 1) {
@@ -45,8 +53,15 @@ const sendFirstStampMessage = (
   business: Business,
   link: string
 ) => {
-  const message = `${business?.name}: Você ganhou seu primeiro selo! 🎉 Junte ${business.campaign?.stamps_required} selos e troque por um prêmio. Acompanhe seus selos e veja as regras em: ${link}`
-  api.sendSms(phone, message)
+  const businessName = business?.name || ''
+  const stampsRequired = String(business?.campaign?.stamps_required || 0)
+  const message = `${businessName}: Você ganhou seu primeiro selo! 🎉 Junte ${stampsRequired} selos e troque por um prêmio. Acompanhe seus selos e veja as regras em: ${link}`
+  api.sendWhatsapp(phone, FirstStampSid, {
+    businessName,
+    stampsRequired,
+    link,
+    message,
+  } as FirstStamp)
 }
 
 const sendStampCountMessage = (
@@ -55,12 +70,29 @@ const sendStampCountMessage = (
   stamps: Stamp[],
   link: string
 ) => {
-  const message = `${business.name}: Você ganhou mais 1 selo! 🎉 Seu progresso: ${stamps.length}/${business?.campaign?.stamps_required}. Junte ${business?.campaign?.stamps_required} selos e troque por um prêmio. Acompanhe seus selos e veja as regras em: ${link}`
-  api.sendSms(phone, message)
+  const businessName = business?.name || ''
+  const stampsRequired = String(business?.campaign?.stamps_required || 0)
+  const stampsCount = String(stamps.length)
+  const message = `${businessName}: Você ganhou mais 1 selo! 🎉 Seu progresso: ${stampsCount}/${stampsRequired}. Junte ${stampsRequired} selos e troque por um prêmio. Acompanhe seus selos e veja as regras em: ${link}`
+  api.sendWhatsapp(phone, CountStampsSid, {
+    businessName,
+    stampsRequired,
+    stampsCount,
+    link,
+    message,
+  } as CountStamps)
 }
 
 const sendBonusMessage = (phone: string, business: Business, link: string) => {
   const code = business.campaign?.card?.prize_code
-  const message = `${business.name}: Parabéns! 🎉 Você completou ${business?.campaign?.stamps_required} selos! 🏆 Informe o código ${code} no estabelecimento para resgatar o seu prêmio. Acompanhe seus selos e veja as regras em: ${link}`
-  api.sendSms(phone, message)
+  const businessName = business?.name || ''
+  const stampsRequired = String(business?.campaign?.stamps_required || 0)
+  const message = `${businessName}: Parabéns! 🎉 Você completou ${stampsRequired} selos! 🏆 Informe o código ${code} no estabelecimento para resgatar o seu prêmio. Acompanhe seus selos e veja as regras em: ${link}`
+  api.sendWhatsapp(phone, StampsCompletedSid, {
+    businessName,
+    stampsRequired,
+    link,
+    code,
+    message,
+  } as StampsCompleted)
 }

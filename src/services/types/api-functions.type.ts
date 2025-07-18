@@ -8,12 +8,16 @@ import { Person } from '@/types/person.type'
 import { Campaign } from '@/types/campaign.type'
 import { Card } from '@/types/card.type'
 import { PersonCode } from '@/types/personCode.type'
+import { WhastappTemplates } from '@/types/whatsapp-templates'
 
 export type ApiFunctions = {
   signInWithPassword: (
     credentials: Credentials
   ) => Promise<Response<SignInWithPasswordResponse>>
-  signInWithCode: (credentials: Credentials, person: Person) => Promise<Response<boolean>>
+  signInWithCode: (
+    credentials: Credentials,
+    person: Person
+  ) => Promise<Response<boolean>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
   addStamp: (personId: string, campaignId: string) => Promise<Response<Stamp>>
   getUserLoggedIn: () => Promise<Response<User>>
@@ -43,17 +47,27 @@ export type ApiFunctions = {
     campaignId: string
   ) => Promise<Response<boolean>>
   markCardAsCompleted: (cardId: string) => Promise<Response<Card>>
-  findCompletedCard: (personId: string, campaignsIds: string[]) => Promise<Response<Card>>
+  findCompletedCard: (
+    personId: string,
+    campaignsIds: string[]
+  ) => Promise<Response<Card>>
   reward: (cardId: string, code: string) => Promise<Response<boolean>>
   getBusinessCardsByPersonId: (
     personId: string
   ) => Promise<Response<Business[]>>
-  createProfile: (userId: string, personId: string) => Promise<Response<Profile>>
+  createProfile: (
+    userId: string,
+    personId: string
+  ) => Promise<Response<Profile>>
   getPersonByUserId: (userId: string) => Promise<Response<Person>>
   getPersonById: (id: string) => Promise<Response<Person>>
   getPersonByToken: (token: string) => Promise<Response<Person>>
   sendAddStampMessage: (stamp: Stamp) => Promise<Response<boolean>>
-  sendSms: (phone: string, message: string) => Promise<Response<boolean>>
+  sendWhatsapp: (
+    phone: string,
+    contentSid: string,
+    params: WhastappTemplates
+  ) => Promise<Response<boolean>>
   getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
   generateCodeLogin: (personId: string) => Promise<Response<PersonCode>>
   generateLoginToken: (personId: string) => Promise<Response<string>>

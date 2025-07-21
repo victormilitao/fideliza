@@ -9,6 +9,7 @@ import {
 } from '@/services/types/auth.type'
 import { useAuthStore } from '@/store/useAuthStore'
 import { Person } from '@/types/person.type'
+import { LoginCustomer, LoginCustomerSid } from '@/types/whatsapp-templates'
 
 type LoginParams = {
   credentials: Credentials
@@ -30,8 +31,14 @@ export const useAuth = () => {
           await api.generateCodeLogin(data.id)
         if (codeError) throw new Error('Erro ao gerar código.')
 
-        if (personCode?.login)
-          api.sendSms(phone, 'Seu código de acesso é: ' + personCode?.login)
+        if (personCode?.login) {
+          const message = 'Seu código de acesso é: ' + personCode?.login
+          const loginCustomer: LoginCustomer = {
+            code: personCode.login,
+            message,
+          }
+          api.sendWhatsapp(phone, LoginCustomerSid, loginCustomer)
+        }
 
         return { data, error }
       },

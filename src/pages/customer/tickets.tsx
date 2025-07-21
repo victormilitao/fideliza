@@ -1,6 +1,6 @@
 import { Button } from '@/components/button/button'
 import { useBusinessCardsByPerson } from '@/hooks/useBusinessCardsByPerson'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
 import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { BusinessCard } from './business-card'
@@ -13,11 +13,17 @@ export const Tickets = () => {
   const { person } = useLoggedPerson()
   const { data: businesses } = useBusinessCardsByPerson(person?.id)
 
-  if (!businesses?.length && !businessId) return null
+  if (!businesses?.length && !businessId) {
+    return <Navigate to='/usuario' replace />
+  }
 
   const business = businesses?.find((business) => business.id === businessId)
   const { stamps_required, cards } = business?.campaign || {}
   const maskedPhone = applyMask(person?.phone, 'phone')
+
+  if (business && (!cards || cards.length === 0)) {
+    return <Navigate to='/usuario' replace />
+  }
 
   return (
     <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>

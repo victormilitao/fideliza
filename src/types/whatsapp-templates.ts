@@ -1,8 +1,8 @@
 export type WhastappTemplates = LoginCustomer | FirstStamp | CountStamps | StampsCompleted
 
-export const LoginCustomerSid = 'HX826fe213b876b57ddbe7a37e4daee253'
+export const LoginCustomerSid = 'HXab47fdb19a1c243151a5c77751801c38'
 export type LoginCustomer = {
-  code: string
+  1: string
   message: string
 }
 

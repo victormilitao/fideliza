@@ -9,6 +9,7 @@ import { useAuthStore } from './store/useAuthStore'
 import { BUSINESS_OWNER, CUSTOMER } from './types/profile'
 import { LoginByToken } from './pages/customer/login-by-token'
 import { Landing } from './pages/landing/landing'
+import { CreateUser } from './pages/business/create/createUser'
 
 const CustomerRoute = () => {
   const { isLoggedIn, profile } = useAuthStore()
@@ -41,6 +42,7 @@ export const Router = () => {
   return (
     <Routes>
       <Route path='/' element={<RootRedirect />} />
+
       <Route element={<BusinessOwnerRoute />}>
         <Route path='/estabelecimento' element={<Home />} />
         <Route path='/estabelecimento/tickets' element={<Tickets />} />
@@ -49,7 +51,11 @@ export const Router = () => {
         <Route path='/usuario' element={<HomeCustomer />} />
         <Route path='/usuario/tickets' element={<TicketsCustomer />} />
       </Route>
+
       <Route path='login' element={<Login />} />
+
+      <Route path='/estabelecimento/criar' element={<CreateUser />} />
+
       <Route path='/usuario/login' element={<LoginCustomer />} />
       <Route path='/usuario/login/token/:token' element={<LoginByToken />} />
     </Routes>

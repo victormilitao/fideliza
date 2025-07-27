@@ -11,7 +11,7 @@ export const getMyBusiness = async (
       .from('business')
       .select('*')
       .eq('user_id', user?.id)
-      .single()
+      .maybeSingle()
 
     return {
       data: business || null,

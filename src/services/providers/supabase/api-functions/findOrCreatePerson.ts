@@ -2,6 +2,7 @@ import { Response } from '@/services/types/api.type'
 import supabase from '../config'
 import { Person } from '@/types/person.type'
 import api from '@/services/api'
+import { CUSTOMER } from '@/types/profile'
 
 export const findOrCreatePerson = async (
   phone: string
@@ -29,7 +30,7 @@ export const findOrCreatePerson = async (
     }
 
     const { data: profile, error: profileError } = await api.createProfile(
-      user?.id, newPerson?.id
+      user?.id, newPerson?.id, CUSTOMER
     )
 
     if (profileError || !profile) {

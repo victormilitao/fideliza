@@ -30,6 +30,12 @@ import { generateCodeLogin } from './api-functions/customer/generateCodeLogin'
 import { generateLoginToken } from './api-functions/generateLoginToken'
 import { getPersonByToken } from './api-functions/customer/getPersonByToken'
 import { getPersonByPhoneWithProfile } from './api-functions/getPersonByPhoneWithProfile'
+import { sendEmail } from './api-functions/sendEmail'
+import { logout } from './api-functions/logout'
+import { generateEmailConfirmationToken } from './api-functions/business/generatetEmailConfirmationToken'
+import { confirmEmail } from './api-functions/business/confirmEmail'
+import { verifyProfile } from './api-functions/verifyProfile'
+import { getUserAttributes } from './api-functions/getUserAttributes'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -63,6 +69,12 @@ const supabaseApi: ApiFunctions = {
   generateCodeLogin: generateCodeLogin,
   generateLoginToken: generateLoginToken,
   getPersonByToken: getPersonByToken,
+  sendEmail: sendEmail,
+  logout: logout,
+  generateEmailConfirmationToken: generateEmailConfirmationToken,
+  confirmEmail: confirmEmail,
+  verifyProfile: verifyProfile,
+  getUserAttributes: getUserAttributes,
 }
 
 export default supabaseApi

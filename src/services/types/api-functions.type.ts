@@ -9,6 +9,8 @@ import { Campaign } from '@/types/campaign.type'
 import { Card } from '@/types/card.type'
 import { PersonCode } from '@/types/personCode.type'
 import { WhastappTemplates } from '@/types/whatsapp-templates'
+import { ConfirmEmailResponse } from '../providers/supabase/api-functions/business/confirmEmail'
+import { UserAttributes } from '@/types/userAttributes.type'
 
 export type ApiFunctions = {
   signInWithPassword: (
@@ -29,7 +31,11 @@ export type ApiFunctions = {
   ) => Promise<Response<Stamp[]>>
   getProfile: (userId: string) => Promise<Response<Profile>>
   checkUserExists: (phone: string) => Promise<Response<User>>
-  signUp: (phone: string) => Promise<Response<User>>
+  signUp: (
+    phone: string,
+    email?: string | null,
+    password?: string | null
+  ) => Promise<Response<User>>
   getMyActiveCampaigns: (businessId: string) => Promise<Response<Campaign[]>>
   findOrCreatePerson: (phone: string) => Promise<Response<Person>>
   findOrCreateCard: (
@@ -57,7 +63,8 @@ export type ApiFunctions = {
   ) => Promise<Response<Business[]>>
   createProfile: (
     userId: string,
-    personId: string
+    personId: string | null,
+    role: Profile['role']
   ) => Promise<Response<Profile>>
   getPersonByUserId: (userId: string) => Promise<Response<Person>>
   getPersonById: (id: string) => Promise<Response<Person>>
@@ -71,4 +78,12 @@ export type ApiFunctions = {
   getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
   generateCodeLogin: (personId: string) => Promise<Response<PersonCode>>
   generateLoginToken: (personId: string) => Promise<Response<string>>
+  sendEmail: (to: string, html: string) => Promise<Response<boolean>>
+  logout: () => Promise<Response<boolean>>
+  generateEmailConfirmationToken: (userId: string) => Promise<Response<string>>
+  confirmEmail: (
+    token: string
+  ) => Promise<Response<ConfirmEmailResponse | null>>
+  verifyProfile: (userId: string) => Promise<Response<boolean>>
+  getUserAttributes: (userId: string) => Promise<Response<UserAttributes>>
 }

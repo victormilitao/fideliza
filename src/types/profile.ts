@@ -6,4 +6,5 @@ export type Profile = {
   role?: typeof BUSINESS_OWNER | typeof CUSTOMER
   user_id?: string
   person_id?: string
+  verified?: string
 }

@@ -1,12 +1,19 @@
 import { Response } from '@/services/types/api.type'
 import supabase from '../config'
 import { User } from '@/types/user.type'
+import { ApiFunctions } from '@/services/types/api-functions.type'
 
-export const signUp = async (phone: string): Promise<Response<User>> => {
+export const signUp: ApiFunctions['signUp'] = async (
+  phone: string,
+  email?: string | null,
+  password?: string | null
+): Promise<Response<User>> => {
   try {
+    const newEmail = email || `${phone}@fideliza.com`
+    const newPassword = password || 'password'
     const { data, error } = await supabase.auth.signUp({
-      email: `${phone}@fideliza.com`,
-      password: 'password',
+      email: newEmail,
+      password: newPassword,
     })
 
     if (error || !data?.user) {

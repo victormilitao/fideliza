@@ -1,5 +1,6 @@
 import { Button } from '@/components/button/button'
 import { Input } from '@/components/input'
+import { useBusiness } from '@/hooks/useBusiness'
 import { Header } from '@/pages/header'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
@@ -7,13 +8,16 @@ import z from 'zod'
 
 const schema = z.object({
   email: z.string().email('Email inválido'), //.nonempty('Email é obrigatório'),
-  password: z.string().min(6, 'Senha deve possuir no mínimo 6 caracteres').nonempty('Senha é obrigatória'),
+  password: z
+    .string()
+    .min(6, 'Senha deve possuir no mínimo 6 caracteres')
+    .nonempty('Senha é obrigatória'),
 })
 
 type CreateBusinessSchema = z.infer<typeof schema>
 
 export const CreateUser: React.FC = () => {
-  // const { createBusiness, loading } = useBusiness()
+  const { createUser, loading } = useBusiness()
   const {
     handleSubmit,
     formState: { errors },
@@ -22,8 +26,9 @@ export const CreateUser: React.FC = () => {
     resolver: zodResolver(schema),
   })
 
-  const handleCreateUser = (data: CreateBusinessSchema) => {
-    console.dir(data)
+  const handleCreateUser = async (data: CreateBusinessSchema) => {
+    const { email, password } = data
+    createUser({ email, password })
   }
 
   return (
@@ -41,7 +46,10 @@ export const CreateUser: React.FC = () => {
             onSubmit={handleSubmit(handleCreateUser)}
             className='flex flex-col gap-2'
           >
-            <p className='mb-'>Qual <span className='text-primary-600 font-bold'>e-mail</span> você quer usar para acessar o Fideliza?</p>
+            <p className='mb-'>
+              Qual <span className='text-primary-600 font-bold'>e-mail</span>{' '}
+              você quer usar para acessar o Fideliza?
+            </p>
             <Controller
               name='email'
               control={control}
@@ -69,7 +77,7 @@ export const CreateUser: React.FC = () => {
               )}
             />
 
-            <Button className='w-full' type='submit' loading={false}>
+            <Button className='w-full' type='submit' loading={loading}>
               Avançar
             </Button>
           </form>

@@ -5,6 +5,8 @@ import { User } from '@/types/user.type'
 import { useMutation } from '@tanstack/react-query'
 import { useEmailToken } from './business/useEmailToken'
 import { useNavigate } from 'react-router-dom'
+import { Business } from '@/types/business.type'
+import { useToast } from './useToast'
 
 type CreateUser = {
   email: string
@@ -14,6 +16,7 @@ type CreateUser = {
 export const useBusiness = () => {
   const { generateEmailConfirmationToken } = useEmailToken()
   const navigate = useNavigate()
+  const { error: toastError, success } = useToast()
 
   const { mutate: createUser, isPending: loading } = useMutation<
     Response<User>,
@@ -53,8 +56,27 @@ export const useBusiness = () => {
     },
     onError: (error: Error) => {
       console.error('Erro ao criar usuário:', error)
-    }
+    },
   })
 
-  return { createUser, loading }
+  const { mutate: createBusiness, isPending: createBusinessloading } =
+    useMutation<Response<Business>, Error, Business>({
+      mutationFn: async (business: Business) => {
+        const { data: newBusiness, error } = await api.createBusiness(business)
+
+        if (error) throw error
+
+        return { data: newBusiness, error: null }
+      },
+      onSuccess: () => {
+        success('Estabelecimento criado.')
+        navigate('/estabelecimento/criar-campanha')
+      },
+      onError: (error: Error) => {
+        console.error('createBusiness error:', error)
+        error.message && toastError(error.message)
+      },
+    })
+
+  return { createUser, loading, createBusiness, createBusinessloading }
 }

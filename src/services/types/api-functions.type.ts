@@ -86,4 +86,5 @@ export type ApiFunctions = {
   ) => Promise<Response<ConfirmEmailResponse | null>>
   verifyProfile: (userId: string) => Promise<Response<boolean>>
   getUserAttributes: (userId: string) => Promise<Response<UserAttributes>>
+  createBusiness: (business: Business) => Promise<Response<Business>>
 }

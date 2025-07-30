@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form'
 import z from 'zod'
 
 const schema = z.object({
-  email: z.string().email('Email inválido'), //.nonempty('Email é obrigatório'),
+  email: z.string().email('Email inválido'),
   password: z
     .string()
     .min(6, 'Senha deve possuir no mínimo 6 caracteres')

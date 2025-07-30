@@ -1,16 +1,18 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Reward } from './reward'
-import { useLogout } from '@/hooks/useLogout'
 import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUserByPhone } from '@/hooks/useUserByPhone'
 import { useCompletedCard } from '@/hooks/useCompletedCard'
+import { useMyBusiness } from '@/hooks/useMyBusiness'
+import { Header } from './header'
+import { useMyActiveCampaigns } from '@/hooks/useMyActiveCampaigns'
 
 const schema = z.object({
   phone: z.string().nonempty('Campo obrigatório'),
@@ -19,12 +21,16 @@ type FormSchema = z.infer<typeof schema>
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
-  const { logout } = useLogout()
   const { sendStamp, loading: sendStampLoading } = useSendStampByPhone()
   const { getUserByPhone } = useUserByPhone()
   const [cardId, setCardId] = useState<string>('')
   const { findCompletedCard } = useCompletedCard()
   const navigate = useNavigate()
+  const { business, isLoading: businessLoading } = useMyBusiness()
+  const { campaigns, isLoading: myCampaignsLoading } = useMyActiveCampaigns(
+    business?.id || ''
+  )
+
   const {
     handleSubmit,
     control,
@@ -55,21 +61,21 @@ export const Home = () => {
     reset()
   }
 
-  const handleLogout = () => {
-    logout()
-  }
+  useEffect(() => {
+    if (!businessLoading && !business) {
+      navigate('/estabelecimento/criar-estabelecimento')
+    }
+  }, [businessLoading, business])
+
+  useEffect(() => {
+    if (!myCampaignsLoading && !campaigns) {
+      navigate('/estabelecimento/criar-campanha')
+    }
+  }, [myCampaignsLoading, campaigns])
 
   return (
     <>
-      <div className='p-4 absolute w-full flex justify-end'>
-        <div className='right-0'>
-          <Link to={'/estabelecimento/login'}>
-            <Button variant='link' onClick={handleLogout}>
-              Sair
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <Header />
       <div className='flex flex-col items-center justify-center h-screen'>
         <div className='flex flex-col gap-3 w-3xs'>
           <Controller

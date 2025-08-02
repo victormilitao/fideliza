@@ -34,7 +34,7 @@ export const useAuth = () => {
         if (personCode?.login) {
           const message = 'Seu código de acesso é: ' + personCode?.login
           const loginCustomer: LoginCustomer = {
-            code: personCode.login,
+            1: personCode.login,
             message,
           }
           api.sendWhatsapp(phone, LoginCustomerSid, loginCustomer)

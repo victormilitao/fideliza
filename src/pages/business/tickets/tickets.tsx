@@ -20,7 +20,7 @@ export const Tickets = () => {
     (business) => business.id === myBusiness?.id
   )
   const { stamps_required, cards } = business?.campaign || {}
-  const maskedPhone = applyMask(person.phone || '', 'phone')
+  const maskedPhone = applyMask(person?.phone || '', 'phone')
 
   const stampsRequired =
     stamps_required || myCampaigns?.[0].stamps_required || 0

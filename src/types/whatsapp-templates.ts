@@ -6,7 +6,7 @@ export type LoginCustomer = {
   message: string
 }
 
-export const FirstStampSid = 'HXc0cc83eaf5ad0a84cb200acbbb31b973'
+export const FirstStampSid = 'HX35f723402c9f764f51d519923ad7473f'
 export type FirstStamp = {
   businessName: string
   stampsRequired: string

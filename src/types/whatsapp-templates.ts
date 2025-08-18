@@ -6,15 +6,14 @@ export type LoginCustomer = {
   message: string
 }
 
-export const FirstStampSid = 'HX35f723402c9f764f51d519923ad7473f'
+export const FirstStampSid = 'HXd66bc68d2f8102519cce22d0736b83ea'
 export type FirstStamp = {
   businessName: string
-  stampsRequired: string
   link: string
   message: string
 }
 
-export const CountStampsSid = 'HX7b54ceeb8e5f44385f0438e585c03298'
+export const CountStampsSid = 'HX29efbd48c0f56c0c27986d8af21f0242'
 export type CountStamps = {
   businessName: string
   stampsRequired: string
@@ -23,7 +22,7 @@ export type CountStamps = {
   message: string
 }
 
-export const StampsCompletedSid = 'HX96f26f4d5e17816e39e1e4efe8ef90c0'
+export const StampsCompletedSid = 'HXfa7fb09b4ed318021bf63e19cf4efa89'
 export type StampsCompleted = {
   businessName: string
   stampsRequired: string

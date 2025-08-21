@@ -23,10 +23,10 @@ export const CampaignRules = ({ campaign }: CampaignRulesProps) => {
         Acessar as regras deste local
       </span>
       <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
-        <div className='w-sm mx-auto text-left flex flex-col gap-5 p-2'>
+        <div className='max-w-sm sm:max-w-md mx-auto text-left flex flex-col gap-5 p-2'>
           <p className='text-sm'>
             <span className='font-bold'>Regra: </span>
-            {campaign.rule}
+            <span dangerouslySetInnerHTML={{__html: campaign?.rule || ''}} />
           </p>
           <p className='text-sm'>
             <span className='font-bold'>Prêmio: </span>

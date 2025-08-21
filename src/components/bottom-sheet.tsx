@@ -19,7 +19,7 @@ export const BottomSheet = ({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side='bottom' className='p-5'>
-        <SheetHeader className='text-center'>
+        <SheetHeader className='text-center hidden'>
           <VisuallyHidden>
             <SheetTitle />
           </VisuallyHidden>

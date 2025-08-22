@@ -54,9 +54,10 @@ export const Home = () => {
   }
 
   const handleGoToTickets = async (data: FormSchema) => {
-    const { data: person } = await getUserByPhone(data.phone)
+    const phone = data.phone.replace(/\D/g, '')
+    const { data: person } = await getUserByPhone(phone)
     navigate('/estabelecimento/tickets', {
-      state: { params: { person: person } },
+      state: { params: { person: person || { phone } } },
     })
     reset()
   }

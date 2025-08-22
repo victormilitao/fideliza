@@ -1,12 +1,11 @@
 /// <reference types="vitest" />
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { useCompletedCard } from '../useCompletedCard'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import api from '@/services/api'
 import { Card } from '@/types/card.type'
 import { Person } from '@/types/person.type'
-import { Campaign } from '@/types/campaign.type'
 import { act } from 'react'
 
 const createWrapper = () => {
@@ -56,8 +55,7 @@ describe('useCompletedCard', () => {
     const mockCard: Card = {
       id: 'card-1',
       person_id: 'person-1',
-      campaign_id: 'campaign-1',
-      completed: true,
+      stamps: [],
     }
 
     vi.mocked(api.getPersonByPhone).mockResolvedValue({
@@ -152,8 +150,7 @@ describe('useCompletedCard', () => {
     const mockCard: Card = {
       id: 'card-1',
       person_id: 'person-1',
-      campaign_id: 'campaign-1',
-      completed: true,
+      stamps: [],
     }
 
     vi.mocked(api.getPersonByPhone).mockResolvedValue({

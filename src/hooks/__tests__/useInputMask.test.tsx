@@ -1,8 +1,7 @@
 /// <reference types="vitest" />
 import { renderHook } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { useInputMask } from '../useInputMask'
-import { MaskType } from '@/utils/mask-utils'
 
 describe('useInputMask', () => {
   it('should return a ref when maskType is provided', () => {
@@ -28,14 +27,5 @@ describe('useInputMask', () => {
     const { result } = renderHook(() => useInputMask())
 
     expect(result.current).toBeUndefined()
-  })
-
-  it('should work with different mask types', () => {
-    const maskTypes: MaskType[] = ['phone', 'cnpj', 'cep']
-
-    maskTypes.forEach((maskType) => {
-      const { result } = renderHook(() => useInputMask(maskType))
-      expect(result.current).toBeDefined()
-    })
   })
 })

@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { useReward } from '../useReward'
 import api from '@/services/api'

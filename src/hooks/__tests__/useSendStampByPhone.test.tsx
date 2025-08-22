@@ -63,6 +63,25 @@ describe('useSendStampByPhone', () => {
     })
   })
 
+  it('should call onSuccess callback when stamp is sent successfully', async () => {
+    mockAddStamp.mockResolvedValue(undefined)
+    const onSuccessMock = vi.fn()
+
+    const { result } = renderHook(() => useSendStampByPhone(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      await result.current.sendStamp('123456789', onSuccessMock)
+    })
+
+    await waitFor(() => {
+      expect(mockAddStamp).toHaveBeenCalledWith({ personId: person.id })
+      expect(mockToast.success).toHaveBeenCalledWith('Selo enviado.')
+      expect(onSuccessMock).toHaveBeenCalled()
+    })
+  })
+
   it('should handle errors when person not exists', async () => {
     const mockApiResponse = { data: null, error: new Error() }
     vi.mocked(api.findOrCreatePerson).mockResolvedValue(mockApiResponse)

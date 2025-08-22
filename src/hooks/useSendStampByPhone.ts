@@ -9,7 +9,7 @@ export const useSendStampByPhone = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const sendStamp = useCallback(
-    async (phone: string) => {
+    async (phone: string, onSuccess?: () => void) => {
       setLoading(true)
       const sanitizedPhone = phone.replace(/\D/g, '')
 
@@ -21,6 +21,7 @@ export const useSendStampByPhone = () => {
         }
         await addStamp({ personId: person.id })
         success('Selo enviado.')
+        onSuccess?.()
       } catch (err) {
         console.error('add stamp error:', err)
       } finally {

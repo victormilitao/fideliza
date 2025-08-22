@@ -43,8 +43,7 @@ export const Home = () => {
   }
 
   const handleSendSticker = (data: FormSchema) => {
-    sendStamp(data.phone)
-    reset()
+    sendStamp(data.phone, () => reset())
   }
 
   const handleGoToTickets = async (data: FormSchema) => {

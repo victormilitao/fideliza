@@ -30,7 +30,6 @@ import { generateCodeLogin } from './api-functions/customer/generateCodeLogin'
 import { generateLoginToken } from './api-functions/generateLoginToken'
 import { getPersonByToken } from './api-functions/customer/getPersonByToken'
 import { getPersonByPhoneWithProfile } from './api-functions/getPersonByPhoneWithProfile'
-import { createCampaign } from './api-functions/business/createCampaign'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -64,7 +63,6 @@ const supabaseApi: ApiFunctions = {
   generateCodeLogin: generateCodeLogin,
   generateLoginToken: generateLoginToken,
   getPersonByToken: getPersonByToken,
-  createCampaign: createCampaign,
 }
 
 export default supabaseApi

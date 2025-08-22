@@ -11,7 +11,7 @@ export type Business = {
   state?: string
   city?: string
   neighborhood?: string
-  street?: string
+  address?: string
   streetNumber?: string
   complement?: string
   cards?: Card[]

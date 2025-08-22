@@ -68,7 +68,7 @@ export const Home = () => {
   }, [businessLoading, business])
 
   useEffect(() => {
-    if (!myCampaignsLoading && !campaigns) {
+    if (!myCampaignsLoading && business && !campaigns) {
       navigate('/estabelecimento/criar-campanha')
     }
   }, [myCampaignsLoading, campaigns])

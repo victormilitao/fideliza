@@ -134,14 +134,14 @@ export const CreateBusiness: React.FC = () => {
             />
 
             <Controller
-              name='street'
+              name='address'
               control={control}
               render={({ field }) => (
                 <Input
                   label='Endereço'
                   className='mb-5'
                   {...field}
-                  error={errors.street?.message}
+                  error={errors.address?.message}
                 />
               )}
             />

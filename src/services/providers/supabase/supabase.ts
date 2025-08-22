@@ -37,6 +37,7 @@ import { confirmEmail } from './api-functions/business/confirmEmail'
 import { verifyProfile } from './api-functions/verifyProfile'
 import { getUserAttributes } from './api-functions/getUserAttributes'
 import { createBusiness } from './api-functions/business/createBusiness'
+import { createCampaign } from './api-functions/business/createCampaign'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -77,6 +78,7 @@ const supabaseApi: ApiFunctions = {
   verifyProfile: verifyProfile,
   getUserAttributes: getUserAttributes,
   createBusiness: createBusiness,
+  createCampaign: createCampaign,
 }
 
 export default supabaseApi

@@ -87,4 +87,5 @@ export type ApiFunctions = {
   verifyProfile: (userId: string) => Promise<Response<boolean>>
   getUserAttributes: (userId: string) => Promise<Response<UserAttributes>>
   createBusiness: (business: Business) => Promise<Response<Business>>
+  createCampaign: (campaign: Omit<Campaign, 'id' | 'created_at' | 'business' | 'cards' | 'card'>) => Promise<Response<Campaign>>
 }

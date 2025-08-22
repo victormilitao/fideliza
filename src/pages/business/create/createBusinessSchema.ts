@@ -21,7 +21,7 @@ export const createBusinessSchema = z.object({
   state: z.string(),
   city: z.string(),
   neighborhood: z.string(),
-  street: z.string(),
+  address: z.string(),
   street_number: z.string(),
   complement: z.string().optional(),
   phone: z

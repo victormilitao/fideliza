@@ -2,13 +2,15 @@ import { Button } from '@/components/button/button'
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
 import { Header } from '@/pages/header'
+import { BottomSheet } from '@/components/bottom-sheet'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import z from 'zod'
 import { createCampaignSchema } from './createCampaignSchema'
 import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { useCampaign } from '@/hooks/useCampaign'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 type CampaignFormSchema = z.infer<typeof createCampaignSchema>
 
@@ -16,6 +18,7 @@ export const CreateCampaign: React.FC = () => {
   const { business } = useMyBusiness()
   const { createCampaign, createCampaignLoading } = useCampaign()
   const navigate = useNavigate()
+  const [showInstructions, setShowInstructions] = useState(false)
 
   const {
     handleSubmit,
@@ -37,7 +40,12 @@ export const CreateCampaign: React.FC = () => {
 
     data = { ...data, business_id: business.id }
     await createCampaign(data)
-    navigate('/business/tickets')
+    setShowInstructions(true)
+  }
+
+  const handleStart = () => {
+    setShowInstructions(false)
+    navigate('/estabelecimento')
   }
 
   const handleCreateCampaignError = (error: any) => {
@@ -133,14 +141,65 @@ export const CreateCampaign: React.FC = () => {
             >
               Criar
             </Button>
-            <Link to={'/criar-estabelecimento'}>
-              <Button variant='secondary' className='w-full'>
-                Voltar
-              </Button>
-            </Link>
           </form>
         </div>
+              </div>
+        <BottomSheet open={showInstructions} onOpenChange={setShowInstructions}>
+          <div className='flex flex-col gap-6'>
+            <div className='text-center'>
+              <h2 className='text-2xl font-bold text-primary-600 mb-2'>
+                Muito bom!
+              </h2>
+              <p className='text-primary-600 text-lg'>
+                Seu programa de fidelidade está pronto.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className='font-bold text-primary-600 mb-4'>
+                Entenda como funciona:
+              </h3>
+              <div className='space-y-3'>
+                <div className='flex gap-3'>
+                  <span className='flex-shrink-0 w-6 h-6 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold'>
+                    1
+                  </span>
+                  <p className='text-primary-600 text-sm'>
+                    Informe o número de celular do seu cliente para enviar um selo.
+                  </p>
+                </div>
+                <div className='flex gap-3'>
+                  <span className='flex-shrink-0 w-6 h-6 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold'>
+                    2
+                  </span>
+                  <p className='text-primary-600 text-sm'>
+                    O cliente receberá um SMS com o selo e um link para acompanhar o progresso dele.
+                  </p>
+                </div>
+                <div className='flex gap-3'>
+                  <span className='flex-shrink-0 w-6 h-6 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold'>
+                    3
+                  </span>
+                  <p className='text-primary-600 text-sm'>
+                    Ao atingir a quantidade de selos necessária para ser premiado, o cliente receberá um SMS com um código de premiação.
+                  </p>
+                </div>
+                <div className='flex gap-3'>
+                  <span className='flex-shrink-0 w-6 h-6 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold'>
+                    4
+                  </span>
+                  <p className='text-primary-600 text-sm'>
+                    No momento do resgate do prêmio, o cliente deve informar o código de premiação. Acesse a função "Premiar", insira o código, e os selos serão zerados para que ele possa começar um novo ciclo.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <Button onClick={handleStart} className='w-full'>
+              Começar
+            </Button>
+          </div>
+        </BottomSheet>
       </div>
-    </div>
   )
 }

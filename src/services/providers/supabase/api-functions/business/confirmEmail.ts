@@ -2,7 +2,6 @@ import { Response } from '@/services/types/api.type'
 import supabase from '../../config'
 import api from '@/services/api'
 import { ApiFunctions } from '@/services/types/api-functions.type'
-import { generateUuid } from '@/utils/uuid'
 
 export type ConfirmEmailResponse = {
   tokenValid: boolean

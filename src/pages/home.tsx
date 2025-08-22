@@ -68,15 +68,15 @@ export const Home = () => {
   }, [businessLoading, business])
 
   useEffect(() => {
-    if (!myCampaignsLoading && business && !campaigns) {
+    if (!myCampaignsLoading && business && (!campaigns || campaigns.length === 0)) {
       navigate('/estabelecimento/criar-campanha')
     }
   }, [myCampaignsLoading, campaigns])
 
   return (
-    <>
+    <div className='min-h-screen flex flex-col'>
       <Header />
-      <div className='flex flex-col items-center justify-center h-screen'>
+      <div className='flex flex-1 flex-col items-center justify-center'>
         <div className='flex flex-col gap-3 w-3xs'>
           <Controller
             name='phone'
@@ -115,6 +115,6 @@ export const Home = () => {
           </BottomSheet>
         </div>
       </div>
-    </>
+    </div>
   )
 }

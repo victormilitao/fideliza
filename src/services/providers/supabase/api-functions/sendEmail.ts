@@ -1,10 +1,13 @@
 import { ApiFunctions } from '@/services/types/api-functions.type'
 import supabase from '../config'
 
-export const sendEmail: ApiFunctions['sendEmail'] = async (to: string, html: string) => {
+export const sendEmail: ApiFunctions['sendEmail'] = async (
+  to: string,
+  html: string
+) => {
   try {
     const { error } = await supabase.functions.invoke('send-email', {
-      body: { to: 'victormilitao@gmail.com', html },
+      body: { to, html },
     })
 
     if (error) {

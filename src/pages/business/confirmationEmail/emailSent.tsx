@@ -1,6 +1,5 @@
 import { Button } from '@/components/button/button'
 import Icon from '@/components/icon'
-import { useUserAttributes } from '@/hooks/user/useUserAttributes'
 import { Header } from '@/pages/header'
 import { Link, useParams } from 'react-router-dom'
 

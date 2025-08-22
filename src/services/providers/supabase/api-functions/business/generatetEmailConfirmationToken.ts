@@ -41,10 +41,7 @@ export const generateEmailConfirmationToken = async (
     }
 
     const link = `${window.location.origin}/estabelecimento/confirm-email/${emailToken.token}`
-    const { error } = await api.sendEmail(
-      data?.email,
-      `<p>Bem-vindo ao Eloop! Confirme o email pelo link: ${link}</p>`
-    )
+    const { error } = await api.sendEmailConfirmation(data?.email, link)
 
     if (error) {
       console.error('Erro ao enviar email:', error)

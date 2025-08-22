@@ -38,6 +38,7 @@ import { verifyProfile } from './api-functions/verifyProfile'
 import { getUserAttributes } from './api-functions/getUserAttributes'
 import { createBusiness } from './api-functions/business/createBusiness'
 import { createCampaign } from './api-functions/business/createCampaign'
+import { sendEmailConfirmation, sendTestEmail } from '@/services/email/emailjs'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -79,6 +80,8 @@ const supabaseApi: ApiFunctions = {
   getUserAttributes: getUserAttributes,
   createBusiness: createBusiness,
   createCampaign: createCampaign,
+  sendEmailConfirmation: sendEmailConfirmation,
+  sendTestEmail: sendTestEmail,
 }
 
 export default supabaseApi

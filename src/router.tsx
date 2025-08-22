@@ -14,6 +14,7 @@ import { ConfirmEmail } from './pages/business/confirmationEmail/confirmEmail'
 import { EmailSent } from './pages/business/confirmationEmail/emailSent'
 import { CreateBusiness } from './pages/business/create/createBusiness'
 import { CreateCampaign } from './pages/business/create/createCampaign'
+import { TestEmail } from './pages/test-email'
 
 const CustomerRoute = () => {
   const { isLoggedIn, profile } = useAuthStore()
@@ -75,6 +76,9 @@ export const Router = () => {
       <Route path='login' element={<Login />} />
 
       <Route path='/estabelecimento/criar' element={<CreateUser />} />
+      
+      {/* Rota de teste de email */}
+      <Route path='/test-email' element={<TestEmail />} />
 
       <Route path='/usuario/login' element={<LoginCustomer />} />
       <Route path='/usuario/login/token/:token' element={<LoginByToken />} />

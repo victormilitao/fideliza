@@ -71,4 +71,5 @@ export type ApiFunctions = {
   getStampStructure: (stamp: Stamp) => Promise<Response<Business>>
   generateCodeLogin: (personId: string) => Promise<Response<PersonCode>>
   generateLoginToken: (personId: string) => Promise<Response<string>>
+  getCampaignCards: (campaignId: string) => Promise<Response<Card[]>>
 }

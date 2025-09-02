@@ -23,6 +23,7 @@ vi.mock('@/services/api', () => ({
   default: {
     getUserByPhone: vi.fn(),
     getPersonByPhone: vi.fn(),
+    getPersonByPhoneWithProfile: vi.fn(),
   },
 }))
 
@@ -35,7 +36,7 @@ describe('useUserByPhone', () => {
   })
 
   it('should return user data when phone is valid', async () => {
-    vi.mocked(api.getPersonByPhone).mockResolvedValue({
+    vi.mocked(api.getPersonByPhoneWithProfile).mockResolvedValue({
       data: { id: '1' },
       error: null,
     })

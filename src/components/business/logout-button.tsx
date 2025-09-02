@@ -3,10 +3,9 @@ import { useLogout } from '@/hooks/useLogout'
 
 interface LogoutButtonProps {
   className?: string
-  variant?: 'default' | 'secondary' | 'outline' | 'ghost'
 }
 
-export const LogoutButton = ({ className, variant = 'secondary' }: LogoutButtonProps) => {
+export const LogoutButton = ({ className }: LogoutButtonProps) => {
   const { logout } = useLogout()
 
   const handleLogout = () => {
@@ -14,13 +13,8 @@ export const LogoutButton = ({ className, variant = 'secondary' }: LogoutButtonP
   }
 
   return (
-    <Button 
-      variant={variant} 
-      onClick={handleLogout}
-      className={className}
-    >
+    <Button variant='link' onClick={handleLogout} className={className}>
       Sair
     </Button>
   )
 }
-

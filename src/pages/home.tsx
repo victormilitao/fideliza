@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'

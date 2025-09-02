@@ -22,7 +22,6 @@ vi.mock('@/hooks/useToast', () => ({
 vi.mock('@/services/api', () => ({
   default: {
     getUserByPhone: vi.fn(),
-    getPersonByPhone: vi.fn(),
     getPersonByPhoneWithProfile: vi.fn(),
   },
 }))

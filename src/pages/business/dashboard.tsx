@@ -29,9 +29,9 @@ export const Dashboard = () => {
       <Header />
       <TabNavigation tabs={tabs} />
       
-      <div className='flex flex-1 justify-center'>
-        <div className='w-full max-w-6xl px-6 py-8'>
-          <h1 className='font-bold text-primary-600 mb-8'>
+      <div className='flex flex-1'>
+        <div className='w-full max-w-6xl px-6 py-8 sm:px-10 sm:py-8'>
+          <h1 className='font-bold text-neutral-700 mb-8'>
             Quantidade de clientes por selos acumulados
           </h1>
           
@@ -48,7 +48,7 @@ export const Dashboard = () => {
           )}
           
           {statsData && statsData.length > 0 && (
-            <div className='grid grid-cols-3 sm:grid-cols-5 gap-6'>
+            <div className='flex gap-4'>
               {statsData.map((stat, index) => (
                 <StatsCard
                   key={index}

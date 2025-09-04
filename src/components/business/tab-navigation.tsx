@@ -13,8 +13,8 @@ export const TabNavigation = ({ tabs }: TabNavigationProps) => {
 
   return (
     <div className='border-b border-gray-200 bg-white'>
-      <div className='max-w-6xl mx-auto px-6'>
-        <nav className='flex space-x-8'>
+      <div className='px-6 sm:px-10'>
+        <nav className='flex gap-8'>
           {tabs.map((tab) => {
             const isActive = location.pathname === tab.href
             return (
@@ -22,10 +22,10 @@ export const TabNavigation = ({ tabs }: TabNavigationProps) => {
                 key={tab.href}
                 to={tab.href}
                 className={cn(
-                  'py-4 px-1 border-b-2 font-medium text-sm transition-colors',
+                  'pb-1 border-b-2 font-medium text-sm transition-colors',
                   isActive
                     ? 'border-primary-600 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-neutral-700'
                 )}
               >
                 {tab.label}

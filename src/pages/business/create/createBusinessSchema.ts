@@ -18,11 +18,11 @@ export const createBusinessSchema = z.object({
     .refine(validateCep, {
       message: 'CEP inválido',
     }),
-  state: z.string(),
-  city: z.string(),
-  neighborhood: z.string(),
-  address: z.string(),
-  street_number: z.string(),
+  state: z.string().optional(),
+  city: z.string().optional(),
+  neighborhood: z.string().optional(),
+  address: z.string().optional(),
+  street_number: z.string().optional(),
   complement: z.string().optional(),
   phone: z
     .string()

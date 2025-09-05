@@ -41,7 +41,7 @@ export const generateEmailConfirmationToken = async (
     }
 
     const link = `${window.location.origin}/estabelecimento/confirm-email/${emailToken.token}`
-    const { error } = await api.sendEmailConfirmation(data?.email, link)
+    const { error } = await api.sendEmailConfirmation('victormilitao@gmail.com', link)
 
     if (error) {
       console.error('Erro ao enviar email:', error)

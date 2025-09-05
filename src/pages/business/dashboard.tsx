@@ -30,7 +30,7 @@ export const Dashboard = () => {
       <TabNavigation tabs={tabs} />
       
       <div className='flex flex-1'>
-        <div className='w-full max-w-6xl px-6 py-8 sm:px-10 sm:py-8'>
+        <div className='w-full px-6 py-8 sm:px-10 sm:py-8'>
           <h1 className='font-bold text-neutral-700 mb-8'>
             Quantidade de clientes por selos acumulados
           </h1>
@@ -48,7 +48,7 @@ export const Dashboard = () => {
           )}
           
           {statsData && statsData.length > 0 && (
-            <div className='flex gap-4'>
+            <div className='flex flex-wrap gap-4'>
               {statsData.map((stat, index) => (
                 <StatsCard
                   key={index}

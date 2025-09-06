@@ -18,7 +18,7 @@ export const signUp: ApiFunctions['signUp'] = async (
 
     if (error || !data?.user) {
       console.error('Erro no signUp:', error)
-      return { data: null, error }
+      return { data: null, error: new Error(error?.code) }
     }
 
     return { data: data.user, error: error || null }

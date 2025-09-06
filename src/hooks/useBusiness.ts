@@ -7,6 +7,7 @@ import { useEmailToken } from './business/useEmailToken'
 import { useNavigate } from 'react-router-dom'
 import { Business } from '@/types/business.type'
 import { useToast } from './useToast'
+import errorCode from '@/services/errorCode'
 
 type CreateUser = {
   email: string
@@ -15,8 +16,8 @@ type CreateUser = {
 
 export const useBusiness = () => {
   const { generateEmailConfirmationToken } = useEmailToken()
-  const navigate = useNavigate()
   const { error: toastError, success } = useToast()
+  const navigate = useNavigate()
 
   const { mutate: createUser, isPending: loading } = useMutation<
     Response<User>,
@@ -29,7 +30,9 @@ export const useBusiness = () => {
         credentials.email,
         credentials.password
       )
+
       if (signUpError || !user?.id) {
+        checkUserAlreadyExists(signUpError)
         console.error('Erro no signUp:', signUpError)
         return { data: null, error: signUpError }
       }
@@ -59,24 +62,35 @@ export const useBusiness = () => {
     },
   })
 
-  const { mutate: createBusiness, isPending: createBusinessloading } =
-    useMutation<Response<Business>, Error, Business>({
-      mutationFn: async (business: Business) => {
-        const { data: newBusiness, error } = await api.createBusiness(business)
+  const {
+    mutate: createBusiness,
+    isPending: createBusinessloading,
+  } = useMutation<Response<Business>, Error, Business>({
+    mutationFn: async (business: Business) => {
+      const { data: newBusiness, error } = await api.createBusiness(business)
 
-        if (error) throw error
+      if (error) throw error
 
-        return { data: newBusiness, error: null }
-      },
-      onSuccess: () => {
-        success('Estabelecimento criado.')
-        navigate('/estabelecimento/criar-campanha')
-      },
-      onError: (error: Error) => {
-        console.error('createBusiness error:', error)
-        error.message && toastError(error.message)
-      },
-    })
+      return { data: newBusiness, error: null }
+    },
+    onSuccess: () => {
+      success('Estabelecimento criado.')
+      navigate('/estabelecimento/criar-campanha')
+    },
+    onError: (error: Error) => {
+      console.error('createBusiness error:', error)
+      error.message && toastError(error.message)
+    },
+  })
+
+  const checkUserAlreadyExists = (error: Error | null) => {
+    if (error?.message === errorCode.user_already_exists) {
+      const message = 'Usuário já existente'
+      toastError(message)
+      throw new Error(message)
+    }
+    return false
+  }
 
   return { createUser, loading, createBusiness, createBusinessloading }
 }

@@ -5,7 +5,7 @@
   --color-backgrounbd: var(--color-neutral-100);
 
   --color-primary-100: #eef8ff;
-  --color-primary-200: #C8E3F8;
+  --color-primary-200: #c8e3f8;
   --color-primary-300: #94c5f1;
   --color-primary-400: #3067ac;
   --color-primary-500: #053275;
@@ -13,7 +13,7 @@
   --color-primary-700: #000e38;
 
   --color-neutral-100: #ffffff;
-  --color-neutral-200: #F9F9F9;
+  --color-neutral-200: #f9f9f9;
   --color-neutral-400: #cbcbcb;
   --color-neutral-500: #a7a7a7;
   --color-neutral-700: #161616;
@@ -23,7 +23,7 @@
   --color-error-400: #e05f5f;
   --color-error-600: #990606;
 
-  --color-whatsapp: #25D366;
+  --color-whatsapp: #25d366;
 }
 
 @font-face {
@@ -97,6 +97,8 @@
     .lucide-ticket-check path:nth-child(2) {
       stroke: var(--color-neutral-100);
     }
+  }
+  .shadow {
     .lucide-ticket-check {
       filter: drop-shadow(4px 4px 10px #00000040);
     }

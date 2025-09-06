@@ -1,10 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
+import { TabNavigation } from '@/components/business/tab-navigation'
+import { Header } from './landing/header'
 import { useState } from 'react'
 import { Reward } from './reward'
-import { useLogout } from '@/hooks/useLogout'
 import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
@@ -19,7 +20,6 @@ type FormSchema = z.infer<typeof schema>
 
 export const Home = () => {
   const [openSheet, setOpenSheet] = useState(false)
-  const { logout } = useLogout()
   const { sendStamp, loading: sendStampLoading } = useSendStampByPhone()
   const { getUserByPhone } = useUserByPhone()
   const [cardId, setCardId] = useState<string>('')
@@ -55,23 +55,19 @@ export const Home = () => {
     reset()
   }
 
-  const handleLogout = () => {
-    logout()
-  }
+  const tabs = [
+    { label: 'Enviar selos', href: '/estabelecimento' },
+    { label: 'Dados', href: '/estabelecimento/dashboard' },
+  ]
 
   return (
-    <>
-      <div className='p-4 absolute w-full flex justify-end'>
-        <div className='right-0'>
-          <Link to={'/estabelecimento/login'}>
-            <Button variant='link' onClick={handleLogout}>
-              Sair
-            </Button>
-          </Link>
-        </div>
-      </div>
-      <div className='flex flex-col items-center justify-center h-screen'>
-        <div className='flex flex-col gap-3 w-3xs'>
+    <div className='min-h-screen flex flex-col'>
+      <Header />
+      <TabNavigation tabs={tabs} />
+      
+      <div className='flex flex-1 justify-center'>
+        <div className='w-full sm:max-w-md flex flex-col sm:items-center sm:justify-center flex-1 py-8 sm:pt-0 px-6'>
+          <div className='flex flex-col gap-3 w-full max-w-sm'>
           <Controller
             name='phone'
             control={control}
@@ -107,8 +103,9 @@ export const Home = () => {
           <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
             <Reward cardId={cardId} closeSheet={() => setOpenSheet(false)} />
           </BottomSheet>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

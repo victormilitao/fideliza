@@ -33,8 +33,8 @@ export const CreateBusiness: React.FC = () => {
   return (
     <div className='flex flex-col min-h-screen'>
       <Header />
-      <div className='flex flex-1'>
-        <div className='flex flex-col sm:items-center sm:justify-center flex-1 py-8 sm:pt-0 px-6 min-w-64'>
+      <div className='flex flex-1 flex-col sm:items-center sm:justify-center sm:pt-0 py-8 px-6'>
+        <div className='min-w-64 max-w-xl'>
           <div className='mb-6'>
             <h2 className='text-primary-600 font-bold text-xl'>
               Estamos quase lá!
@@ -48,7 +48,7 @@ export const CreateBusiness: React.FC = () => {
               handleCreateBusiness,
               handleCreateBusinessError
             )}
-            className='flex flex-col gap-2'
+            className='flex flex-col gap-4'
           >
             <Controller
               name='name'
@@ -56,7 +56,6 @@ export const CreateBusiness: React.FC = () => {
               render={({ field }) => (
                 <Input
                   label='Nome do estabelecimento'
-                  className='mb-3'
                   placeholder='Exemplo: Eloop loja'
                   {...field}
                   error={errors.name?.message}
@@ -70,7 +69,6 @@ export const CreateBusiness: React.FC = () => {
               render={({ field }) => (
                 <Input
                   label='CNPJ'
-                  className='mb-5'
                   maskType='cnpj'
                   placeholder='00.000.000/0000-00'
                   {...field}
@@ -79,85 +77,94 @@ export const CreateBusiness: React.FC = () => {
               )}
             />
 
-            <Controller
-              name='cep'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label='CEP'
-                  className='mb-5'
-                  maskType='cep'
-                  placeholder='00000-000'
-                  {...field}
-                  error={errors.cep?.message}
+            <div className='flex flex-col sm:flex-row gap-4 sm:gap-3'>
+              <div className='flex-1 sm:flex-[1]'>
+                <Controller
+                  name='cep'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label='CEP'
+                      maskType='cep'
+                      placeholder='00000-000'
+                      {...field}
+                      error={errors.cep?.message}
+                    />
+                  )}
                 />
-              )}
-            />
+              </div>
+              <div className='flex-1 sm:flex-[1]'>
+                <Controller
+                  name='state'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label='Estado'
+                      {...field}
+                      error={errors.state?.message}
+                    />
+                  )}
+                />
+              </div>
+            </div>
 
-            <Controller
-              name='state'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label='Estado'
-                  className='mb-5'
-                  {...field}
-                  error={errors.state?.message}
+            <div className='flex flex-col sm:flex-row gap-2 sm:gap-3 mb-5'>
+              <div className='flex-1'>
+                <Controller
+                  name='city'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label='Cidade'
+                      {...field}
+                      error={errors.city?.message}
+                    />
+                  )}
                 />
-              )}
-            />
+              </div>
+              <div className='flex-1'>
+                <Controller
+                  name='neighborhood'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label='Bairro'
+                      {...field}
+                      error={errors.neighborhood?.message}
+                    />
+                  )}
+                />
+              </div>
+            </div>
 
-            <Controller
-              name='city'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label='Cidade'
-                  className='mb-5'
-                  {...field}
-                  error={errors.city?.message}
+            <div className='flex flex-col sm:flex-row gap-2 sm:gap-3 mb-5'>
+              <div className='flex-1 sm:flex-[2]'>
+                <Controller
+                  name='address'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label='Endereço'
+                      {...field}
+                      error={errors.address?.message}
+                    />
+                  )}
                 />
-              )}
-            />
-
-            <Controller
-              name='neighborhood'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label='Bairro'
-                  className='mb-5'
-                  {...field}
-                  error={errors.neighborhood?.message}
+              </div>
+              <div className='flex-1 sm:flex-[1]'>
+                <Controller
+                  name='street_number'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label='Número'
+                      {...field}
+                      error={errors.street_number?.message}
+                    />
+                  )}
                 />
-              )}
-            />
-
-            <Controller
-              name='address'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label='Endereço'
-                  className='mb-5'
-                  {...field}
-                  error={errors.address?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name='street_number'
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label='Número'
-                  className='mb-5'
-                  {...field}
-                  error={errors.street_number?.message}
-                />
-              )}
-            />
+              </div>
+            </div>
 
             <Controller
               name='complement'

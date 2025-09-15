@@ -10,7 +10,7 @@ export type EmailData = {
   to_email: string
   to_name?: string
   subject: string
-  message: string
+  message?: string
   html_content?: string
   confirmation_link?: string
   business_name?: string
@@ -77,8 +77,7 @@ export const sendEmailConfirmation = async (
 ): Promise<Response<boolean>> => {
   const emailData: EmailData = {
     to_email: to,
-    subject: 'Confirme seu email - Eloop',
-    message: `Bem-vindo ao Eloop! Confirme o email pelo link: ${confirmationLink}`,
+    subject: 'Confirmação de e-mail ',
     confirmation_link: confirmationLink
   }
 

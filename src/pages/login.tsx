@@ -72,7 +72,7 @@ export const Login: React.FC = () => {
           </Button>
         </form>
       </div>
-      <div className='mt-auto text-primary-600 font-bold text-sm'>
+      <div className='mt-auto text-primary-600 font-bold'>
         <Link to={'/estabelecimento/criar'}>Criar programa de fidelidade</Link>
       </div>
     </div>

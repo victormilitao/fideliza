@@ -34,10 +34,10 @@ export const CreateUser: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='flex flex-col sm:items-center justify-center min-h-full py-8 px-6 min-w-64 mx-auto'>
+      <div className='flex flex-col sm:items-cente justify-center min-h-full py-8 px-6 max-w-md mx-auto'>
         <div className='mb-10'>
           <h2 className='text-primary-600 font-bold text-xl'>Bem-vindo!</h2>
-          <p className='text-primary-600 font-bold'>
+          <p className='text-primary-600'>
             Vamos criar seu programa de fidelidade.
           </p>
         </div>
@@ -48,7 +48,7 @@ export const CreateUser: React.FC = () => {
           >
             <p className='mb-'>
               Qual <span className='text-primary-600 font-bold'>e-mail</span>{' '}
-              você quer usar para acessar o Fideliza?
+              você quer usar para acessar o Eloop?
             </p>
             <Controller
               name='email'

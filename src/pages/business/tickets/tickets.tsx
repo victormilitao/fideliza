@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
 import { useMyActiveCampaigns } from '@/hooks/useMyActiveCampaigns'
 import { CardsRow } from './cards-row'
+import { Header } from '@/pages/landing/header'
 
 export const Tickets = () => {
   const location = useLocation()
@@ -26,17 +27,20 @@ export const Tickets = () => {
     stamps_required || myCampaigns?.[0].stamps_required || 0
 
   return (
-    <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen overflow-x-hidden'>
-      <div className='w-[90%] flex flex-col items-center gap-2'>
-        <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
-        <CardsRow cards={cards || []} stampsRequired={stampsRequired} />
-      </div>
-      <div className='mt-5 sm:mt-40'>
-        <Link to={'/'}>
-          <Button variant='secondary' className='w-3xs'>
-            Voltar
-          </Button>
-        </Link>
+    <div className='min-h-screen flex flex-col'>
+      <Header />
+      <div className='flex flex-1 flex-col gap-5 items-center justify-center py-8 overflow-x-hidden'>
+        <div className='w-[90%] flex flex-col items-center gap-2'>
+          <p className='text-sm mb-3'>Selos de {maskedPhone}</p>
+          <CardsRow cards={cards || []} stampsRequired={stampsRequired} />
+        </div>
+        <div className='mt-5 sm:mt-40'>
+          <Link to={'/'}>
+            <Button variant='secondary' className='w-3xs'>
+              Voltar
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   )

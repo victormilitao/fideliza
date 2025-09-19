@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
+import { TabNavigation } from '@/components/business/tab-navigation'
 import { useEffect, useState } from 'react'
 import { Reward } from './reward'
 import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
@@ -49,8 +50,7 @@ export const Home = () => {
   }
 
   const handleSendSticker = (data: FormSchema) => {
-    sendStamp(data.phone)
-    reset()
+    sendStamp(data.phone, () => reset())
   }
 
   const handleGoToTickets = async (data: FormSchema) => {
@@ -62,23 +62,31 @@ export const Home = () => {
     reset()
   }
 
+  const tabs = [
+    { label: 'Enviar selos', href: '/estabelecimento' },
+    { label: 'Dados', href: '/estabelecimento/dashboard' },
+  ]
+
   useEffect(() => {
     if (!businessLoading && !business) {
       navigate('/estabelecimento/criar-estabelecimento')
     }
-  }, [businessLoading, business])
+  }, [businessLoading, business, navigate])
 
   useEffect(() => {
     if (!myCampaignsLoading && business && (!campaigns || campaigns.length === 0)) {
       navigate('/estabelecimento/criar-campanha')
     }
-  }, [myCampaignsLoading, campaigns])
+  }, [myCampaignsLoading, campaigns, business, navigate])
 
   return (
     <div className='min-h-screen flex flex-col'>
       <Header />
-      <div className='flex flex-1 flex-col items-center justify-center'>
-        <div className='flex flex-col gap-3 w-3xs'>
+      <TabNavigation tabs={tabs} />
+      
+      <div className='flex flex-1 justify-center'>
+        <div className='w-full sm:max-w-md flex flex-col sm:items-center sm:justify-center flex-1 py-8 sm:pt-0 px-6'>
+          <div className='flex flex-col gap-3 w-full max-w-sm'>
           <Controller
             name='phone'
             control={control}
@@ -114,6 +122,7 @@ export const Home = () => {
           <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
             <Reward cardId={cardId} closeSheet={() => setOpenSheet(false)} />
           </BottomSheet>
+          </div>
         </div>
       </div>
     </div>

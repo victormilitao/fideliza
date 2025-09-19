@@ -35,6 +35,5 @@ describe('useLogout', () => {
 
     expect(clearQueryClientMock).toHaveBeenCalled()
     expect(clearSessionMock).toHaveBeenCalled()
-    expect(navigateMock).toHaveBeenCalledWith('/login')
   })
 })

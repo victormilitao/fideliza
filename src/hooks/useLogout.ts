@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom'
 
 export const useLogout = (redirect: boolean = true) => {
   const { clearSession } = useAuthStore()
-  const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  
   const logout = useCallback(async () => {
     try {
       queryClient.clear()

@@ -17,4 +17,5 @@ export type Business = {
   cards?: Card[]
   campaigns?: Campaign[]
   campaign?: Campaign
+  cnpj?: string
 }

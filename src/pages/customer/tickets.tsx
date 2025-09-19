@@ -6,6 +6,7 @@ import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { BusinessCard } from './business-card'
 import { CampaignRules } from './campaign-rules'
 import { Card } from '../../components/customer/card'
+import { Header } from '@/pages/landing/header'
 
 export const Tickets = () => {
   const location = useLocation()
@@ -26,9 +27,11 @@ export const Tickets = () => {
   }
 
   return (
-    <div className='py-8 flex flex-col gap-5 items-center justify-center min-h-screen'>
-      <div className='w-[90%] flex flex-col items-center gap-2'>
-        <div className='min-w-3xs max-w-lg'>
+    <div className='min-h-screen flex flex-col'>
+      <Header />
+      <div className='flex flex-1 flex-col gap-5 items-center justify-center py-8'>
+        <div className='w-[90%] flex flex-col items-center gap-2'>
+          <div className='min-w-3xs max-w-lg'>
           <p className='text-sm'>Meus selos</p>
           <p>{maskedPhone}</p>
         </div>
@@ -49,6 +52,7 @@ export const Tickets = () => {
             )}
           </div>
         ))}
+        </div>
       </div>
       <div className='mt-5 sm:mt-40'>
         <Link to={'/usuario'}>

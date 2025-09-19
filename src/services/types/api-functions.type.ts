@@ -93,10 +93,12 @@ export type ApiFunctions = {
       'id' | 'created_at' | 'business' | 'cards' | 'card'
     >
   ) => Promise<Response<Campaign>>
+
   // Funções de email específicas
   sendEmailConfirmation: (
     to: string,
     confirmationLink: string
   ) => Promise<Response<boolean>>
   sendTestEmail: (to: string) => Promise<Response<boolean>>
+  getCampaignCards: (campaignId: string) => Promise<Response<Card[]>>
 }

@@ -6,16 +6,35 @@ import api from '@/services/api'
 import { useUserLoggedIn } from '../useUserLoggedIn'
 
 const createWrapper = () => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  })
   return ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
 
+// Mock das dependências
 vi.mock('@/services/api', () => ({
   default: {
     getUserLoggedIn: vi.fn(),
   },
+}))
+
+vi.mock('../useLogout', () => ({
+  useLogout: () => ({
+    logout: vi.fn(),
+  }),
+}))
+
+vi.mock('@/store/useAuthStore', () => ({
+  useAuthStore: () => ({
+    clearSession: vi.fn(),
+  }),
 }))
 
 describe('useUserLoggedIn', () => {

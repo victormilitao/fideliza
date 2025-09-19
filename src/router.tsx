@@ -3,6 +3,7 @@ import { Home } from './pages/home'
 import { Home as HomeCustomer } from './pages/customer/home'
 import { Tickets } from './pages/business/tickets/tickets'
 import { Tickets as TicketsCustomer } from './pages/customer/tickets'
+import { Dashboard } from './pages/business/dashboard'
 import { Login } from './pages/login'
 import { LoginCustomer } from './pages/customer/login'
 import { useAuthStore } from './store/useAuthStore'
@@ -58,6 +59,7 @@ export const Router = () => {
 
       <Route element={<BusinessOwnerRoute />}>
         <Route path='/estabelecimento' element={<Home />} />
+        <Route path='/estabelecimento/dashboard' element={<Dashboard />} />
         <Route path='/estabelecimento/tickets' element={<Tickets />} />
         <Route
           path='/estabelecimento/criar-estabelecimento'

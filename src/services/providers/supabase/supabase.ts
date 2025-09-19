@@ -30,6 +30,7 @@ import { generateCodeLogin } from './api-functions/customer/generateCodeLogin'
 import { generateLoginToken } from './api-functions/generateLoginToken'
 import { getPersonByToken } from './api-functions/customer/getPersonByToken'
 import { getPersonByPhoneWithProfile } from './api-functions/getPersonByPhoneWithProfile'
+<<<<<<< HEAD
 import { sendEmail } from './api-functions/sendEmail'
 import { logout } from './api-functions/logout'
 import { generateEmailConfirmationToken } from './api-functions/business/generatetEmailConfirmationToken'
@@ -39,6 +40,9 @@ import { getUserAttributes } from './api-functions/getUserAttributes'
 import { createBusiness } from './api-functions/business/createBusiness'
 import { createCampaign } from './api-functions/business/createCampaign'
 import { sendEmailConfirmation, sendTestEmail } from '@/services/email/emailjs'
+=======
+import { getCampaignCards } from './api-functions/getCampaignCards'
+>>>>>>> main
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -72,6 +76,7 @@ const supabaseApi: ApiFunctions = {
   generateCodeLogin: generateCodeLogin,
   generateLoginToken: generateLoginToken,
   getPersonByToken: getPersonByToken,
+<<<<<<< HEAD
   sendEmail: sendEmail,
   logout: logout,
   generateEmailConfirmationToken: generateEmailConfirmationToken,
@@ -82,6 +87,9 @@ const supabaseApi: ApiFunctions = {
   createCampaign: createCampaign,
   sendEmailConfirmation: sendEmailConfirmation,
   sendTestEmail: sendTestEmail,
+=======
+  getCampaignCards: getCampaignCards,
+>>>>>>> main
 }
 
 export default supabaseApi

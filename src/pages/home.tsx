@@ -3,7 +3,8 @@ import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { TabNavigation } from '@/components/business/tab-navigation'
-import { useEffect, useState } from 'react'
+import { CampaignInstructionsBottomSheet } from '@/components/business/campaign-instructions-bottom-sheet'
+import { useState } from 'react'
 import { Reward } from './reward'
 import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
 import { useForm, Controller } from 'react-hook-form'
@@ -11,9 +12,8 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUserByPhone } from '@/hooks/useUserByPhone'
 import { useCompletedCard } from '@/hooks/useCompletedCard'
-import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { Header } from './header'
-import { useMyActiveCampaigns } from '@/hooks/useMyActiveCampaigns'
+import { useOnboardRedirect } from '@/hooks/useOnboardRedirect'
 
 const schema = z.object({
   phone: z.string().nonempty('Campo obrigatório'),
@@ -27,10 +27,8 @@ export const Home = () => {
   const [cardId, setCardId] = useState<string>('')
   const { findCompletedCard } = useCompletedCard()
   const navigate = useNavigate()
-  const { business, isLoading: businessLoading } = useMyBusiness()
-  const { campaigns, isLoading: myCampaignsLoading } = useMyActiveCampaigns(
-    business?.id || ''
-  )
+
+  useOnboardRedirect()
 
   const {
     handleSubmit,
@@ -66,18 +64,6 @@ export const Home = () => {
     { label: 'Enviar selos', href: '/estabelecimento' },
     { label: 'Dados', href: '/estabelecimento/dashboard' },
   ]
-
-  useEffect(() => {
-    if (!businessLoading && !business) {
-      navigate('/estabelecimento/criar-estabelecimento')
-    }
-  }, [businessLoading, business, navigate])
-
-  useEffect(() => {
-    if (!myCampaignsLoading && business && (!campaigns || campaigns.length === 0)) {
-      navigate('/estabelecimento/criar-campanha')
-    }
-  }, [myCampaignsLoading, campaigns, business, navigate])
 
   return (
     <div className='min-h-screen flex flex-col'>
@@ -125,6 +111,8 @@ export const Home = () => {
           </div>
         </div>
       </div>
+
+      <CampaignInstructionsBottomSheet />
     </div>
   )
 }

@@ -7,12 +7,16 @@ import z from 'zod'
 import { createBusinessSchema } from './createBusinessSchema'
 import { useUserLoggedIn } from '@/hooks/useUserLoggedIn'
 import { useBusiness } from '@/hooks/useBusiness'
+import { useOnboardRedirect } from '@/hooks/useOnboardRedirect'
 
 type BusinessFormSchema = z.infer<typeof createBusinessSchema>
 
 export const CreateBusiness: React.FC = () => {
   const { user } = useUserLoggedIn()
   const { createBusiness, createBusinessloading } = useBusiness()
+  
+  useOnboardRedirect()
+  
   const {
     handleSubmit,
     control,
@@ -184,7 +188,7 @@ export const CreateBusiness: React.FC = () => {
               control={control}
               render={({ field }) => (
                 <Input
-                  label='Whatsapp'
+                  label='WhatsApp'
                   className='mb-5'
                   maskType='phone'
                   placeholder='(00) 0 0000 0000'

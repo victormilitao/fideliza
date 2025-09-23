@@ -16,16 +16,17 @@ export const useCampaign = () => {
     CreateCampaignData
   >({
     mutationFn: async (data: CreateCampaignData): Promise<Campaign> => {
-      const response = await api.createCampaign(data)
+      // const response = await api.createCampaign(data)
 
-      if (!response || !response.data) {
-        throw new Error('Erro ao criar campanha.')
-      }
+      // if (!response || !response.data) {
+      //   throw new Error('Erro ao criar campanha.')
+      // }
 
-      return response.data
+      // return response.data
+      return { id: '1', created_at: '2021-01-01', business_id: '1', stamps_required: 10 }
     },
     onSuccess: () => {
-      navigate('/estabelecimento')
+      
     },
     onError: (error: unknown) => {
       console.error('Error creating campaign:', error)

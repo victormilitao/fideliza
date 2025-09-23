@@ -30,6 +30,9 @@ describe('useMyBusiness', () => {
     vi.mocked(useAuthStore).mockReturnValue({
       session: { user: { id: '123' } },
       profile: { role: BUSINESS_OWNER },
+      isLoggedIn: true,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     vi.mocked(api.getMyBusiness).mockResolvedValue({
@@ -52,6 +55,9 @@ describe('useMyBusiness', () => {
     vi.mocked(useAuthStore).mockReturnValue({
       session: null,
       profile: null,
+      isLoggedIn: false,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     const { result } = renderHook(() => useMyBusiness(), {
@@ -68,6 +74,9 @@ describe('useMyBusiness', () => {
     vi.mocked(useAuthStore).mockReturnValue({
       session: { user: { id: '123' } },
       profile: { role: BUSINESS_OWNER },
+      isLoggedIn: true,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     vi.mocked(api.getMyBusiness).mockRejectedValue(new Error('API Error'))
@@ -85,6 +94,9 @@ describe('useMyBusiness', () => {
     vi.mocked(useAuthStore).mockReturnValue({
       session: { user: { id: '123' } },
       profile: { role: BUSINESS_OWNER },
+      isLoggedIn: true,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     vi.mocked(api.getMyBusiness).mockResolvedValue({

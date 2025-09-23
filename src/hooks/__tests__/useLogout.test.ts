@@ -23,7 +23,13 @@ describe('useLogout', () => {
     const navigateMock = vi.fn()
     const clearQueryClientMock = vi.fn()
 
-    vi.mocked(useAuthStore).mockReturnValue({ clearSession: clearSessionMock })
+    vi.mocked(useAuthStore).mockReturnValue({ 
+      session: null,
+      isLoggedIn: false,
+      profile: null,
+      setSession: vi.fn(),
+      clearSession: clearSessionMock 
+    })
     vi.mocked(useNavigate).mockReturnValue(navigateMock)
     vi.mocked(useQueryClient).mockReturnValue({
       clear: clearQueryClientMock,

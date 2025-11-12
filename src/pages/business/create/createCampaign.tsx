@@ -2,7 +2,6 @@ import { Button } from '@/components/button/button'
 import { Input } from '@/components/input'
 import { Textarea } from '@/components/textarea'
 import { Header } from '@/pages/header'
-import { BottomSheet } from '@/components/bottom-sheet'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import z from 'zod'
@@ -10,7 +9,7 @@ import { createCampaignSchema } from './createCampaignSchema'
 import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { useCampaign } from '@/hooks/useCampaign'
 import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 type CampaignFormSchema = z.infer<typeof createCampaignSchema>
 
@@ -18,7 +17,6 @@ export const CreateCampaign: React.FC = () => {
   const { business } = useMyBusiness()
   const { createCampaign, createCampaignLoading } = useCampaign()
   const navigate = useNavigate()
-  const [showInstructions, setShowInstructions] = useState(false)
 
   const {
     handleSubmit,
@@ -42,11 +40,6 @@ export const CreateCampaign: React.FC = () => {
     data = { ...data, business_id: business.id }
     await createCampaign(data)
     localStorage.setItem('showInstructions', 'true')
-    navigate('/estabelecimento')
-  }
-
-  const handleStart = () => {
-    setShowInstructions(false)
     navigate('/estabelecimento')
   }
 

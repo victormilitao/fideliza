@@ -18,7 +18,7 @@ export const useLogout = (redirect: boolean = true) => {
     } catch (error) {
       console.error('Logout failed:', error)
     }
-  }, [])
+  }, [queryClient, clearSession, redirect, navigate])
 
   return { logout }
 }

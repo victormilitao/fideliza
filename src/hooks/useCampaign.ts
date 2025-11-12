@@ -2,13 +2,11 @@ import { useMutation } from '@tanstack/react-query'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Campaign } from '@/types/campaign.type'
-import { useNavigate } from 'react-router-dom'
 
 type CreateCampaignData = Omit<Campaign, 'id' | 'created_at' | 'business' | 'cards' | 'card'>
 
 export const useCampaign = () => {
   const toast = useToast()
-  const navigate = useNavigate()
 
   const { mutateAsync: createCampaign, isPending: createCampaignLoading } = useMutation<
     Campaign,
@@ -16,14 +14,13 @@ export const useCampaign = () => {
     CreateCampaignData
   >({
     mutationFn: async (data: CreateCampaignData): Promise<Campaign> => {
-      // const response = await api.createCampaign(data)
+      const response = await api.createCampaign(data)
 
-      // if (!response || !response.data) {
-      //   throw new Error('Erro ao criar campanha.')
-      // }
+      if (!response || !response.data) {
+        throw new Error('Erro ao criar campanha.')
+      }
 
-      // return response.data
-      return { id: '1', created_at: '2021-01-01', business_id: '1', stamps_required: 10 }
+      return response.data
     },
     onSuccess: () => {
       

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useMyBusiness } from './useMyBusiness'
 import { useMyActiveCampaigns } from './useMyActiveCampaigns'
 
@@ -13,31 +13,42 @@ import { useMyActiveCampaigns } from './useMyActiveCampaigns'
  */
 export const useOnboardRedirect = (shouldRedirect: boolean = true) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { business, isLoading: businessLoading } = useMyBusiness()
   const { campaigns, isLoading: myCampaignsLoading } = useMyActiveCampaigns(
     business?.id || ''
   )
 
   // Redirecionar para criar estabelecimento se não existe business
+  // Mas só se não estiver já na página de criar estabelecimento
   useEffect(() => {
     if (shouldRedirect && !businessLoading && !business) {
-      navigate('/estabelecimento/criar-estabelecimento')
+      const isOnCreateBusinessPage = location.pathname === '/estabelecimento/criar-estabelecimento'
+      if (!isOnCreateBusinessPage) {
+        navigate('/estabelecimento/criar-estabelecimento')
+      }
     }
-  }, [shouldRedirect, businessLoading, business, navigate])
+  }, [shouldRedirect, businessLoading, business, navigate, location.pathname])
 
   // Redirecionar para criar campanha se business existe mas não tem campanhas
   useEffect(() => {
     if (shouldRedirect && !myCampaignsLoading && business && (!campaigns || campaigns.length === 0)) {
-      // navigate('/estabelecimento/criar-campanha')
+      const isOnCreateCampaignPage = location.pathname === '/estabelecimento/criar-campanha'
+      if (!isOnCreateCampaignPage) {
+        navigate('/estabelecimento/criar-campanha')
+      }
     }
-  }, [shouldRedirect, myCampaignsLoading, campaigns, business, navigate])
+  }, [shouldRedirect, myCampaignsLoading, campaigns, business, navigate, location.pathname])
 
   // Redirecionar para home se business e campanhas já existem
   useEffect(() => {
     if (shouldRedirect && !myCampaignsLoading && business && campaigns && campaigns.length > 0) {
-      navigate('/estabelecimento')
+      const isOnHomePage = location.pathname === '/estabelecimento'
+      if (!isOnHomePage) {
+        navigate('/estabelecimento')
+      }
     }
-  }, [shouldRedirect, myCampaignsLoading, business, campaigns, navigate])
+  }, [shouldRedirect, myCampaignsLoading, business, campaigns, navigate, location.pathname])
 
   return {
     business,

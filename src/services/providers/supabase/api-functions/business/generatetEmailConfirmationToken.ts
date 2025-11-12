@@ -21,15 +21,9 @@ export const generateEmailConfirmationToken = async (
       )
       .select()
       .maybeSingle()
-    console.dir(emailToken)
 
     if (emailTokenError || !emailToken)
       throw new Error('Failed to generate email confirmation token')
-
-    if (emailTokenError || !emailToken) {
-      console.error('Erro no emailToken:', emailTokenError)
-      return { data: null, error: emailTokenError }
-    }
 
     const { data } = await api.getUserAttributes(userId)
     if (!data?.email) {

@@ -1,6 +1,5 @@
-import supabaseApi from "./providers/supabase/supabase";
-import { ApiFunctions } from "./types/api-functions.type";
+import supabaseApi from './providers/supabase/supabase'
 
-const api: ApiFunctions = supabaseApi;
+const api = supabaseApi
 
 export default api

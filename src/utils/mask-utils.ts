@@ -1,4 +1,4 @@
-export type MaskType = 'phone' | 'cpf' | 'date'
+export type MaskType = 'phone' | 'cpf' | 'date' | 'cnpj' | 'cep'
 
 export type MaskOptions = {
   mask: string
@@ -8,7 +8,9 @@ export type MaskOptions = {
 export const maskMap: Record<MaskType, MaskOptions> = {
   phone: { mask: '(__) _ ____ ____', replacement: { _: /\d/ } },
   cpf: { mask: '___.___.___-__', replacement: { _: /\d/ } },
+  cnpj: { mask: '__.___.___/____-__', replacement: { _: /\d/ } },
   date: { mask: '__/__/____', replacement: { _: /\d/ } },
+  cep: { mask: '_____-___', replacement: { _: /\d/ } },
 }
 
 export const getMaskConfig = (

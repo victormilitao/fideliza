@@ -30,6 +30,15 @@ import { generateCodeLogin } from './api-functions/customer/generateCodeLogin'
 import { generateLoginToken } from './api-functions/generateLoginToken'
 import { getPersonByToken } from './api-functions/customer/getPersonByToken'
 import { getPersonByPhoneWithProfile } from './api-functions/getPersonByPhoneWithProfile'
+import { sendEmail } from './api-functions/sendEmail'
+import { logout } from './api-functions/logout'
+import { generateEmailConfirmationToken } from './api-functions/business/generatetEmailConfirmationToken'
+import { confirmEmail } from './api-functions/business/confirmEmail'
+import { verifyProfile } from './api-functions/verifyProfile'
+import { getUserAttributes } from './api-functions/getUserAttributes'
+import { createBusiness } from './api-functions/business/createBusiness'
+import { createCampaign } from './api-functions/business/createCampaign'
+import { sendEmailConfirmation, sendTestEmail } from '@/services/email/emailjs'
 import { getCampaignCards } from './api-functions/getCampaignCards'
 
 const supabaseApi: ApiFunctions = {
@@ -64,6 +73,16 @@ const supabaseApi: ApiFunctions = {
   generateCodeLogin: generateCodeLogin,
   generateLoginToken: generateLoginToken,
   getPersonByToken: getPersonByToken,
+  sendEmail: sendEmail,
+  logout: logout,
+  generateEmailConfirmationToken: generateEmailConfirmationToken,
+  confirmEmail: confirmEmail,
+  verifyProfile: verifyProfile,
+  getUserAttributes: getUserAttributes,
+  createBusiness: createBusiness,
+  createCampaign: createCampaign,
+  sendEmailConfirmation: sendEmailConfirmation,
+  sendTestEmail: sendTestEmail,
   getCampaignCards: getCampaignCards,
 }
 

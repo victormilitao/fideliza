@@ -18,12 +18,18 @@ vi.mock('@tanstack/react-query', () => ({
 }))
 
 describe('useLogout', () => {
-  it('should clear session, clear query cache, and navigate to /login', () => {
+  it('should clear session, clear query cache, and navigate to /login', async () => {
     const clearSessionMock = vi.fn()
     const navigateMock = vi.fn()
     const clearQueryClientMock = vi.fn()
 
-    vi.mocked(useAuthStore).mockReturnValue({ clearSession: clearSessionMock })
+    vi.mocked(useAuthStore).mockReturnValue({ 
+      session: null,
+      isLoggedIn: false,
+      profile: null,
+      setSession: vi.fn(),
+      clearSession: clearSessionMock 
+    })
     vi.mocked(useNavigate).mockReturnValue(navigateMock)
     vi.mocked(useQueryClient).mockReturnValue({
       clear: clearQueryClientMock,
@@ -31,7 +37,7 @@ describe('useLogout', () => {
     
     const { result } = renderHook(() => useLogout())
 
-    result.current.logout()
+    await result.current.logout()
 
     expect(clearQueryClientMock).toHaveBeenCalled()
     expect(clearSessionMock).toHaveBeenCalled()

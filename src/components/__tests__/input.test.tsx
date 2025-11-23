@@ -1,8 +1,9 @@
 /// <reference types="vitest" />
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { Input } from '../input'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
 
 vi.mock('@/hooks/useInputMask', () => ({
   useInputMask: () => ({ current: null }),

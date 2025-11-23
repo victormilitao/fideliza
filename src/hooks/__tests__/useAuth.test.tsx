@@ -8,6 +8,8 @@ import { useAuth } from '../useAuth'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Credentials } from '@/services/types/auth.type'
 import { BUSINESS_OWNER } from '@/types/profile'
+import { useAuthStore } from '@/store/useAuthStore'
+import { useLogout } from '@/hooks/useLogout'
 
 const createWrapper = () => {
   const queryClient = new QueryClient()
@@ -31,13 +33,33 @@ vi.mock('@/services/api', () => ({
   },
 }))
 
+vi.mock('@/store/useAuthStore', () => ({
+  useAuthStore: vi.fn(),
+}))
+
+vi.mock('@/hooks/useLogout', () => ({
+  useLogout: vi.fn(),
+}))
+
 describe('useAuth', () => {
   const mockToast = { error: vi.fn(), success: vi.fn(), show: vi.fn() }
   const mockNavigate = vi.fn()
+  const mockSetSession = vi.fn()
+  const mockLogout = vi.fn()
 
   beforeEach(() => {
     vi.mocked(useToast).mockReturnValue(mockToast)
     vi.mocked(useNavigate).mockReturnValue(mockNavigate)
+    vi.mocked(useAuthStore).mockReturnValue({
+      session: null,
+      isLoggedIn: false,
+      profile: null,
+      setSession: mockSetSession,
+      clearSession: vi.fn(),
+    })
+    vi.mocked(useLogout).mockReturnValue({
+      logout: mockLogout,
+    })
     vi.clearAllMocks()
   })
 

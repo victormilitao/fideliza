@@ -1,12 +1,13 @@
 import api from '@/services/api'
 import { useQuery } from '@tanstack/react-query'
-import { useUserLoggedIn } from './useUserLoggedIn'
 import { useAuthStore } from '@/store/useAuthStore'
 import { BUSINESS_OWNER } from '@/types/profile'
 
 export const useMyBusiness = () => {
-  const { user } = useUserLoggedIn()
+  const { session } = useAuthStore()
   const { profile } = useAuthStore()
+
+  const isEnabled = !!session && profile?.role === BUSINESS_OWNER
 
   const {
     data: business,
@@ -15,14 +16,14 @@ export const useMyBusiness = () => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['my-business', user?.id],
+    queryKey: ['my-business', session?.user.id],
     queryFn: async () => {
-      if (!user) throw new Error('User not logged in')
-      const { data, error } = await api.getMyBusiness(user)
+      if (!session?.user.id) throw new Error('User not logged in')
+      const { data, error } = await api.getMyBusiness({ id: session?.user.id })
       if (error) throw new Error(error.message)
       return data
     },
-    enabled: !!user && profile?.role == BUSINESS_OWNER,
+    enabled: isEnabled,
     staleTime: Infinity,
   })
 

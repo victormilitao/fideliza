@@ -3,7 +3,7 @@ import { Button } from '../components/button/button'
 import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { TabNavigation } from '@/components/business/tab-navigation'
-import { Header } from './landing/header'
+import { CampaignInstructionsBottomSheet } from '@/components/business/campaign-instructions-bottom-sheet'
 import { useState } from 'react'
 import { Reward } from './reward'
 import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
@@ -12,6 +12,8 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUserByPhone } from '@/hooks/useUserByPhone'
 import { useCompletedCard } from '@/hooks/useCompletedCard'
+import { Header } from './header'
+import { useOnboardRedirect } from '@/hooks/useOnboardRedirect'
 
 const schema = z.object({
   phone: z.string().nonempty('Campo obrigatório'),
@@ -25,6 +27,9 @@ export const Home = () => {
   const [cardId, setCardId] = useState<string>('')
   const { findCompletedCard } = useCompletedCard()
   const navigate = useNavigate()
+
+  useOnboardRedirect()
+
   const {
     handleSubmit,
     control,
@@ -106,6 +111,8 @@ export const Home = () => {
           </div>
         </div>
       </div>
+
+      <CampaignInstructionsBottomSheet />
     </div>
   )
 }

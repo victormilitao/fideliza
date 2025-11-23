@@ -20,6 +20,9 @@ export const useUserByPhone = () => {
     mutationFn: async (phone: string): Promise<Response<Person>> => {
       const sanitizedPhone = phone.replace(/\D/g, '')
       const { data, error } = await api.getPersonByPhoneWithProfile(sanitizedPhone)
+      if (error) {
+        throw new Error(error.message || 'User not found')
+      }
       return { data, error }
     },
     onError: (error: unknown) => {

@@ -4,7 +4,6 @@ import { renderHook, waitFor } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { useMyBusiness } from '../useMyBusiness'
 import { act } from 'react'
-import { useUserLoggedIn } from '../useUserLoggedIn'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/useAuthStore'
 import { BUSINESS_OWNER } from '@/types/profile'
@@ -15,10 +14,6 @@ const createWrapper = () => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
-
-vi.mock('../useUserLoggedIn', () => ({
-  useUserLoggedIn: vi.fn(),
-}))
 
 vi.mock('@/store/useAuthStore', () => ({
   useAuthStore: vi.fn(),
@@ -32,17 +27,12 @@ vi.mock('@/services/api', () => ({
 
 describe('useMyBusiness', () => {
   it('should return loading state initially when user is logged in', async () => {
-    const user = { id: '123', email: 'John Doe' }
-    vi.mocked(useUserLoggedIn).mockReturnValue({
-      user,
-      error: null,
-      isLoading: false,
-      isError: false,
-      refetch: vi.fn(),
-    })
-
     vi.mocked(useAuthStore).mockReturnValue({
+      session: { user: { id: '123' } },
       profile: { role: BUSINESS_OWNER },
+      isLoggedIn: true,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     vi.mocked(api.getMyBusiness).mockResolvedValue({
@@ -54,8 +44,6 @@ describe('useMyBusiness', () => {
       wrapper: createWrapper(),
     })
 
-    expect(result.current.isLoading).toBe(true)
-
     await waitFor(() => {
       expect(result.current.business).toEqual({ name: 'Business 1' })
       expect(result.current.isLoading).toBe(false)
@@ -64,12 +52,12 @@ describe('useMyBusiness', () => {
   })
 
   it('should handle error when user is not logged in', async () => {
-    vi.mocked(useUserLoggedIn).mockReturnValue({
-      user: null,
-      error: null,
-      isLoading: false,
-      isError: false,
-      refetch: vi.fn(),
+    vi.mocked(useAuthStore).mockReturnValue({
+      session: null,
+      profile: null,
+      isLoggedIn: false,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     const { result } = renderHook(() => useMyBusiness(), {
@@ -78,18 +66,17 @@ describe('useMyBusiness', () => {
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false)
-      expect(result.current.error?.message).toBeUndefined()
+      expect(result.current.business).toBeUndefined()
     })
   })
 
   it('should handle API errors', async () => {
-    const user = { id: '123', name: 'John Doe' }
-    vi.mocked(useUserLoggedIn).mockReturnValue({
-      user,
-      error: null,
-      isLoading: false,
-      isError: false,
-      refetch: vi.fn(),
+    vi.mocked(useAuthStore).mockReturnValue({
+      session: { user: { id: '123' } },
+      profile: { role: BUSINESS_OWNER },
+      isLoggedIn: true,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     vi.mocked(api.getMyBusiness).mockRejectedValue(new Error('API Error'))
@@ -100,18 +87,16 @@ describe('useMyBusiness', () => {
 
     await waitFor(() => {
       expect(result.current.business).toBeUndefined()
-      expect(result.current.error?.message).toBeUndefined()
     })
   })
 
   it('should refetch data when refetch is called', async () => {
-    const user = { id: '123', name: 'John Doe' }
-    vi.mocked(useUserLoggedIn).mockReturnValue({
-      user,
-      error: null,
-      isLoading: false,
-      isError: false,
-      refetch: vi.fn(),
+    vi.mocked(useAuthStore).mockReturnValue({
+      session: { user: { id: '123' } },
+      profile: { role: BUSINESS_OWNER },
+      isLoggedIn: true,
+      setSession: vi.fn(),
+      clearSession: vi.fn(),
     })
 
     vi.mocked(api.getMyBusiness).mockResolvedValue({

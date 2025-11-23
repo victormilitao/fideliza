@@ -1,15 +1,17 @@
 import { CUSTOMER, Profile } from '@/types/profile'
 import supabase from '../config'
 import { Response } from '@/services/types/api.type'
+import { ApiFunctions } from '@/services/types/api-functions.type'
 
-export const createProfile = async (
+export const createProfile: ApiFunctions['createProfile'] = async (
   userId: string,
-  personId: string
+  personId: string | null,
+  role: Profile['role'] = CUSTOMER
 ): Promise<Response<Profile>> => {
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .insert([{ user_id: userId, role: CUSTOMER, person_id: personId }])
+      .insert([{ user_id: userId, role: role, person_id: personId }])
       .select()
       .maybeSingle()
 

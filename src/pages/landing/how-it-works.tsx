@@ -53,7 +53,7 @@ export default function HowItWorks() {
         <ul className='space-y-8'>
           {steps.map(({ icon, title, description }) => (
             <li key={title} className='flex items-start gap-4'>
-              <div className='mt- bg-primary-100 text-primary-600 rounded-full p-4'>
+              <div className='bg-primary-100 text-primary-600 rounded-full p-4'>
                 {icon}
               </div>
               <div>

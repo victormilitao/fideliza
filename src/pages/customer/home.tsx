@@ -1,4 +1,4 @@
-import { Header } from '@/pages/landing/header'
+import { Header } from '@/pages/header'
 import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { applyMask } from '@/utils/mask-utils'
 import { BusinessCards } from './business-cards'

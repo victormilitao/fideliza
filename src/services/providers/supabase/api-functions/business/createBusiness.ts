@@ -20,7 +20,7 @@ export const createBusiness: ApiFunctions['createBusiness'] = async (
         data: null,
         error: businessExistsAlready
           ? new Error('Estabelecimento já criado.')
-          : new Error('Error na operação.'),
+          : new Error('Error na criaçao de estabelecimento.'),
       }
     }
 

@@ -56,7 +56,8 @@ npm install
 Crie um arquivo `.env.local` na raiz do projeto:
 ```env
 VITE_SUPABASE_URL=sua_url_do_supabase
-VITE_SUPABASE_ANON_KEY=sua_chave_anonima_do_supabase
+VITE_SUPABASE_KEY=sua_chave_anonima_do_supabase
+VITE_STRIPE_PUBLISHABLE_KEY=sua_chave_publica_do_stripe
 ```
 
 ### 4. Execute o projeto

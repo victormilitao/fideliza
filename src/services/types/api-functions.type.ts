@@ -101,4 +101,6 @@ export type ApiFunctions = {
   ) => Promise<Response<boolean>>
   sendTestEmail: (to: string) => Promise<Response<boolean>>
   getCampaignCards: (campaignId: string) => Promise<Response<Card[]>>
+  stripeRequest: (priceId: string) => Promise<Response<{ clientSecret: string }>>
+  stripeSessionStatus: (sessionId: string) => Promise<Response<{ status: string; customer_email: string | null }>>
 }

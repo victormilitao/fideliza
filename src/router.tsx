@@ -16,6 +16,7 @@ import { EmailSent } from './pages/business/confirmationEmail/emailSent'
 import { CreateBusiness } from './pages/business/create/createBusiness'
 import { CreateCampaign } from './pages/business/create/createCampaign'
 import { TestEmail } from './pages/test-email'
+import { Payment } from './pages/business/payment'
 
 const CustomerRoute = () => {
   const { isLoggedIn, profile } = useAuthStore()
@@ -61,6 +62,7 @@ export const Router = () => {
         <Route path='/estabelecimento' element={<Home />} />
         <Route path='/estabelecimento/dashboard' element={<Dashboard />} />
         <Route path='/estabelecimento/tickets' element={<Tickets />} />
+        <Route path='/estabelecimento/payment' element={<Payment />} />
         <Route
           path='/estabelecimento/criar-estabelecimento'
           element={<CreateBusiness />}

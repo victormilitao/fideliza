@@ -40,7 +40,11 @@ import { createBusiness } from './api-functions/business/createBusiness'
 import { createCampaign } from './api-functions/business/createCampaign'
 import { sendEmailConfirmation, sendTestEmail } from '@/services/email/emailjs'
 import { getCampaignCards } from './api-functions/getCampaignCards'
-import { stripeRequest, stripeSessionStatus } from './api-functions/stripeRequest'
+import { stripeRequest, stripeSessionStatus, getSubscriptionInfo } from './api-functions/stripeRequest'
+import { createBusinessSubscription } from './api-functions/createBusinessSubscription'
+import { updateBusinessSubscription } from './api-functions/updateBusinessSubscription'
+import { getBusinessSubscriptionByBusinessId } from './api-functions/getBusinessSubscriptionByBusinessId'
+import { cancelSubscription } from './api-functions/cancelSubscription'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -87,6 +91,11 @@ const supabaseApi: ApiFunctions = {
   getCampaignCards: getCampaignCards,
   stripeRequest: stripeRequest,
   stripeSessionStatus: stripeSessionStatus,
+  getSubscriptionInfo: getSubscriptionInfo,
+  getBusinessSubscriptionByBusinessId: getBusinessSubscriptionByBusinessId,
+  createBusinessSubscription: createBusinessSubscription,
+  updateBusinessSubscription: updateBusinessSubscription,
+  cancelSubscription: cancelSubscription,
 }
 
 export default supabaseApi

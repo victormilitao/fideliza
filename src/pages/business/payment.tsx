@@ -128,16 +128,14 @@ export const Payment = () => {
       }
 
       // CREATE: Salvar business_id e session_id quando a sessão for criada
-      // Sempre cria novo registro
+      // A lógica de verificação de duplicatas está dentro de createBusinessSubscription
       if (data.sessionId && business.id) {
-        console.log("Salvando business_id e session_id:", { businessId: business.id, sessionId: data.sessionId });
-        
         const { error: saveError } = await api.createBusinessSubscription({
           business_id: business.id,
           stripe_customer_id: "", // Será preenchido depois quando o pagamento for completo
           stripe_subscription_id: null,
           stripe_session_id: data.sessionId,
-          payment_status: "pending", // Status inicial
+          payment_status: "open", // Status inicial
           subscription_status: null,
           status: "open", // Status da sessão
         });
@@ -227,7 +225,7 @@ export const Payment = () => {
 
   // Verificar status da subscription
   const isSubscriptionActive = subscription && subscription.status === "complete";
-  const isSubscriptionPending = subscription && subscription.status === "open";
+  const isSubscriptionPending = subscription && subscription.status === "pending";
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -34,21 +34,41 @@ export const Payment = () => {
   const { subscription, isLoading: isLoadingSubscription, refetch: refetchSubscription } = useBusinessSubscription(business?.id);
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const [error, setError] = useState<string | null>(null);
   const [isCanceling, setIsCanceling] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
   const isStripeConfigured = !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
   const sessionId = searchParams.get("session_id");
   const processedSessionIdRef = useRef<string | null>(null);
+  const processingSessionIdsRef = useRef<Set<string>>(new Set());
 
   // Quando voltar do Stripe com session_id, atualizar os dados
   useEffect(() => {
     // Evitar processar o mesmo session_id múltiplas vezes
-    if (!sessionId || processedSessionIdRef.current === sessionId) {
+    if (!sessionId) {
       return;
     }
 
-    processedSessionIdRef.current = sessionId;
+    // Verificar se já foi processado com sucesso
+    if (processedSessionIdRef.current === sessionId) {
+      return;
+    }
+
+    // Verificar se já está sendo processado (evitar race condition)
+    if (processingSessionIdsRef.current.has(sessionId)) {
+      return;
+    }
+
+    // Não processar se business ainda não foi carregado
+    if (!business?.id) {
+      return;
+    }
+
+    // Capturar business.id em variável local para usar dentro da função assíncrona
+    const businessId = business.id;
+    
+    // Marcar como "em processamento" ANTES de iniciar a operação assíncrona
+    // Isso evita race conditions se o effect re-executar
+    processingSessionIdsRef.current.add(sessionId);
     
     const processReturn = async () => {
       try {
@@ -59,6 +79,8 @@ export const Payment = () => {
         
         if (statusError || !sessionData) {
           console.error("Erro ao buscar status da sessão:", statusError);
+          // Remover do Set de processamento para permitir retry
+          processingSessionIdsRef.current.delete(sessionId);
           return;
         }
 
@@ -66,9 +88,9 @@ export const Payment = () => {
 
         // UPDATE: Atualizar registro usando o session_id
         // O updateBusinessSubscription vai buscar pelo session_id e atualizar
-        // O business_id será mantido do registro existente
+        // O business_id será mantido do registro existente, mas precisamos passar um valor válido
         const { error: saveError } = await api.updateBusinessSubscription({
-          business_id: "", // Não precisa, será mantido do registro existente
+          business_id: businessId, // Valor válido necessário para o tipo, mas não será atualizado no banco
           stripe_customer_id: sessionData.customer,
           stripe_subscription_id: sessionData.subscription,
           stripe_session_id: sessionId,
@@ -79,27 +101,34 @@ export const Payment = () => {
 
         if (saveError) {
           console.error("Erro ao atualizar subscription:", saveError);
-        } else {
-          console.log("Subscription atualizada com sucesso!");
-          // Invalidar cache e refetch para atualizar o estado
-          queryClient.invalidateQueries({ queryKey: ['business-subscription', business?.id] });
-          // Usar setTimeout para evitar loop, já que refetch pode causar re-render
-          setTimeout(() => {
-            refetchSubscription();
-          }, 100);
+          // Remover do Set de processamento para permitir retry
+          processingSessionIdsRef.current.delete(sessionId);
+          return;
+        }
+
+        // Marcar como processado com sucesso e remover do Set de processamento
+        processedSessionIdRef.current = sessionId;
+        processingSessionIdsRef.current.delete(sessionId);
+        console.log("Subscription atualizada com sucesso!");
+        
+        // Invalidar cache e refetch para atualizar o estado
+        // Usar businessId capturado no início do effect
+        if (businessId) {
+          queryClient.invalidateQueries({ queryKey: ['business-subscription', businessId] });
+          refetchSubscription();
         }
       } catch (err) {
         console.error("Erro ao processar retorno:", err);
+        // Remover do Set de processamento para permitir retry
+        processingSessionIdsRef.current.delete(sessionId);
       }
     };
 
     processReturn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId]);
+  }, [sessionId, business?.id, queryClient, refetchSubscription]);
 
   const fetchClientSecret = useCallback(async () => {
     try {
-      setError(null);
       console.log("Criando sessão de checkout...");
 
       const priceId = DEFAULT_PRICE_ID;
@@ -117,7 +146,6 @@ export const Payment = () => {
       if (subscription && subscription.status === "complete") {
         const errorMsg = "Já existe uma assinatura ativa para este estabelecimento.";
         console.error(errorMsg);
-        setError(errorMsg);
         throw new Error(errorMsg);
       }
 
@@ -132,7 +160,7 @@ export const Payment = () => {
       if (data.sessionId && business.id) {
         const { error: saveError } = await api.createBusinessSubscription({
           business_id: business.id,
-          stripe_customer_id: "", // Será preenchido depois quando o pagamento for completo
+          stripe_customer_id: null, // Será preenchido quando o pagamento for completo
           stripe_subscription_id: null,
           stripe_session_id: data.sessionId,
           payment_status: "open", // Status inicial
@@ -151,11 +179,6 @@ export const Payment = () => {
       return data.clientSecret;
     } catch (err) {
       console.error("Erro ao criar sessão:", err);
-      const errorMessage = err instanceof Error ? err.message : "Erro ao criar sessão de pagamento";
-      // Não setar error novamente se já foi setado acima
-      if (!error) {
-        setError(errorMessage);
-      }
       throw err;
     }
   }, [business?.id, subscription]);
@@ -180,17 +203,17 @@ export const Payment = () => {
     setCancelError(null);
 
     try {
-      const { data, error: cancelError } = await api.cancelSubscription(
+      const { error: cancelError } = await api.cancelSubscription(
         subscription.stripe_subscription_id
       );
 
-      if (cancelError || !data) {
-        throw cancelError || new Error("Erro ao cancelar assinatura");
+      if (cancelError) {
+        throw cancelError;
       }
 
       // Atualizar o status da subscription no banco
       if (subscription.stripe_subscription_id) {
-        await api.updateBusinessSubscription({
+        const { error: updateError } = await api.updateBusinessSubscription({
           business_id: subscription.business_id,
           stripe_customer_id: subscription.stripe_customer_id,
           stripe_subscription_id: subscription.stripe_subscription_id,
@@ -199,13 +222,17 @@ export const Payment = () => {
           subscription_status: "canceled",
           status: "canceled",
         });
+
+        if (updateError) {
+          throw updateError;
+        }
       }
 
       // Invalidar cache e refetch
-      queryClient.invalidateQueries({ queryKey: ['business-subscription', business?.id] });
-      setTimeout(() => {
+      if (business?.id) {
+        queryClient.invalidateQueries({ queryKey: ['business-subscription', business.id] });
         refetchSubscription();
-      }, 100);
+      }
 
       alert("Assinatura cancelada com sucesso!");
     } catch (err) {

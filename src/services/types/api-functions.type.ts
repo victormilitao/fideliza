@@ -101,4 +101,6 @@ export type ApiFunctions = {
   ) => Promise<Response<boolean>>
   sendTestEmail: (to: string) => Promise<Response<boolean>>
   getCampaignCards: (campaignId: string) => Promise<Response<Card[]>>
+  resetPasswordForEmail: (email: string) => Promise<Response<boolean>>
+  updatePassword: (newPassword: string, token?: string) => Promise<Response<boolean>>
 }

@@ -16,6 +16,10 @@ import { EmailSent } from './pages/business/confirmationEmail/emailSent'
 import { CreateBusiness } from './pages/business/create/createBusiness'
 import { CreateCampaign } from './pages/business/create/createCampaign'
 import { TestEmail } from './pages/test-email'
+import { ForgotPassword } from './pages/forgot-password'
+import { ForgotPasswordCheckEmail } from './pages/forgot-password-check-email'
+import { ResetPassword } from './pages/reset-password'
+import { ResetPasswordSuccess } from './pages/reset-password-success'
 
 const CustomerRoute = () => {
   const { isLoggedIn, profile } = useAuthStore()
@@ -76,6 +80,16 @@ export const Router = () => {
       </Route>
 
       <Route path='login' element={<Login />} />
+      <Route path='/forgot-password' element={<ForgotPassword />} />
+      <Route
+        path='/forgot-password/check-email'
+        element={<ForgotPasswordCheckEmail />}
+      />
+      <Route path='/reset-password' element={<ResetPassword />} />
+      <Route
+        path='/reset-password/success'
+        element={<ResetPasswordSuccess />}
+      />
 
       <Route path='/estabelecimento/criar' element={<CreateUser />} />
       

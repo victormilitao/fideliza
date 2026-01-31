@@ -40,6 +40,8 @@ import { createBusiness } from './api-functions/business/createBusiness'
 import { createCampaign } from './api-functions/business/createCampaign'
 import { sendEmailConfirmation, sendTestEmail } from '@/services/email/emailjs'
 import { getCampaignCards } from './api-functions/getCampaignCards'
+import { resetPasswordForEmail } from './api-functions/resetPasswordForEmail'
+import { updatePassword } from './api-functions/updatePassword'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -84,6 +86,8 @@ const supabaseApi: ApiFunctions = {
   sendEmailConfirmation: sendEmailConfirmation,
   sendTestEmail: sendTestEmail,
   getCampaignCards: getCampaignCards,
+  resetPasswordForEmail: resetPasswordForEmail,
+  updatePassword: updatePassword,
 }
 
 export default supabaseApi

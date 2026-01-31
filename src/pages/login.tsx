@@ -71,6 +71,12 @@ export const Login: React.FC = () => {
             {loading ? 'Entrando...' : 'Entrar'}
           </Button>
         </form>
+        <Link
+          to='/forgot-password'
+          className='text-center text-primary-600 font-bold text-sm'
+        >
+          Esqueceu sua senha?
+        </Link>
       </div>
       <div className='mt-auto text-primary-600 font-bold'>
         <Link to={'/estabelecimento/criar'}>Criar programa de fidelidade</Link>

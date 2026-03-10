@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { applyMask } from '@/utils/mask-utils'
 import { useMyActiveCampaigns } from '@/hooks/useMyActiveCampaigns'
 import { CardsRow } from './cards-row'
-import { Header } from '@/pages/landing/header'
+import { Header } from '@/pages/header'
 
 export const Tickets = () => {
   const location = useLocation()

@@ -1,6 +1,6 @@
 import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { useClientStats } from '@/hooks/useClientStats'
-import { Header } from '@/pages/landing/header'
+import { Header } from '@/pages/header'
 import { TabNavigation } from '@/components/business/tab-navigation'
 import { StatsCard } from '@/components/business/stats-card'
 

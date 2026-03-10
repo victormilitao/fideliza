@@ -6,7 +6,7 @@ import { useLoggedPerson } from '@/hooks/customer/useLoggedPerson'
 import { BusinessCard } from './business-card'
 import { CampaignRules } from './campaign-rules'
 import { Card } from '../../components/customer/card'
-import { Header } from '@/pages/landing/header'
+import { Header } from '@/pages/header'
 
 export const Tickets = () => {
   const location = useLocation()

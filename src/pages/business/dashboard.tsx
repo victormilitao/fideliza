@@ -22,6 +22,7 @@ export const Dashboard = () => {
   const tabs = [
     { label: 'Enviar selos', href: '/estabelecimento' },
     { label: 'Dados', href: '/estabelecimento/dashboard' },
+    { label: 'Pagamento', href: '/estabelecimento/payment' },
   ]
 
   return (

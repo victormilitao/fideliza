@@ -11,6 +11,7 @@ import { PersonCode } from '@/types/personCode.type'
 import { WhastappTemplates } from '@/types/whatsapp-templates'
 import { ConfirmEmailResponse } from '../providers/supabase/api-functions/business/confirmEmail'
 import { UserAttributes } from '@/types/userAttributes.type'
+import { BusinessSubscription } from '@/types/businessSubscription.type'
 
 export type ApiFunctions = {
   signInWithPassword: (
@@ -101,4 +102,23 @@ export type ApiFunctions = {
   ) => Promise<Response<boolean>>
   sendTestEmail: (to: string) => Promise<Response<boolean>>
   getCampaignCards: (campaignId: string) => Promise<Response<Card[]>>
+  stripeRequest: (priceId: string) => Promise<Response<{ clientSecret: string; sessionId: string | null }>>
+  stripeSessionStatus: (
+    sessionId: string
+  ) => Promise<Response<{ 
+    status: string
+    customer_email: string | null
+    payment_status: string
+    subscription: string | null
+    customer: string
+  }>>
+  getSubscriptionInfo: (subscriptionId: string) => Promise<Response<any>>
+  getBusinessSubscriptionByBusinessId: (businessId: string) => Promise<Response<BusinessSubscription | null>>
+  createBusinessSubscription: (
+    subscription: Omit<BusinessSubscription, 'id' | 'created_at' | 'updated_at'>
+  ) => Promise<Response<BusinessSubscription>>
+  updateBusinessSubscription: (
+    subscription: Omit<BusinessSubscription, 'id' | 'created_at' | 'updated_at'>
+  ) => Promise<Response<BusinessSubscription>>
+  cancelSubscription: (subscriptionId: string) => Promise<Response<any>>
 }

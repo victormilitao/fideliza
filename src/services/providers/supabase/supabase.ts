@@ -45,6 +45,7 @@ import { createBusinessSubscription } from './api-functions/createBusinessSubscr
 import { updateBusinessSubscription } from './api-functions/updateBusinessSubscription'
 import { getBusinessSubscriptionByBusinessId } from './api-functions/getBusinessSubscriptionByBusinessId'
 import { cancelSubscription } from './api-functions/cancelSubscription'
+import { getBusinessStampCount } from './api-functions/getBusinessStampCount'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -96,6 +97,7 @@ const supabaseApi: ApiFunctions = {
   createBusinessSubscription: createBusinessSubscription,
   updateBusinessSubscription: updateBusinessSubscription,
   cancelSubscription: cancelSubscription,
+  getBusinessStampCount: getBusinessStampCount,
 }
 
 export default supabaseApi

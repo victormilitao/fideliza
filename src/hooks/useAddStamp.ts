@@ -1,9 +1,10 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Stamp } from '@/types/stamp.type'
 import { useMyBusiness } from './useMyBusiness'
 import { useMyActiveCampaigns } from './useMyActiveCampaigns'
+import { useTrialStatus } from './useTrialStatus'
 
 type Props = {
   personId: string
@@ -13,6 +14,8 @@ export const useAddStamp = () => {
   const toast = useToast()
   const { business } = useMyBusiness()
   const { campaigns } = useMyActiveCampaigns(business?.id || '')
+  const { trialStatus } = useTrialStatus()
+  const queryClient = useQueryClient()
 
   const { mutateAsync: addStamp, isPending: loading } = useMutation<
     Stamp,
@@ -28,6 +31,12 @@ export const useAddStamp = () => {
         throw new Error('Nenhuma campanha ativa.')
       }
 
+      if (trialStatus === 'blocked') {
+        throw new Error(
+          'Você atingiu o limite do teste gratuito. Assine para continuar enviando selos.'
+        )
+      }
+
       const campaignId = campaigns[0].id || ''
       const response = await api.addStamp(personId, campaignId)
 
@@ -36,6 +45,10 @@ export const useAddStamp = () => {
       }
 
       return response.data
+    },
+    onSuccess: () => {
+      // Invalidar cache dos trial stamps para atualizar contagem
+      queryClient.invalidateQueries({ queryKey: ['trial-stamps'] })
     },
     onError: (error: unknown) => {
       console.error('Error:', error)
@@ -49,3 +62,4 @@ export const useAddStamp = () => {
 
   return { addStamp, loading }
 }
+

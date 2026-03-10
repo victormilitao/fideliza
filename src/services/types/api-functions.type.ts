@@ -105,7 +105,7 @@ export type ApiFunctions = {
   stripeRequest: (priceId: string) => Promise<Response<{ clientSecret: string; sessionId: string | null }>>
   stripeSessionStatus: (
     sessionId: string
-  ) => Promise<Response<{ 
+  ) => Promise<Response<{
     status: string
     customer_email: string | null
     payment_status: string
@@ -121,4 +121,5 @@ export type ApiFunctions = {
     subscription: Omit<BusinessSubscription, 'id' | 'created_at' | 'updated_at'>
   ) => Promise<Response<BusinessSubscription>>
   cancelSubscription: (subscriptionId: string) => Promise<Response<any>>
+  getBusinessStampCount: (campaignId: string) => Promise<Response<number>>
 }

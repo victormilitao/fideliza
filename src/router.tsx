@@ -18,6 +18,7 @@ import { CreateCampaign } from './pages/business/create/createCampaign'
 import { TestEmail } from './pages/test-email'
 import { Payment } from './pages/business/payment'
 import { PaymentReturn } from './pages/business/payment-return'
+import { Contratar } from './pages/business/contratar'
 
 const CustomerRoute = () => {
   const { isLoggedIn, profile } = useAuthStore()
@@ -73,6 +74,7 @@ export const Router = () => {
           path='/estabelecimento/criar-campanha'
           element={<CreateCampaign />}
         />
+        <Route path='/estabelecimento/contratar' element={<Contratar />} />
       </Route>
       <Route element={<CustomerRoute />}>
         <Route path='/usuario' element={<HomeCustomer />} />
@@ -82,7 +84,7 @@ export const Router = () => {
       <Route path='login' element={<Login />} />
 
       <Route path='/estabelecimento/criar' element={<CreateUser />} />
-      
+
       {/* Rota de teste de email */}
       <Route path='/test-email' element={<TestEmail />} />
 

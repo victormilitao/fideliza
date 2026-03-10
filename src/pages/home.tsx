@@ -14,6 +14,7 @@ import { useUserByPhone } from '@/hooks/useUserByPhone'
 import { useCompletedCard } from '@/hooks/useCompletedCard'
 import { Header } from './header'
 import { useOnboardRedirect } from '@/hooks/useOnboardRedirect'
+import { useTrialStatus } from '@/hooks/useTrialStatus'
 
 const schema = z.object({
   phone: z.string().nonempty('Campo obrigatório'),
@@ -27,6 +28,14 @@ export const Home = () => {
   const [cardId, setCardId] = useState<string>('')
   const { findCompletedCard } = useCompletedCard()
   const navigate = useNavigate()
+  const {
+    trialStatus,
+    stampsSent,
+    stampsRemaining,
+    totalTrialStamps,
+    isSubscribed,
+    isLoading: isLoadingTrial,
+  } = useTrialStatus()
 
   useOnboardRedirect()
 
@@ -66,49 +75,99 @@ export const Home = () => {
     { label: 'Pagamento', href: '/estabelecimento/payment' },
   ]
 
+  const isBlocked = trialStatus === 'blocked'
+
   return (
     <div className='min-h-screen flex flex-col'>
       <Header />
       <TabNavigation tabs={tabs} />
-      
+
       <div className='flex flex-1 justify-center'>
         <div className='w-full sm:max-w-md flex flex-col sm:items-center sm:justify-center flex-1 py-8 sm:pt-0 px-6'>
           <div className='flex flex-col gap-3 w-full max-w-sm'>
-          <Controller
-            name='phone'
-            control={control}
-            rules={{ required: 'Campo obrigatório' }}
-            render={({ field }) => (
-              <Input
-                className='mb-2'
-                label='Celular'
-                type='tel'
-                placeholder='(00) 0 0000 0000'
-                maskType='phone'
-                {...field}
-                error={errors.phone?.message}
-              />
+
+            {/* Trial Banner - Normal */}
+            {!isLoadingTrial && trialStatus === 'normal' && !isSubscribed && (
+              <div className='flex items-center justify-between bg-primary-100 border border-primary-300 rounded-sm px-4 py-3 text-sm text-neutral-700'>
+                <span>{stampsSent} de {totalTrialStamps} selos enviados.</span>
+                <button
+                  onClick={() => navigate('/estabelecimento/payment')}
+                  className='text-primary-700 font-bold text-sm cursor-pointer ml-2 whitespace-nowrap'
+                >
+                  Ver plano
+                </button>
+              </div>
             )}
-          />
 
-          <Button
-            onClick={handleSubmit(handleSendSticker)}
-            loading={sendStampLoading}
-          >
-            Enviar selo
-          </Button>
+            {/* Trial Banner - Warning */}
+            {!isLoadingTrial && trialStatus === 'warning' && (
+              <div className='flex items-center justify-between bg-amber-50 border border-amber-300 rounded-sm px-4 py-3 text-sm text-neutral-700'>
+                <span>Restam {stampsRemaining} envios no teste gratuito.</span>
+                <button
+                  onClick={() => navigate('/estabelecimento/payment')}
+                  className='text-primary-700 font-bold text-sm cursor-pointer ml-2 whitespace-nowrap'
+                >
+                  Ver plano
+                </button>
+              </div>
+            )}
 
-          <Button variant='secondary' onClick={handleSubmit(handleGoToTickets)}>
-            Conferir selos
-          </Button>
+            {/* Trial Banner - Blocked */}
+            {!isLoadingTrial && isBlocked && (
+              <div className='bg-primary-600 rounded-xl p-5 flex flex-col gap-3 text-neutral-100'>
+                <p className='text-base font-bold'>
+                  Você utilizou os {totalTrialStamps} selos do seu teste gratuito.
+                </p>
+                <p className='text-sm'>
+                  Continue utilizando o Eloop para fidelizar e premiar seus clientes.
+                </p>
+                <Button
+                  variant='secondary'
+                  className='bg-neutral-100 text-primary-600 border-primary-600'
+                  onClick={() => navigate('/estabelecimento/contratar')}
+                >
+                  Continuar enviando selos
+                </Button>
+              </div>
+            )}
 
-          <Button variant='secondary' onClick={handleSubmit(handleBonus)}>
-            Premiar
-          </Button>
+            <Controller
+              name='phone'
+              control={control}
+              rules={{ required: 'Campo obrigatório' }}
+              render={({ field }) => (
+                <Input
+                  className='mb-2'
+                  label='Celular'
+                  type='tel'
+                  placeholder='(00) 0 0000 0000'
+                  maskType='phone'
+                  {...field}
+                  error={errors.phone?.message}
+                />
+              )}
+            />
 
-          <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
-            <Reward cardId={cardId} closeSheet={() => setOpenSheet(false)} />
-          </BottomSheet>
+            <Button
+              onClick={handleSubmit(handleSendSticker)}
+              loading={sendStampLoading}
+              disabled={isBlocked}
+              className={isBlocked ? 'opacity-50 cursor-not-allowed' : ''}
+            >
+              Enviar selo
+            </Button>
+
+            <Button variant='secondary' onClick={handleSubmit(handleGoToTickets)}>
+              Conferir selos
+            </Button>
+
+            <Button variant='secondary' onClick={handleSubmit(handleBonus)}>
+              Premiar
+            </Button>
+
+            <BottomSheet open={openSheet} onOpenChange={setOpenSheet}>
+              <Reward cardId={cardId} closeSheet={() => setOpenSheet(false)} />
+            </BottomSheet>
           </div>
         </div>
       </div>
@@ -117,3 +176,4 @@ export const Home = () => {
     </div>
   )
 }
+

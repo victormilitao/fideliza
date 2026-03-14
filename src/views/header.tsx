@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { APP_NAME } from "@/constants/app";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { Menu } from "lucide-react";
+import { Menu, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLogout } from "@/hooks/useLogout";
 
@@ -34,11 +34,20 @@ export const Header = () => {
         </h1>
 
         {/* Desktop menu */}
-        <div className="hidden sm:flex sm:items-center sm:gap-2">
+        <div className="hidden sm:flex sm:items-center sm:gap-4">
           {!session && (
             <h1 className="text-base font-bold text-primary-600">
               <Link href="/login">Acessar minha conta</Link>
             </h1>
+          )}
+          {session && (
+            <button
+              onClick={() => router.push("/store/settings")}
+              className="flex items-center gap-1 text-sm font-bold text-primary-600 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <Settings className="w-4 h-4" />
+              Configurações
+            </button>
           )}
           {session && <SupportButton />}
           {session && <LogoutButton />}

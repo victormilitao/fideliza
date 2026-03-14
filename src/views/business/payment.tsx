@@ -4,24 +4,26 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
-import { Header } from "@/views/landing/header";
-import { TabNavigation } from "@/components/business/tab-navigation";
+import { Header } from "@/views/header";
 import { useSearchParams } from "next/navigation";
 import api from "@/services/api";
 import { useMyBusiness } from "@/hooks/useMyBusiness";
 import { useBusinessSubscription } from "@/hooks/useBusinessSubscription";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUserLoggedIn } from "@/hooks/useUserLoggedIn";
 import { Button } from "@/components/button/button";
+import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Validar e inicializar Stripe
 const getStripePromise = () => {
   const publishableKey: string = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '';
-  
+
   if (!publishableKey) {
     console.error("VITE_STRIPE_PUBLISHABLE_KEY não está configurada nas variáveis de ambiente");
     return Promise.resolve(null);
   }
-  
+
   return loadStripe(publishableKey);
 };
 
@@ -31,6 +33,7 @@ const DEFAULT_PRICE_ID = "price_1SWf6iDypeQ6bJI1ejk6ekQR";
 
 export const Payment = () => {
   const { business } = useMyBusiness();
+  const { user } = useUserLoggedIn();
   const { subscription, isLoading: isLoadingSubscription, refetch: refetchSubscription } = useBusinessSubscription(business?.id);
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
@@ -40,6 +43,8 @@ export const Payment = () => {
   const sessionId = searchParams.get("session_id");
   const processedSessionIdRef = useRef<string | null>(null);
   const processingSessionIdsRef = useRef<Set<string>>(new Set());
+  const [showCheckout, setShowCheckout] = useState(false);
+  const router = useRouter();
 
   // Quando voltar do Stripe com session_id, atualizar os dados
   useEffect(() => {
@@ -65,18 +70,18 @@ export const Payment = () => {
 
     // Capturar business.id em variável local para usar dentro da função assíncrona
     const businessId = business.id;
-    
+
     // Marcar como "em processamento" ANTES de iniciar a operação assíncrona
     // Isso evita race conditions se o effect re-executar
     processingSessionIdsRef.current.add(sessionId);
-    
+
     const processReturn = async () => {
       try {
         console.log("Processando retorno do Stripe com session_id:", sessionId);
-        
+
         // Buscar status da sessão
         const { data: sessionData, error: statusError } = await api.stripeSessionStatus(sessionId);
-        
+
         if (statusError || !sessionData) {
           console.error("Erro ao buscar status da sessão:", statusError);
           // Remover do Set de processamento para permitir retry
@@ -110,7 +115,7 @@ export const Payment = () => {
         processedSessionIdRef.current = sessionId;
         processingSessionIdsRef.current.delete(sessionId);
         console.log("Subscription atualizada com sucesso!");
-        
+
         // Invalidar cache e refetch para atualizar o estado
         // Usar businessId capturado no início do effect
         if (businessId) {
@@ -149,7 +154,7 @@ export const Payment = () => {
         throw new Error(errorMsg);
       }
 
-      const { data, error: apiError } = await api.stripeRequest(priceId);
+      const { data, error: apiError } = await api.stripeRequest(priceId, user?.email ?? undefined);
 
       if (apiError || !data?.clientSecret) {
         throw apiError || new Error("Erro ao criar sessão de pagamento");
@@ -181,7 +186,7 @@ export const Payment = () => {
       console.error("Erro ao criar sessão:", err);
       throw err;
     }
-  }, [business?.id, subscription]);
+  }, [business?.id, subscription, user?.email]);
 
   const options = useMemo(() => ({ fetchClientSecret }), [fetchClientSecret]);
 
@@ -244,12 +249,6 @@ export const Payment = () => {
     }
   }, [subscription, business?.id, queryClient, refetchSubscription]);
 
-  const tabs = [
-    { label: "Enviar selos", href: "/store" },
-    { label: "Dados", href: "/store/dashboard" },
-    { label: "Pagamento", href: "/store/payment" },
-  ];
-
   // Verificar status da subscription
   const isSubscriptionActive = subscription && subscription.status === "complete";
   const isSubscriptionPending = subscription && subscription.status === "pending";
@@ -257,10 +256,8 @@ export const Payment = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <TabNavigation tabs={tabs} />
-      <div className="flex flex-1">
-        <div className="w-full px-6 py-8 sm:px-10 sm:py-8">
-
+      <div className="flex flex-1 bg-white">
+        <div className="w-full px-8 py-8 sm:px-10 sm:py-8 max-w-lg mx-auto">
           {isLoadingSubscription ? (
             <div className="flex items-center justify-center py-8">
               <p className="text-neutral-600">Carregando informações da assinatura...</p>
@@ -329,10 +326,64 @@ export const Payment = () => {
                 Stripe não está configurado.
               </p>
             </div>
+          ) : !showCheckout ? (
+            <div className="flex flex-col space-y-8 w-full">
+              <div className="text-left w-full">
+                <h2 className="text-xl font-bold text-primary-600 leading-tight pr-8">
+                  Continue enviando selos e fidelizando seus clientes
+                </h2>
+              </div>
+
+              <div className="bg-primary-600 rounded-2xl p-6 shadow-md w-full relative overflow-hidden">
+                <div className="flex items-baseline mb-6 space-x-1 relative z-10">
+                  <span className="text-2xl text-neutral-100 font-medium tracking-tight">R$</span>
+                  <span className="text-5xl font-bold text-white tracking-tighter">27,90</span>
+                  <span className="text-lg text-neutral-100/80 ml-1">/mês</span>
+                </div>
+
+                <ul className="space-y-4 relative z-10">
+                  {[
+                    "Selos <b>ilimitados</b>",
+                    "Sem taxas por envio",
+                    "Cancelamento a qualquer momento",
+                    "Pagamento mensal no cartão"
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-center space-x-3 text-neutral-100">
+                      <Check className="w-5 h-5 text-primary-250 flex-shrink-0" strokeWidth={2} />
+                      <span className="text-[15px] font-medium" dangerouslySetInnerHTML={{ __html: feature }} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col space-y-4 w-full">
+                <p className="text-[15px] text-neutral-600 font-medium">
+                  Ative o plano do Eloop e continue enviando selos para seus clientes sem limites.
+                </p>
+
+                <div className="flex flex-col gap-3 pt-2">
+                  <Button
+                    variant="primary"
+                    onClick={() => setShowCheckout(true)}
+                    className="w-full text-base"
+                  >
+                    Continuar para pagamento
+                  </Button>
+
+                  <Button
+                    variant="link"
+                    onClick={() => router.push('/store')}
+                    className="text-primary-600 font-bold"
+                  >
+                    Voltar
+                  </Button>
+                </div>
+              </div>
+            </div>
           ) : (
-            <div id="checkout" className="max-w-2xl">
+            <div id="checkout" className="w-full">
               <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-                <EmbeddedCheckout />
+                <EmbeddedCheckout className="w-full" />
               </EmbeddedCheckoutProvider>
             </div>
           )}

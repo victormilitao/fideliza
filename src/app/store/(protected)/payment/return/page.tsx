@@ -1,7 +1,12 @@
 'use client'
 
+import { Suspense } from 'react'
 import { PaymentReturn } from '@/views/business/payment-return'
 
 export default function PaymentReturnPage() {
-  return <PaymentReturn />
+  return (
+    <Suspense>
+      <PaymentReturn />
+    </Suspense>
+  )
 }

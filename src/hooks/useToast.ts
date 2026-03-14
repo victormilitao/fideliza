@@ -1,4 +1,4 @@
-import { toast, ToasterProps } from 'sonner'
+import { toast, ToasterProps, ExternalToast } from 'sonner'
 import { useEffect, useState } from 'react'
 
 export const useToast = () => {
@@ -16,11 +16,11 @@ export const useToast = () => {
     return () => window.removeEventListener('resize', updatePosition)
   }, [])
 
-  const show = (message: string, options?: ToasterProps): void => {
+  const show = (message: string, options?: ExternalToast): void => {
     toast(message, { position, ...options })
   }
 
-  const success = (message: string, options?: ToasterProps): void => {
+  const success = (message: string, options?: ExternalToast): void => {
     toast.success(message, {
       position,
       ...options,
@@ -32,7 +32,7 @@ export const useToast = () => {
     })
   }
 
-  const error = (message: string, options?: ToasterProps): void => {
+  const error = (message: string, options?: ExternalToast): void => {
     toast.error(message, {
       position,
       ...options,

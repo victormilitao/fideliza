@@ -45,6 +45,8 @@ import { createBusinessSubscription } from './api-functions/createBusinessSubscr
 import { updateBusinessSubscription } from './api-functions/updateBusinessSubscription'
 import { getBusinessSubscriptionByBusinessId } from './api-functions/getBusinessSubscriptionByBusinessId'
 import { cancelSubscription } from './api-functions/cancelSubscription'
+import { resetPassword } from './api-functions/resetPassword'
+import { updatePassword } from './api-functions/updatePassword'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -96,6 +98,8 @@ const supabaseApi: ApiFunctions = {
   createBusinessSubscription: createBusinessSubscription,
   updateBusinessSubscription: updateBusinessSubscription,
   cancelSubscription: cancelSubscription,
+  resetPassword: resetPassword,
+  updatePassword: updatePassword,
 }
 
 export default supabaseApi

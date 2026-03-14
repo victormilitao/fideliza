@@ -121,4 +121,6 @@ export type ApiFunctions = {
     subscription: Omit<BusinessSubscription, 'id' | 'created_at' | 'updated_at'>
   ) => Promise<Response<BusinessSubscription>>
   cancelSubscription: (subscriptionId: string) => Promise<Response<any>>
+  resetPassword: (email: string) => Promise<Response<boolean>>
+  updatePassword: (password: string) => Promise<Response<boolean>>
 }

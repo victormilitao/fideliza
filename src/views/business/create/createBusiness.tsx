@@ -14,7 +14,6 @@ type BusinessFormSchema = z.infer<typeof createBusinessSchema>
 
 export const CreateBusiness: React.FC = () => {
   const { user } = useUserLoggedIn()
-  const { createBusiness, createBusinessloading } = useBusiness()
   
   useOnboardRedirect()
   
@@ -23,10 +22,13 @@ export const CreateBusiness: React.FC = () => {
     control,
     formState: { errors },
     setValue,
+    setError,
     watch,
   } = useForm<BusinessFormSchema>({
     resolver: zodResolver(createBusinessSchema),
   })
+
+  const { createBusiness, createBusinessloading } = useBusiness({ setError })
 
   const cepValue: string | undefined = watch('cep')
   const { isLoading: isCepLoading, error: cepLookupError } = useCepLookup(cepValue, setValue)

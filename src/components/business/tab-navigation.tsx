@@ -23,7 +23,7 @@ export const TabNavigation = ({ tabs }: TabNavigationProps) => {
                 key={tab.href}
                 href={tab.href}
                 className={cn(
-                  'pb-1 border-b-2 font-medium text-sm transition-colors',
+                  'pb-1 -mb-px border-b-2 font-medium text-sm transition-colors',
                   isActive
                     ? 'border-primary-600 text-primary-600'
                     : 'border-transparent text-neutral-700'

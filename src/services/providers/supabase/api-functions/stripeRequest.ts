@@ -2,20 +2,21 @@ import { Response } from '@/services/types/api.type'
 import supabase from '../config'
 
 export const stripeRequest = async (
-  priceId: string
+  priceId: string,
+  customerEmail?: string
 ): Promise<Response<{ clientSecret: string; sessionId: string | null }>> => {
   try {
     // Construir return_url dinamicamente quando a função é chamada
     // para evitar erros em ambientes não-browser (SSR, testes, etc.)
     const return_url = typeof window !== 'undefined' 
-      ? `${window.location.origin}/store/payment/return?session_id={CHECKOUT_SESSION_ID}`
-      : '/store/payment/return?session_id={CHECKOUT_SESSION_ID}'
+      ? `${window.location.origin}/store/payment/success?session_id={CHECKOUT_SESSION_ID}`
+      : '/store/payment/success?session_id={CHECKOUT_SESSION_ID}'
     
     console.log('Creating checkout session with priceId:', priceId)
     
     const { data, error } = await supabase.functions.invoke('create-checkout-session', {
       method: 'POST',
-      body: { priceId, return_url },
+      body: { priceId, return_url, customer_email: customerEmail },
     })
 
     if (error) {

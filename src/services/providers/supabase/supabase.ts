@@ -1,6 +1,7 @@
 import { signInWithPassword } from './api-functions/signInWithPassword'
 import { getMyBusiness } from './api-functions/getMyBusiness'
 import { addStamp } from './api-functions/addStamp'
+import { getTotalStampsByBusiness } from './api-functions/getTotalStampsByBusiness'
 import { getUserLoggedIn } from './api-functions/getUserLoggedIn'
 import { getPersonByPhone } from './api-functions/getPersonByPhone'
 import { getStampsByUserId } from './api-functions/getStampsByUserId'
@@ -53,6 +54,7 @@ const supabaseApi: ApiFunctions = {
   signInWithCode: signInWithCode,
   getMyBusiness: getMyBusiness,
   addStamp: addStamp,
+  getTotalStampsByBusiness: getTotalStampsByBusiness,
   getUserLoggedIn: getUserLoggedIn,
   getPersonByPhone: getPersonByPhone,
   getPersonByPhoneWithProfile: getPersonByPhoneWithProfile,

@@ -20,18 +20,19 @@ export const Dashboard = () => {
   }
 
   const tabs = [
-    { label: 'Enviar selos', href: '/store' },
+    { label: 'Enviar selos', href: '/' },
     { label: 'Dados', href: '/store/dashboard' },
-    { label: 'Pagamento', href: '/store/payment' },
   ]
 
   return (
-    <div className='flex flex-col min-h-screen'>
-      <Header />
-      <TabNavigation tabs={tabs} />
+    <div className='min-h-screen flex flex-col bg-neutral-50'>
+      <div className="bg-white">
+        <Header />
+        <TabNavigation tabs={tabs} />
+      </div>
       
-      <div className='flex flex-1'>
-        <div className='w-full px-6 py-8 sm:px-10 sm:py-8'>
+      <div className='flex flex-1 justify-center relative'>
+        <div className='w-full max-w-5xl px-6 py-8 sm:px-10 sm:py-8'>
           <h1 className='font-bold text-neutral-700 mb-8'>
             Quantidade de clientes por selos acumulados
           </h1>

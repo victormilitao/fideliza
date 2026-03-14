@@ -23,9 +23,9 @@ export const useOnboardRedirect = (shouldRedirect: boolean = true) => {
   // Mas só se não estiver já na página de criar estabelecimento
   useEffect(() => {
     if (shouldRedirect && !businessLoading && !business) {
-      const isOnCreateBusinessPage = pathname === '/estabelecimento/criar-estabelecimento'
+      const isOnCreateBusinessPage = pathname === '/store/create-store'
       if (!isOnCreateBusinessPage) {
-        router.push('/estabelecimento/criar-estabelecimento')
+        router.push('/store/create-store')
       }
     }
   }, [shouldRedirect, businessLoading, business, router, pathname])
@@ -33,9 +33,9 @@ export const useOnboardRedirect = (shouldRedirect: boolean = true) => {
   // Redirecionar para criar campanha se business existe mas não tem campanhas
   useEffect(() => {
     if (shouldRedirect && !myCampaignsLoading && business && (!campaigns || campaigns.length === 0)) {
-      const isOnCreateCampaignPage = pathname === '/estabelecimento/criar-campanha'
+      const isOnCreateCampaignPage = pathname === '/store/create-campaign'
       if (!isOnCreateCampaignPage) {
-        router.push('/estabelecimento/criar-campanha')
+        router.push('/store/create-campaign')
       }
     }
   }, [shouldRedirect, myCampaignsLoading, campaigns, business, router, pathname])
@@ -43,9 +43,9 @@ export const useOnboardRedirect = (shouldRedirect: boolean = true) => {
   // Redirecionar para home se business e campanhas já existem
   useEffect(() => {
     if (shouldRedirect && !myCampaignsLoading && business && campaigns && campaigns.length > 0) {
-      const isOnHomePage = pathname === '/estabelecimento'
+      const isOnHomePage = pathname === '/store'
       if (!isOnHomePage) {
-        router.push('/estabelecimento')
+        router.push('/store')
       }
     }
   }, [shouldRedirect, myCampaignsLoading, business, campaigns, router, pathname])

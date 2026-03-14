@@ -8,8 +8,8 @@ export const stripeRequest = async (
     // Construir return_url dinamicamente quando a função é chamada
     // para evitar erros em ambientes não-browser (SSR, testes, etc.)
     const return_url = typeof window !== 'undefined' 
-      ? `${window.location.origin}/estabelecimento/payment/return?session_id={CHECKOUT_SESSION_ID}`
-      : '/estabelecimento/payment/return?session_id={CHECKOUT_SESSION_ID}'
+      ? `${window.location.origin}/store/payment/return?session_id={CHECKOUT_SESSION_ID}`
+      : '/store/payment/return?session_id={CHECKOUT_SESSION_ID}'
     
     console.log('Creating checkout session with priceId:', priceId)
     

@@ -40,7 +40,7 @@ export const CreateCampaign: React.FC = () => {
     data = { ...data, business_id: business.id }
     await createCampaign(data)
     localStorage.setItem('showInstructions', 'true')
-    router.push('/estabelecimento')
+    router.push('/store')
   }
 
   const handleCreateCampaignError = (error: any) => {

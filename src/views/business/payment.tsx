@@ -245,9 +245,9 @@ export const Payment = () => {
   }, [subscription, business?.id, queryClient, refetchSubscription]);
 
   const tabs = [
-    { label: "Enviar selos", href: "/estabelecimento" },
-    { label: "Dados", href: "/estabelecimento/dashboard" },
-    { label: "Pagamento", href: "/estabelecimento/payment" },
+    { label: "Enviar selos", href: "/store" },
+    { label: "Dados", href: "/store/dashboard" },
+    { label: "Pagamento", href: "/store/payment" },
   ];
 
   // Verificar status da subscription

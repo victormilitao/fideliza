@@ -8,9 +8,9 @@ export const PaymentReturn = () => {
 
   useEffect(() => {
     if (sessionId) {
-      router.replace(`/estabelecimento/payment?session_id=${sessionId}`)
+      router.replace(`/store/payment?session_id=${sessionId}`)
     } else {
-      router.replace('/estabelecimento/payment')
+      router.replace('/store/payment')
     }
   }, [sessionId, router])
 

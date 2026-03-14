@@ -56,7 +56,7 @@ export const useAuth = () => {
   ): boolean => {
     if (profile?.role === BUSINESS_OWNER && !profile.verified) {
       logout()
-      router.push(`/estabelecimento/email-sent/${email}`)
+      router.push(`/store/email-sent/${email}`)
       return false
     }
     return true

@@ -19,7 +19,7 @@ export const useForgotPassword = () => {
       return { data, error }
     },
     onSuccess: () => {
-      router.push('/esqueci-senha/enviado')
+      router.push('/forgot-password/sent')
     },
     onError: (error: unknown) => {
       if (error instanceof Error) {

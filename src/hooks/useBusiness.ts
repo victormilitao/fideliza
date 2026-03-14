@@ -56,7 +56,7 @@ export const useBusiness = () => {
     onSuccess: (data) => {
       console.dir('Enviando email!')
       console.dir(data.data?.email)
-      router.push(`/estabelecimento/email-sent/${data.data?.email}`)
+      router.push(`/store/email-sent/${data.data?.email}`)
     },
     onError: (error: Error) => {
       console.error('Erro ao criar usuário:', error)
@@ -78,7 +78,7 @@ export const useBusiness = () => {
       success('Estabelecimento criado.')
       // Invalidar a query do business para forçar uma nova busca
       queryClient.invalidateQueries({ queryKey: ['my-business'] })
-      router.push('/estabelecimento/criar-campanha')
+      router.push('/store/create-campaign')
     },
     onError: (error: Error) => {
       console.error('createBusiness error:', error)

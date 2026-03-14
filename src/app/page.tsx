@@ -9,7 +9,7 @@ export default function RootPage() {
   const { isLoggedIn, profile } = useAuthStore()
 
   if (!isLoggedIn) return <Landing />
-  if (profile?.role === BUSINESS_OWNER) redirect('/estabelecimento')
-  if (profile?.role === CUSTOMER) redirect('/usuario')
+  if (profile?.role === BUSINESS_OWNER) redirect('/store')
+  if (profile?.role === CUSTOMER) redirect('/user')
   redirect('/login')
 }

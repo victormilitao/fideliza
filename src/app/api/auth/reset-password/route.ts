@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     if (!email) {
       return NextResponse.json(
-        { error: 'Campo obrigatório: email' },
+        { error: 'Required field: email' },
         { status: 400 }
       )
     }
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
     if (!supabaseServiceKey) {
-      console.error('SUPABASE_SERVICE_ROLE_KEY não configurada')
+      console.error('SUPABASE_SERVICE_ROLE_KEY not configured')
       return NextResponse.json(
         { error: 'Service not configured' },
         { status: 500 }
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     const origin: string =
       request.headers.get('origin') || 'http://localhost:3000'
-    const redirectTo: string = `${origin}/redefinir-senha`
+    const redirectTo: string = `${origin}/reset-password`
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: 'recovery',
@@ -45,9 +45,9 @@ export async function POST(request: NextRequest) {
     })
 
     if (error) {
-      console.error('Erro ao gerar link de recuperação:', error.message)
+      console.error('Error generating recovery link:', error.message)
       return NextResponse.json(
-        { error: 'Não foi possível processar a solicitação.' },
+        { error: 'Unable to process the request.' },
         { status: 400 }
       )
     }
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     const gmailAppPassword: string = process.env.GMAIL_APP_PASSWORD || ''
 
     if (!gmailUser || !gmailAppPassword) {
-      console.error('GMAIL_USER ou GMAIL_APP_PASSWORD não configurados')
+      console.error('GMAIL_USER or GMAIL_APP_PASSWORD not configured')
       return NextResponse.json(
         { error: 'Email service not configured' },
         { status: 500 }
@@ -102,9 +102,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Erro na rota de reset de senha:', error)
+    console.error('Error in reset password route:', error)
     const errorMessage: string =
-      error instanceof Error ? error.message : 'Erro desconhecido'
+      error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }

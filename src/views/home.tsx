@@ -54,14 +54,14 @@ export const Home = () => {
   const handleGoToTickets = async (data: FormSchema) => {
     const phone = data.phone.replace(/\D/g, '')
     await getUserByPhone(phone)
-    router.push('/estabelecimento/tickets')
+    router.push('/store/tickets')
     reset()
   }
 
   const tabs = [
-    { label: 'Enviar selos', href: '/estabelecimento' },
-    { label: 'Dados', href: '/estabelecimento/dashboard' },
-    { label: 'Pagamento', href: '/estabelecimento/payment' },
+    { label: 'Enviar selos', href: '/store' },
+    { label: 'Dados', href: '/store/dashboard' },
+    { label: 'Pagamento', href: '/store/payment' },
   ]
 
   return (

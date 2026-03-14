@@ -12,7 +12,7 @@ export default function CustomerProtectedLayout({
   const { isLoggedIn, profile } = useAuthStore()
 
   if (!isLoggedIn || profile?.role !== CUSTOMER) {
-    redirect('/usuario/login')
+    redirect('/user/login')
   }
 
   return <>{children}</>

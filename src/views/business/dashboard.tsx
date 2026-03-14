@@ -20,9 +20,9 @@ export const Dashboard = () => {
   }
 
   const tabs = [
-    { label: 'Enviar selos', href: '/estabelecimento' },
-    { label: 'Dados', href: '/estabelecimento/dashboard' },
-    { label: 'Pagamento', href: '/estabelecimento/payment' },
+    { label: 'Enviar selos', href: '/store' },
+    { label: 'Dados', href: '/store/dashboard' },
+    { label: 'Pagamento', href: '/store/payment' },
   ]
 
   return (

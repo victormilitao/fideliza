@@ -34,7 +34,7 @@ export const EmailSent = () => {
             Se não encontrar o e-mail na sua caixa de entrada, verifique a pasta
             de spam ou procure pelo remetente: nao-responda@fideliza.com.br.
           </p>
-          <Link href={'/estabelecimento/criar'}>
+          <Link href={'/store/create'}>
             <Button variant='secondary' className='mt-10 min-w-64 w-full'>
               Voltar
             </Button>

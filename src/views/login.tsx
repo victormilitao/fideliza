@@ -71,7 +71,7 @@ export const Login: React.FC = () => {
             {loading ? 'Entrando...' : 'Entrar'}
           </Button>
           <Link
-            href='/esqueci-senha'
+            href='/forgot-password'
             className='text-center text-primary-600 font-bold text-sm'
           >
             Esqueci minha senha
@@ -79,7 +79,7 @@ export const Login: React.FC = () => {
         </form>
       </div>
       <div className='mt-auto text-primary-600 font-bold'>
-        <Link href={'/estabelecimento/criar'}>Criar programa de fidelidade</Link>
+        <Link href={'/store/create'}>Criar programa de fidelidade</Link>
       </div>
     </div>
   )

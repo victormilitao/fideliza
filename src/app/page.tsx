@@ -6,7 +6,9 @@ import { redirect } from 'next/navigation'
 import { Landing } from '@/views/landing/landing'
 
 export default function RootPage() {
-  const { isLoggedIn, profile } = useAuthStore()
+  const { isLoggedIn, profile, hasHydrated } = useAuthStore()
+
+  if (!hasHydrated) return null
 
   if (!isLoggedIn) return <Landing />
   if (profile?.role === BUSINESS_OWNER) redirect('/estabelecimento')

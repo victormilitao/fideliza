@@ -9,7 +9,9 @@ export default function BusinessProtectedLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { isLoggedIn, profile } = useAuthStore()
+  const { isLoggedIn, profile, hasHydrated } = useAuthStore()
+
+  if (!hasHydrated) return null
 
   if (!isLoggedIn || profile?.role !== BUSINESS_OWNER) {
     redirect('/login')

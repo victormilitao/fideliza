@@ -54,6 +54,7 @@ export const useOnboardRedirect = (shouldRedirect: boolean = true) => {
     business,
     businessLoading,
     campaigns,
-    myCampaignsLoading
+    myCampaignsLoading,
+    isLoading: businessLoading || myCampaignsLoading,
   }
 }

@@ -30,7 +30,7 @@ export const ForgotPassword: React.FC = () => {
   return (
     <div className='flex flex-col items-center justify-center min-h-[100dvh] py-10'>
       <h1 className='text-center text-primary-600 font-bold text-2xl md:text-3xl mt-10'>
-        Fideliza
+        Eloop
       </h1>
       <div className='flex flex-col gap-6 w-[90%] max-w-xs my-auto'>
         <div className='flex flex-col gap-2'>
@@ -38,7 +38,7 @@ export const ForgotPassword: React.FC = () => {
             Esqueceu sua senha?
           </h2>
           <p className='text-neutral-700 text-sm'>
-            Informe seu e-mail cadastrado no Fideliza e enviaremos um link para
+            Informe seu e-mail cadastrado no Eloop e enviaremos um link para
             você redefinir sua senha.
           </p>
         </div>

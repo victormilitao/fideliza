@@ -73,15 +73,15 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    const fromName: string = process.env.GMAIL_FROM_NAME || 'Fideliza'
+    const fromName: string = process.env.GMAIL_FROM_NAME || 'Eloop'
 
     await transporter.sendMail({
       from: `${fromName} <${gmailUser}>`,
       to: email,
-      subject: 'Redefinir sua senha - Fideliza',
+      subject: 'Redefinir sua senha - Eloop',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px;">
-          <h1 style="color: #021c54; font-size: 24px; margin-bottom: 24px;">Fideliza</h1>
+          <h1 style="color: #021c54; font-size: 24px; margin-bottom: 24px;">Eloop</h1>
           <h2 style="color: #1F2937; font-size: 18px; margin-bottom: 16px;">Redefinir senha</h2>
           <p style="color: #4B5563; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
             Você solicitou a redefinição da sua senha. Clique no botão abaixo para criar uma nova senha:

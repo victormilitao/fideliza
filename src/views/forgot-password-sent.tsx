@@ -7,7 +7,7 @@ export const ForgotPasswordSent: React.FC = () => {
   return (
     <div className='flex flex-col items-center justify-center min-h-[100dvh] py-10'>
       <h1 className='text-center text-primary-600 font-bold text-2xl md:text-3xl mt-10'>
-        Fideliza
+        Eloop
       </h1>
       <div className='flex flex-col gap-6 w-[90%] max-w-xs my-auto items-center'>
         <div className='flex flex-col gap-4 items-center'>

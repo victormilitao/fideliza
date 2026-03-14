@@ -15,7 +15,12 @@ export const useForgotPassword = () => {
   >({
     mutationFn: async (email: string): Promise<Response<boolean>> => {
       const { data, error } = await api.resetPassword(email)
-      if (error) throw new Error('Verifique o e-mail informado.')
+      // Não lançamos erro aqui para sempre prosseguir para a tela de envio com sucesso,
+      // pois a mesma já instrui o usuário a verificar o e-mail, e também evita
+      // mostrar mensagens de erro (toast) indesejadas na UI original.
+      if (error) {
+        console.error('Password reset request error:', error)
+      }
       return { data, error }
     },
     onSuccess: () => {

@@ -1,10 +1,10 @@
-# 🎯 Fideliza
+# 🎯 Eloop
 
 Sistema de fidelização digital que permite estabelecimentos criarem campanhas de selos para recompensar clientes frequentes.
 
 ## 📋 Sobre o Projeto
 
-O **Fideliza** é uma plataforma completa de fidelização que conecta estabelecimentos comerciais e seus clientes através de um sistema de selos digitais. Os clientes acumulam selos a cada compra e podem trocá-los por prêmios quando completam a campanha.
+O **Eloop** é uma plataforma completa de fidelização que conecta estabelecimentos comerciais e seus clientes através de um sistema de selos digitais. Os clientes acumulam selos a cada compra e podem trocá-los por prêmios quando completam a campanha.
 
 ### ✨ Funcionalidades Principais
 
@@ -174,4 +174,4 @@ Para dúvidas ou suporte, entre em contato através dos canais:
 
 ---
 
-Desenvolvido com ❤️ pela equipe Fideliza
+Desenvolvido com ❤️ pela equipe Eloop

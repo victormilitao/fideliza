@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@theme {
+  --color-backgrounbd: var(--color-neutral-100);
+
+  --color-primary-100: #eef8ff;
+  --color-primary-200: #c8e3f8;
+  --color-primary-300: #94c5f1;
+  --color-primary-400: #3067ac;
+  --color-primary-500: #053275;
+  --color-primary-600: #021c54;
+  --color-primary-700: #000e38;
+
+  --color-neutral-100: #ffffff;
+  --color-neutral-200: #f9f9f9;
+  --color-neutral-400: #cbcbcb;
+  --color-neutral-500: #a7a7a7;
+  --color-neutral-700: #161616;
+  --color-neutral-700-25: #16161640;
+
+  --color-error-100: #fff3f3;
+  --color-error-400: #e05f5f;
+  --color-error-600: #990606;
+
+  --color-whatsapp: #25d366;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-VariableFont_wdth,wght.ttf')
+    format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+body {
+  margin: 0 auto;
+  padding: 0 auto;
+  font-family: 'Roboto', Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--neutral-500);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-neutral-700;
+  }
+  input {
+    @apply border border-neutral-500 p-2 rounded-sm min-w-3xs min-h-10;
+  }
+}
+
+@layer utilities {
+  .fill-icon {
+    .lucide-ticket-check path:nth-child(2) {
+      stroke: var(--color-neutral-100);
+    }
+  }
+  .shadow {
+    .lucide-ticket-check {
+      filter: drop-shadow(4px 4px 10px #00000040);
+    }
+  }
+}

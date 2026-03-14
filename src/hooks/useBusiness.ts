@@ -4,20 +4,30 @@ import { BUSINESS_OWNER } from '@/types/profile'
 import { User } from '@/types/user.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEmailToken } from './business/useEmailToken'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { Business } from '@/types/business.type'
 import { useToast } from './useToast'
 import errorCode from '@/services/errorCode'
+
 
 type CreateUser = {
   email: string
   password: string
 }
 
-export const useBusiness = () => {
+type SetCnpjError = (name: 'cnpj', error: { type: string; message: string }) => void
+
+type UseBusinessOptions = {
+  setError?: SetCnpjError
+}
+
+const CNPJ_ALREADY_EXISTS_MESSAGE = 'CNPJ já cadastrado'
+
+export const useBusiness = (options: UseBusinessOptions = {}) => {
+  const { setError } = options
   const { generateEmailConfirmationToken } = useEmailToken()
-  const { error: toastError, success } = useToast()
-  const navigate = useNavigate()
+  const { error: toastError } = useToast()
+  const router = useRouter()
   const queryClient = useQueryClient()
 
   const { mutate: createUser, isPending: loading } = useMutation<
@@ -56,7 +66,7 @@ export const useBusiness = () => {
     onSuccess: (data) => {
       console.dir('Enviando email!')
       console.dir(data.data?.email)
-      navigate(`/estabelecimento/email-sent/${data.data?.email}`)
+      router.push(`/estabelecimento/email-sent/${data.data?.email}`)
     },
     onError: (error: Error) => {
       console.error('Erro ao criar usuário:', error)
@@ -75,14 +85,21 @@ export const useBusiness = () => {
       return { data: newBusiness, error: null }
     },
     onSuccess: () => {
-      success('Estabelecimento criado.')
       // Invalidar a query do business para forçar uma nova busca
       queryClient.invalidateQueries({ queryKey: ['my-business'] })
-      navigate('/estabelecimento/criar-campanha')
+      router.push('/estabelecimento/criar-campanha')
     },
     onError: (error: Error) => {
-      console.error('createBusiness error:', error)
-      error.message && toastError(error.message)
+      const isCnpjDuplicate = error.message === 'Estabelecimento já criado.'
+
+      if (isCnpjDuplicate && setError) {
+        setError('cnpj', {
+          type: 'manual',
+          message: CNPJ_ALREADY_EXISTS_MESSAGE,
+        })
+      } else if (error.message) {
+        toastError(error.message)
+      }
     },
   })
 

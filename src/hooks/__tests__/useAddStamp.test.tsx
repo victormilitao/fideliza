@@ -1,7 +1,6 @@
 /// <reference types="vitest" />
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { MemoryRouter } from 'react-router-dom'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useAddStamp } from '../useAddStamp'
 import { useToast } from '@/hooks/useToast'
@@ -12,9 +11,7 @@ import { useMyActiveCampaigns } from '../useMyActiveCampaigns'
 const createWrapper = () => {
   const queryClient = new QueryClient()
   return ({ children }: { children: React.ReactNode }) => (
-    <MemoryRouter>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
 
@@ -38,15 +35,18 @@ vi.mock('@/services/api', () => ({
   },
 }))
 
-const mockNavigate = vi.fn()
+const mockPush = vi.fn()
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+}))
 
 describe('useAddStamp', () => {
   const mockToast = { error: vi.fn(), success: vi.fn(), show: vi.fn() }

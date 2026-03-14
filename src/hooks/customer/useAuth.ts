@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Response } from '@/services/types/api.type'
@@ -18,7 +18,7 @@ type LoginParams = {
 
 export const useAuth = () => {
   const toast = useToast()
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setSession } = useAuthStore()
 
   const { mutateAsync: checkPersonExisting, isPending: checkLoading } =
@@ -79,7 +79,7 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.data) setSession(data.data)
-      navigate('/usuario')
+      router.push('/usuario')
     },
     onError: (error: unknown) => {
       console.error('Error signing in:', error)
@@ -119,7 +119,7 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.data) setSession(data.data)
-      navigate('/usuario')
+      router.push('/usuario')
     },
     onError: (error: unknown) => {
       console.error('Error loginByToken:', error)

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Campaign } from '@/types/campaign.type'
@@ -7,6 +7,7 @@ type CreateCampaignData = Omit<Campaign, 'id' | 'created_at' | 'business' | 'car
 
 export const useCampaign = () => {
   const toast = useToast()
+  const queryClient = useQueryClient()
 
   const { mutateAsync: createCampaign, isPending: createCampaignLoading } = useMutation<
     Campaign,
@@ -23,7 +24,7 @@ export const useCampaign = () => {
       return response.data
     },
     onSuccess: () => {
-      
+      queryClient.invalidateQueries({ queryKey: ['my-campaigns'] })
     },
     onError: (error: unknown) => {
       console.error('Error creating campaign:', error)

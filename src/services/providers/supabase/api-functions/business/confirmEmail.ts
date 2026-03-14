@@ -1,6 +1,5 @@
 import { Response } from '@/services/types/api.type'
 import supabase from '../../config'
-import api from '@/services/api'
 import { ApiFunctions } from '@/services/types/api-functions.type'
 
 export type ConfirmEmailResponse = {
@@ -14,47 +13,27 @@ export const confirmEmail: ApiFunctions['confirmEmail'] = async (
   try {
     if (!token) throw new Error('Token is required')
 
-    const { data: tokenData, error: errorToken } = await supabase
-      .from('email_confirmation_tokens')
-      .select('user_id, confirmed_at, expires_at')
-      .eq('token', token)
-      .maybeSingle()
-
-    if (errorToken || !tokenData) throw new Error('Invalid token')
-
-    if (tokenData.confirmed_at) {
-      return {
-        data: { tokenValid: true, userId: tokenData.user_id },
-        error: null,
-      }
-    }
-
-    const now = new Date()
-    // const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000)
-    const expiresAt = new Date(tokenData.expires_at)
-    if (expiresAt < now) {
-      return {
-        data: { tokenValid: false, userId: tokenData.user_id },
-        error: null,
-      }
-    }
-    const { data, error } = await supabase
-      .from('email_confirmation_tokens')
-      .update({ confirmed_at: now })
-      .eq('token', token)
-      .select('user_id')
-      .maybeSingle()
+    const { data, error } = await supabase.rpc(
+      'confirm_email_verify_profile',
+      { p_token: token }
+    )
 
     if (error) throw new Error('Failed to confirm email')
 
-    const { data: verifyProfile, error: verifyProfileError } =
-      await api.verifyProfile(data?.user_id)
-
-    if (verifyProfileError || !verifyProfile) {
-      throw new Error('Failed to verify profile after email confirmation')
+    const result = data as {
+      token_valid: boolean
+      user_id: string | null
+      error?: string
     }
 
-    return { data: { tokenValid: true, userId: data?.user_id }, error: null }
+    if (result.error === 'Invalid token' || !result.user_id) {
+      throw new Error('Invalid token')
+    }
+
+    return {
+      data: { tokenValid: result.token_valid, userId: result.user_id },
+      error: null,
+    }
   } catch (err) {
     console.error('confirmEmail - Unexpected error:', err)
     return { data: null, error: err as Error }

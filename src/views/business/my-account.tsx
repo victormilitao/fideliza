@@ -131,7 +131,7 @@ export const MyAccount = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-row gap-4 justify-center">
           <Button
             variant="link"
             onClick={handleCancelSubscription}

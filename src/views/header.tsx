@@ -15,6 +15,13 @@ export const Header = () => {
   const router = useRouter();
   const { logout } = useLogout();
 
+  const handleSupportClick = () => {
+    const phoneNumber = "5541987658901";
+    const message = encodeURIComponent("Olá, preciso de suporte com o eloop!");
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,8 +56,8 @@ export const Header = () => {
               Configurações
             </button>
           )}
-          {session && <SupportButton />}
-          {session && <LogoutButton />}
+          {session && <SupportButton className="font-bold" />}
+          {session && <LogoutButton className="font-bold" />}
         </div>
 
         {/* Mobile hamburger menu */}
@@ -74,6 +81,15 @@ export const Header = () => {
                   className="block w-full text-left text-sm font-bold text-primary-600 py-2 cursor-pointer"
                 >
                   Configurações
+                </button>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    handleSupportClick();
+                  }}
+                  className="block w-full text-left text-sm font-bold text-primary-600 py-2 cursor-pointer"
+                >
+                  Suporte
                 </button>
                 <button
                   onClick={() => {

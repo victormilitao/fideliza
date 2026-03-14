@@ -10,6 +10,7 @@ import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { useCampaign } from '@/hooks/useCampaign'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 type CampaignFormSchema = z.infer<typeof createCampaignSchema>
 
@@ -17,6 +18,7 @@ export const CreateCampaign: React.FC = () => {
   const { business } = useMyBusiness()
   const { createCampaign, createCampaignLoading } = useCampaign()
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const {
     handleSubmit,
@@ -39,6 +41,7 @@ export const CreateCampaign: React.FC = () => {
 
     data = { ...data, business_id: business.id }
     await createCampaign(data)
+    queryClient.removeQueries({ queryKey: ['my-campaigns'] })
     localStorage.setItem('showInstructions', 'true')
     router.push('/estabelecimento')
   }

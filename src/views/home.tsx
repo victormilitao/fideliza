@@ -28,7 +28,7 @@ export const Home = () => {
   const { findCompletedCard } = useCompletedCard()
   const router = useRouter()
 
-  useOnboardRedirect()
+  const { isLoading: onboardLoading } = useOnboardRedirect()
 
   const {
     handleSubmit,
@@ -39,6 +39,14 @@ export const Home = () => {
     resolver: zodResolver(schema),
     defaultValues: { phone: '' },
   })
+
+  if (onboardLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+      </div>
+    )
+  }
 
   const handleBonus = async (data: FormSchema) => {
     const card = await findCompletedCard(data.phone)
@@ -54,14 +62,14 @@ export const Home = () => {
   const handleGoToTickets = async (data: FormSchema) => {
     const phone = data.phone.replace(/\D/g, '')
     await getUserByPhone(phone)
-    router.push('/store/tickets')
+    router.push(`/estabelecimento/tickets?phone=${phone}`)
     reset()
   }
 
   const tabs = [
-    { label: 'Enviar selos', href: '/store' },
-    { label: 'Dados', href: '/store/dashboard' },
-    { label: 'Pagamento', href: '/store/payment' },
+    { label: 'Enviar selos', href: '/' },
+    { label: 'Dados', href: '/estabelecimento/dashboard' },
+    { label: 'Pagamento', href: '/estabelecimento/payment' },
   ]
 
   return (

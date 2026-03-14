@@ -32,7 +32,7 @@ export const EmailSent = () => {
           <p className='text-sm mt-5'>Clique no link para confirmar.</p>
           <p className='text-xs mt-5'>
             Se não encontrar o e-mail na sua caixa de entrada, verifique a pasta
-            de spam ou procure pelo remetente: nao-responda@fideliza.com.br.
+            de spam ou procure pelo remetente: eloop.fideliza@gmail.com.
           </p>
           <Link href={'/store/create'}>
             <Button variant='secondary' className='mt-10 min-w-64 w-full'>

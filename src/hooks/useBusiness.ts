@@ -9,14 +9,24 @@ import { Business } from '@/types/business.type'
 import { useToast } from './useToast'
 import errorCode from '@/services/errorCode'
 
+
 type CreateUser = {
   email: string
   password: string
 }
 
-export const useBusiness = () => {
+type SetCnpjError = (name: 'cnpj', error: { type: string; message: string }) => void
+
+type UseBusinessOptions = {
+  setError?: SetCnpjError
+}
+
+const CNPJ_ALREADY_EXISTS_MESSAGE = 'CNPJ já cadastrado'
+
+export const useBusiness = (options: UseBusinessOptions = {}) => {
+  const { setError } = options
   const { generateEmailConfirmationToken } = useEmailToken()
-  const { error: toastError, success } = useToast()
+  const { error: toastError } = useToast()
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -75,14 +85,21 @@ export const useBusiness = () => {
       return { data: newBusiness, error: null }
     },
     onSuccess: () => {
-      success('Estabelecimento criado.')
       // Invalidar a query do business para forçar uma nova busca
       queryClient.invalidateQueries({ queryKey: ['my-business'] })
       router.push('/store/create-campaign')
     },
     onError: (error: Error) => {
-      console.error('createBusiness error:', error)
-      error.message && toastError(error.message)
+      const isCnpjDuplicate = error.message === 'Estabelecimento já criado.'
+
+      if (isCnpjDuplicate && setError) {
+        setError('cnpj', {
+          type: 'manual',
+          message: CNPJ_ALREADY_EXISTS_MESSAGE,
+        })
+      } else if (error.message) {
+        toastError(error.message)
+      }
     },
   })
 

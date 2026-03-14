@@ -7,6 +7,7 @@ type AuthStore = {
   session: Session | null
   isLoggedIn: boolean
   profile: Profile | null
+  hasHydrated: boolean
   setSession: (response: SignInWithPasswordResponse) => void
   clearSession: () => void
 }
@@ -17,6 +18,7 @@ export const useAuthStore = create<AuthStore>()(
       session: null,
       isLoggedIn: false,
       profile: null,
+      hasHydrated: false,
       setSession: (response) =>
         set({ session: response.session, isLoggedIn: true, profile: response.profile }),
       clearSession: () => set({ session: null, isLoggedIn: false, profile: null }),
@@ -28,6 +30,9 @@ export const useAuthStore = create<AuthStore>()(
         isLoggedIn: state.isLoggedIn,
         profile: state.profile,
       }),
+      onRehydrateStorage: () => () => {
+        useAuthStore.setState({ hasHydrated: true })
+      },
     }
   )
 )

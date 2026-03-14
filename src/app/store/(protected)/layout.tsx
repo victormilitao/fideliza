@@ -9,7 +9,13 @@ export default function BusinessProtectedLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { isLoggedIn, profile } = useAuthStore()
+  const { isLoggedIn, profile, hasHydrated } = useAuthStore()
+
+  if (!hasHydrated) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+    </div>
+  )
 
   if (!isLoggedIn || profile?.role !== BUSINESS_OWNER) {
     redirect('/login')

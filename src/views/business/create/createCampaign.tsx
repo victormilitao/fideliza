@@ -10,6 +10,7 @@ import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { useCampaign } from '@/hooks/useCampaign'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 type CampaignFormSchema = z.infer<typeof createCampaignSchema>
 
@@ -17,6 +18,7 @@ export const CreateCampaign: React.FC = () => {
   const { business } = useMyBusiness()
   const { createCampaign, createCampaignLoading } = useCampaign()
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const {
     handleSubmit,
@@ -27,7 +29,7 @@ export const CreateCampaign: React.FC = () => {
     resolver: zodResolver(createCampaignSchema),
     defaultValues: {
       business_id: '',
-      stamps_required: 5,
+      stamps_required: '5' as unknown as number,
     },
   })
 
@@ -39,6 +41,7 @@ export const CreateCampaign: React.FC = () => {
 
     data = { ...data, business_id: business.id }
     await createCampaign(data)
+    queryClient.removeQueries({ queryKey: ['my-campaigns'] })
     localStorage.setItem('showInstructions', 'true')
     router.push('/store')
   }
@@ -118,10 +121,15 @@ export const CreateCampaign: React.FC = () => {
                 <Input
                   label='Quantos selos serão necessários para ganhar o prêmio?'
                   className='mb-5'
-                  type='number'
+                  type='text'
+                  inputMode='numeric'
+                  maxLength={2}
                   placeholder='10'
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value: string = e.target.value.replace(/\D/g, '')
+                    field.onChange(value)
+                  }}
                   error={errors.stamps_required?.message}
                 />
               )}

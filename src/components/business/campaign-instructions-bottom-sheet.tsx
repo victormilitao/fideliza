@@ -44,8 +44,8 @@ export const CampaignInstructionsBottomSheet = () => {
             </div>
             <div className='flex gap-3'>
               <p className='text-sm'>
-                <span className='font-bold'>2.</span>O cliente receberá um SMS
-                com o selo e um link para acompanhar o progresso dele.
+                <span className='font-bold'>2. &nbsp;</span>
+                O cliente receberá um SMS com o selo e um link para acompanhar o progresso dele.
               </p>
             </div>
             <div className='flex gap-3'>

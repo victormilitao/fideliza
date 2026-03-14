@@ -15,7 +15,6 @@ export const createBusiness: ApiFunctions['createBusiness'] = async (
 
     if (error || !data) {
       const businessExistsAlready = isBusinessExists(error?.code)
-      console.error('Error creating business:', error)
       return {
         data: null,
         error: businessExistsAlready

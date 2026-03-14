@@ -48,6 +48,7 @@ import { getBusinessSubscriptionByBusinessId } from './api-functions/getBusiness
 import { cancelSubscription } from './api-functions/cancelSubscription'
 import { resetPassword } from './api-functions/resetPassword'
 import { updatePassword } from './api-functions/updatePassword'
+import { createPortalSession } from './api-functions/createPortalSession'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
@@ -102,6 +103,7 @@ const supabaseApi: ApiFunctions = {
   cancelSubscription: cancelSubscription,
   resetPassword: resetPassword,
   updatePassword: updatePassword,
+  createPortalSession: createPortalSession,
 }
 
 export default supabaseApi

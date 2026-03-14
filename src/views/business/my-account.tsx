@@ -13,9 +13,32 @@ export const MyAccount = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [isCanceling, setIsCanceling] = useState(false)
+  const [isChangingCard, setIsChangingCard] = useState(false)
 
   const isActive: boolean = subscription?.status === 'complete' || subscription?.status === 'active'
   const isCancelled: boolean = subscription?.subscription_status === 'canceled'
+
+  const handleChangeCard = useCallback(async () => {
+    if (!subscription?.stripe_customer_id) return
+
+    setIsChangingCard(true)
+    try {
+      const { data, error: portalError } = await api.createPortalSession(
+        subscription.stripe_customer_id
+      )
+
+      if (portalError || !data?.url) {
+        console.error('Erro ao abrir portal:', portalError)
+        return
+      }
+
+      window.location.href = data.url
+    } catch (err) {
+      console.error('Erro ao abrir portal:', err)
+    } finally {
+      setIsChangingCard(false)
+    }
+  }, [subscription?.stripe_customer_id])
 
   const handleCancelSubscription = useCallback(async () => {
     if (!subscription?.stripe_subscription_id) return
@@ -52,10 +75,16 @@ export const MyAccount = () => {
     }
   }, [subscription, business?.id, queryClient])
 
-  if (isLoading) {
+  if (isLoading || isChangingCard || isCanceling) {
     return (
-      <div className="flex items-center justify-center py-8">
+      <div className="flex flex-col items-center justify-center py-8 gap-3">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+        {isChangingCard && (
+          <p className="text-sm text-neutral-600">Redirecionando para o portal de pagamento...</p>
+        )}
+        {isCanceling && (
+          <p className="text-sm text-neutral-600">Cancelando assinatura...</p>
+        )}
       </div>
     )
   }
@@ -142,9 +171,11 @@ export const MyAccount = () => {
           </Button>
           <Button
             variant="link"
+            onClick={handleChangeCard}
+            disabled={isChangingCard || !subscription?.stripe_customer_id}
             className="text-primary-600 font-bold"
           >
-            Trocar cartão
+            {isChangingCard ? 'Abrindo...' : 'Trocar cartão'}
           </Button>
         </div>
 

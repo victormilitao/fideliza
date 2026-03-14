@@ -124,4 +124,5 @@ export type ApiFunctions = {
   cancelSubscription: (subscriptionId: string) => Promise<Response<any>>
   resetPassword: (email: string) => Promise<Response<boolean>>
   updatePassword: (password: string) => Promise<Response<boolean>>
+  createPortalSession: (customerId: string, returnUrl?: string) => Promise<Response<{ url: string }>>
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { Input } from '@/components/input'
 import { Button } from '@/components/button/button'
 import { useResetPassword } from '@/hooks/useResetPassword'
@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/useToast'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Icon from '@/components/icon'
 
@@ -24,7 +25,11 @@ const schema = z
 
 type ResetPasswordSchema = z.infer<typeof schema>
 
-export const ResetPassword: React.FC = () => {
+const ResetPasswordForm: React.FC = () => {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const token = searchParams.get('token')
+
   const { updatePassword, loading } = useResetPassword()
   const toast = useToast()
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -39,11 +44,17 @@ export const ResetPassword: React.FC = () => {
   })
 
   const handleResetPassword = (data: ResetPasswordSchema) => {
+    if (!token) {
+      toast.error('Token de recuperação inválido ou ausente da URL.')
+      router.push('/forgot-password')
+      return
+    }
+
     if (data.password !== data.confirmPassword) {
       toast.error('As senhas digitadas são diferentes.')
       return
     }
-    updatePassword(data.password)
+    updatePassword({ password: data.password, token })
   }
 
   return (
@@ -120,5 +131,13 @@ export const ResetPassword: React.FC = () => {
         <Link href='/login'>Acessar minha conta</Link>
       </div>
     </div>
+  )
+}
+
+export const ResetPassword: React.FC = () => {
+  return (
+    <Suspense fallback={<div className='flex items-center justify-center min-h-screen'>Carregando...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }

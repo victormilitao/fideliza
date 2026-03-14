@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
-import api from '@/services/api'
 import { Response } from '@/services/types/api.type'
 
 export const useResetPassword = () => {
@@ -11,12 +10,21 @@ export const useResetPassword = () => {
   const { mutate: updatePassword, isPending: loading } = useMutation<
     Response<boolean>,
     Error,
-    string
+    { password?: string, token: string }
   >({
-    mutationFn: async (password: string): Promise<Response<boolean>> => {
-      const { data, error } = await api.updatePassword(password)
-      if (error) throw new Error('Erro ao atualizar a senha. Tente novamente.')
-      return { data, error }
+    mutationFn: async ({ password, token }): Promise<Response<boolean>> => {
+      const resp = await fetch('/api/auth/update-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, token })
+      })
+      const data = await resp.json()
+
+      if (!resp.ok) {
+        throw new Error(data.error || 'Erro ao atualizar a senha. Tente novamente.')
+      }
+
+      return { data: true, error: null }
     },
     onSuccess: () => {
       toast.success('Senha atualizada com sucesso!')

@@ -36,23 +36,41 @@ export async function POST(request: NextRequest) {
 
     const origin: string =
       request.headers.get('origin') || 'http://localhost:3000'
-    const redirectTo: string = `${origin}/reset-password`
 
-    const { data, error } = await supabaseAdmin.auth.admin.generateLink({
-      type: 'recovery',
-      email,
-      options: { redirectTo },
-    })
+    // 1. Search for user by email using our custom RPC
+    const { data: userId, error: findUserError } = await supabaseAdmin.rpc(
+      'get_user_id_by_email',
+      { email_to_find: email }
+    )
 
-    if (error) {
-      console.error('Error generating recovery link:', error.message)
+    if (findUserError || !userId) {
+      console.error('Error finding user or user not found:', findUserError?.message)
+      // Return success anyway to avoid email enumeration attacks
+      return NextResponse.json({ success: true })
+    }
+
+    // 2. Generate a token and set expiration to 1 hour from now
+    const token = crypto.randomUUID()
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString()
+
+    // 3. Save token in our custom table
+    const { error: insertError } = await supabaseAdmin
+      .from('password_reset_tokens')
+      .upsert(
+        { user_id: userId, token, expires_at: expiresAt },
+        { onConflict: 'user_id' } // Only one active token per user
+      )
+    
+    if (insertError) {
+      console.error('Error saving recovery token:', insertError.message)
       return NextResponse.json(
         { error: 'Unable to process the request.' },
-        { status: 400 }
+        { status: 500 }
       )
     }
 
-    const recoveryLink: string = data.properties.action_link
+    // 4. Create custom recovery link
+    const recoveryLink: string = `${origin}/reset-password?token=${token}`
 
     const gmailUser: string = process.env.GMAIL_USER || ''
     const gmailAppPassword: string = process.env.GMAIL_APP_PASSWORD || ''

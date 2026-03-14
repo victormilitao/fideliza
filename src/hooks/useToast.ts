@@ -1,4 +1,4 @@
-import { toast, ToasterProps, ExternalToast } from 'sonner'
+import { toast, ExternalToast } from 'sonner'
 import { useEffect, useState } from 'react'
 
 export const useToast = () => {

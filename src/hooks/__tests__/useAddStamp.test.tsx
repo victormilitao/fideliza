@@ -5,6 +5,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useAddStamp } from '../useAddStamp'
 import { useToast } from '@/hooks/useToast'
 import { useMyBusiness } from '../useMyBusiness'
+import { useBusinessSubscription } from '../useBusinessSubscription'
+import { useTotalStamps } from '../useTotalStamps'
 import api from '@/services/api'
 import { useMyActiveCampaigns } from '../useMyActiveCampaigns'
 
@@ -25,6 +27,14 @@ vi.mock('../useMyBusiness', () => ({
 
 vi.mock('../useMyActiveCampaigns', () => ({
   useMyActiveCampaigns: vi.fn(),
+}))
+
+vi.mock('../useBusinessSubscription', () => ({
+  useBusinessSubscription: vi.fn(),
+}))
+
+vi.mock('../useTotalStamps', () => ({
+  useTotalStamps: vi.fn(),
 }))
 
 vi.mock('@/services/api', () => ({
@@ -65,6 +75,18 @@ describe('useAddStamp', () => {
       error: null,
       isLoading: false,
       isError: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(useBusinessSubscription).mockReturnValue({
+      subscription: null,
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(useTotalStamps).mockReturnValue({
+      totalStamps: 0,
+      isLoading: false,
       refetch: vi.fn(),
     })
     vi.clearAllMocks()
@@ -119,6 +141,93 @@ describe('useAddStamp', () => {
 
     await waitFor(() => {
       expect(mockToast.error).toHaveBeenCalledWith('Erro ao adicionar selo.')
+    })
+  })
+
+  it('should throw LIMIT_REACHED when free user has 50 or more stamps', async () => {
+    vi.mocked(useBusinessSubscription).mockReturnValue({
+      subscription: null,
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(useTotalStamps).mockReturnValue({
+      totalStamps: 50,
+      isLoading: false,
+      refetch: vi.fn(),
+    })
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      try {
+        await result.current.addStamp({ personId: '123' })
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error)
+        expect((error as Error).message).toBe('LIMIT_REACHED')
+      }
+    })
+  })
+
+  it('should not throw LIMIT_REACHED when user has active subscription', async () => {
+    vi.mocked(useBusinessSubscription).mockReturnValue({
+      subscription: { status: 'active' } as any,
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(useTotalStamps).mockReturnValue({
+      totalStamps: 100,
+      isLoading: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(api.addStamp).mockResolvedValue({
+      data: { id: 'stamp-1' } as any,
+      error: null,
+    })
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      const stamp = await result.current.addStamp({ personId: '123' })
+      expect(stamp).toEqual({ id: 'stamp-1' })
+    })
+
+    expect(api.addStamp).toHaveBeenCalledWith('123', '1')
+  })
+
+  it('should not show toast for LIMIT_REACHED error', async () => {
+    vi.mocked(useBusinessSubscription).mockReturnValue({
+      subscription: null,
+      error: null,
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    })
+    vi.mocked(useTotalStamps).mockReturnValue({
+      totalStamps: 50,
+      isLoading: false,
+      refetch: vi.fn(),
+    })
+
+    const { result } = renderHook(() => useAddStamp(), {
+      wrapper: createWrapper(),
+    })
+
+    await act(async () => {
+      try {
+        await result.current.addStamp({ personId: '123' })
+      } catch (error) {}
+    })
+
+    await waitFor(() => {
+      expect(mockToast.error).not.toHaveBeenCalled()
     })
   })
 })

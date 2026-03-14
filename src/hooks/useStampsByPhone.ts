@@ -22,7 +22,7 @@ export const useStampsByPhone = () => {
   useEffect(() => {
     if (data) {
       setStamps(data)
-      router.push('/estabelecimento/tickets')
+      router.push('/store/tickets')
     }
   }, [data])
 

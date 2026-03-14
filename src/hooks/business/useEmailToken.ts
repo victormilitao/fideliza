@@ -26,7 +26,7 @@ export const useEmailToken = () => {
         const { data: email } = await generateEmailConfirmationToken({
           userId: data.userId,
         })
-        router.push(`/estabelecimento/email-sent/${email}`)
+        router.push(`/store/email-sent/${email}`)
         return { data: false, error }
       }
 

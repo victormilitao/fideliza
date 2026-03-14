@@ -14,7 +14,7 @@ export const Tickets = () => {
   const { data: businesses } = useBusinessCardsByPerson(person?.id)
 
   if (!businesses?.length) {
-    redirect('/usuario')
+    redirect('/user')
   }
 
   const business = businesses?.[0]
@@ -22,7 +22,7 @@ export const Tickets = () => {
   const maskedPhone = applyMask(person?.phone, 'phone')
 
   if (business && (!cards || cards.length === 0)) {
-    redirect('/usuario')
+    redirect('/user')
   }
 
   return (
@@ -54,7 +54,7 @@ export const Tickets = () => {
         </div>
       </div>
       <div className='mt-5 sm:mt-40'>
-        <Link href={'/usuario'}>
+        <Link href={'/user'}>
           <Button variant='secondary' className='w-3xs'>
             Voltar
           </Button>

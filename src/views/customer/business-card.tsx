@@ -10,7 +10,7 @@ type BusinessCardProps = {
 export const BusinessCard = ({ business, children }: BusinessCardProps) => {
   const router = useRouter()
   const handleGoToTickets = () => {
-    router.push('/usuario/tickets')
+    router.push('/user/tickets')
   }
 
   return (

@@ -43,7 +43,7 @@ export const CreateCampaign: React.FC = () => {
     await createCampaign(data)
     queryClient.removeQueries({ queryKey: ['my-campaigns'] })
     localStorage.setItem('showInstructions', 'true')
-    router.push('/estabelecimento')
+    router.push('/store')
   }
 
   const handleCreateCampaignError = (error: any) => {

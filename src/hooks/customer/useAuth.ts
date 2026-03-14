@@ -79,7 +79,7 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.data) setSession(data.data)
-      router.push('/usuario')
+      router.push('/user')
     },
     onError: (error: unknown) => {
       console.error('Error signing in:', error)
@@ -119,7 +119,7 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       if (data?.data) setSession(data.data)
-      router.push('/usuario')
+      router.push('/user')
     },
     onError: (error: unknown) => {
       console.error('Error loginByToken:', error)

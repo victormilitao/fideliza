@@ -43,9 +43,9 @@ export const useOnboardRedirect = (shouldRedirect: boolean = true) => {
   // Redirecionar para home se business e campanhas já existem
   useEffect(() => {
     if (shouldRedirect && !myCampaignsLoading && business && campaigns && campaigns.length > 0) {
-      const isOnHomePage = pathname === '/estabelecimento'
+      const isOnHomePage = pathname === '/'
       if (!isOnHomePage) {
-        router.push('/estabelecimento')
+        router.push('/')
       }
     }
   }, [shouldRedirect, myCampaignsLoading, business, campaigns, router, pathname])

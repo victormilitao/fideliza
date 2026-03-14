@@ -29,7 +29,7 @@ export const CreateCampaign: React.FC = () => {
     resolver: zodResolver(createCampaignSchema),
     defaultValues: {
       business_id: '',
-      stamps_required: 5,
+      stamps_required: '5' as unknown as number,
     },
   })
 
@@ -121,10 +121,15 @@ export const CreateCampaign: React.FC = () => {
                 <Input
                   label='Quantos selos serão necessários para ganhar o prêmio?'
                   className='mb-5'
-                  type='number'
+                  type='text'
+                  inputMode='numeric'
+                  maxLength={2}
                   placeholder='10'
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value: string = e.target.value.replace(/\D/g, '')
+                    field.onChange(value)
+                  }}
                   error={errors.stamps_required?.message}
                 />
               )}

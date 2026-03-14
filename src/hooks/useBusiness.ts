@@ -26,7 +26,7 @@ const CNPJ_ALREADY_EXISTS_MESSAGE = 'CNPJ já cadastrado'
 export const useBusiness = (options: UseBusinessOptions = {}) => {
   const { setError } = options
   const { generateEmailConfirmationToken } = useEmailToken()
-  const { error: toastError, success } = useToast()
+  const { error: toastError } = useToast()
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -85,7 +85,6 @@ export const useBusiness = (options: UseBusinessOptions = {}) => {
       return { data: newBusiness, error: null }
     },
     onSuccess: () => {
-      success('Estabelecimento criado.')
       // Invalidar a query do business para forçar uma nova busca
       queryClient.invalidateQueries({ queryKey: ['my-business'] })
       router.push('/estabelecimento/criar-campanha')

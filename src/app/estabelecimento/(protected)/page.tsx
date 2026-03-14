@@ -1,7 +1,7 @@
 'use client'
 
-import { Home } from '@/views/home'
+import { redirect } from 'next/navigation'
 
 export default function BusinessHomePage() {
-  return <Home />
+  redirect('/')
 }

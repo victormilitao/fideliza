@@ -1,11 +1,11 @@
 import api from '@/services/api'
 import { Response } from '@/services/types/api.type'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { useToast } from '../useToast'
 
 export const useEmailToken = () => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { error: toastError, success } = useToast()
 
   const { mutate: verifyToken } = useMutation<
@@ -26,7 +26,7 @@ export const useEmailToken = () => {
         const { data: email } = await generateEmailConfirmationToken({
           userId: data.userId,
         })
-        navigate(`/estabelecimento/email-sent/${email}`)
+        router.push(`/estabelecimento/email-sent/${email}`)
         return { data: false, error }
       }
 
@@ -35,14 +35,14 @@ export const useEmailToken = () => {
     onSuccess: (data) => onSuccess(data),
     onError: (err) => {
       toastError(err.message || 'Erro ao confirmar o e-mail.')
-      navigate('/login')
+      router.push('/login')
     },
   })
 
   const onSuccess = (data: Response<boolean>) => {
     if (data.data) {
       success('Email confirmado! Você já pode acessar o Eloop.')
-      navigate('/login')
+      router.push('/login')
     }
   }
 

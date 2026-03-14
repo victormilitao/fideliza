@@ -4,7 +4,7 @@ import { BUSINESS_OWNER } from '@/types/profile'
 import { User } from '@/types/user.type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEmailToken } from './business/useEmailToken'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { Business } from '@/types/business.type'
 import { useToast } from './useToast'
 import errorCode from '@/services/errorCode'
@@ -17,7 +17,7 @@ type CreateUser = {
 export const useBusiness = () => {
   const { generateEmailConfirmationToken } = useEmailToken()
   const { error: toastError, success } = useToast()
-  const navigate = useNavigate()
+  const router = useRouter()
   const queryClient = useQueryClient()
 
   const { mutate: createUser, isPending: loading } = useMutation<
@@ -56,7 +56,7 @@ export const useBusiness = () => {
     onSuccess: (data) => {
       console.dir('Enviando email!')
       console.dir(data.data?.email)
-      navigate(`/estabelecimento/email-sent/${data.data?.email}`)
+      router.push(`/estabelecimento/email-sent/${data.data?.email}`)
     },
     onError: (error: Error) => {
       console.error('Erro ao criar usuário:', error)
@@ -78,7 +78,7 @@ export const useBusiness = () => {
       success('Estabelecimento criado.')
       // Invalidar a query do business para forçar uma nova busca
       queryClient.invalidateQueries({ queryKey: ['my-business'] })
-      navigate('/estabelecimento/criar-campanha')
+      router.push('/estabelecimento/criar-campanha')
     },
     onError: (error: Error) => {
       console.error('createBusiness error:', error)

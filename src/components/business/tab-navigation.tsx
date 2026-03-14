@@ -1,4 +1,5 @@
-import { Link, useLocation } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 interface TabNavigationProps {
@@ -9,18 +10,18 @@ interface TabNavigationProps {
 }
 
 export const TabNavigation = ({ tabs }: TabNavigationProps) => {
-  const location = useLocation()
+  const pathname = usePathname()
 
   return (
     <div className='border-b border-gray-200 bg-white'>
       <div className='px-6 sm:px-10'>
         <nav className='flex gap-8'>
           {tabs.map((tab) => {
-            const isActive = location.pathname === tab.href
+            const isActive = pathname === tab.href
             return (
               <Link
                 key={tab.href}
-                to={tab.href}
+                href={tab.href}
                 className={cn(
                   'pb-1 border-b-2 font-medium text-sm transition-colors',
                   isActive

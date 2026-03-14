@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useStampsByUserId } from './useStampsByUserId';
 import { useUserByPhone } from './useUserByPhone';
 import { Stamp } from '@/types/stamp.type';
 
 export const useStampsByPhone = () => {
   const { getUserByPhone } = useUserByPhone()
-  const navigate = useNavigate()
+  const router = useRouter()
   const [stamps, setStamps] = useState<Stamp[] | null>(null)
   const [userId, setUserId] = useState<string | undefined>()
   const { data } = useStampsByUserId(userId)
@@ -22,7 +22,7 @@ export const useStampsByPhone = () => {
   useEffect(() => {
     if (data) {
       setStamps(data)
-      navigate('/estabelecimento/tickets', { state: { params: data } })
+      router.push('/estabelecimento/tickets')
     }
   }, [data])
 

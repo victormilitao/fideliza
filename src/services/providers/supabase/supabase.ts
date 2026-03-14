@@ -38,7 +38,7 @@ import { verifyProfile } from './api-functions/verifyProfile'
 import { getUserAttributes } from './api-functions/getUserAttributes'
 import { createBusiness } from './api-functions/business/createBusiness'
 import { createCampaign } from './api-functions/business/createCampaign'
-import { sendEmailConfirmation, sendTestEmail } from '@/services/email/emailjs'
+import emailService from '@/services/emailService'
 import { getCampaignCards } from './api-functions/getCampaignCards'
 import { stripeRequest, stripeSessionStatus, getSubscriptionInfo } from './api-functions/stripeRequest'
 import { createBusinessSubscription } from './api-functions/createBusinessSubscription'
@@ -86,8 +86,8 @@ const supabaseApi: ApiFunctions = {
   getUserAttributes: getUserAttributes,
   createBusiness: createBusiness,
   createCampaign: createCampaign,
-  sendEmailConfirmation: sendEmailConfirmation,
-  sendTestEmail: sendTestEmail,
+  sendEmailConfirmation: emailService.sendEmailConfirmation,
+  sendTestEmail: emailService.sendTestEmail,
   getCampaignCards: getCampaignCards,
   stripeRequest: stripeRequest,
   stripeSessionStatus: stripeSessionStatus,

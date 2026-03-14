@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { Response } from '@/services/types/api.type'
@@ -13,7 +13,7 @@ import { useLogout } from './useLogout'
 
 export const useAuth = () => {
   const toast = useToast()
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setSession } = useAuthStore()
   const { logout } = useLogout(false)
 
@@ -38,7 +38,7 @@ export const useAuth = () => {
     onSuccess: (data) => {
       if (data?.data) setSession(data.data)
       verifyProfile(data.data?.profile || {}, data.data?.user?.email) &&
-        navigate('/')
+        router.push('/')
     },
     onError: (error: unknown) => {
       console.error('Error signing in:', error)
@@ -56,7 +56,7 @@ export const useAuth = () => {
   ): boolean => {
     if (profile?.role === BUSINESS_OWNER && !profile.verified) {
       logout()
-      navigate(`/estabelecimento/email-sent/${email}`)
+      router.push(`/estabelecimento/email-sent/${email}`)
       return false
     }
     return true

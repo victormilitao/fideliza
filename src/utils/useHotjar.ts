@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 export const useHotjar = () => {
-  const hotjarId = import.meta.env.VITE_HOTJAR_ID
+  const hotjarId: string | undefined = process.env.NEXT_PUBLIC_HOTJAR_ID
 
   useEffect(() => {
     if (!hotjarId || document.getElementById('hotjar-script')) return

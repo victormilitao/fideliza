@@ -33,7 +33,6 @@ next-env.d.ts
 
 .env.local
 .env.production
-.env.test
 # Local Netlify folder
 .netlify
 

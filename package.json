@@ -9,7 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "test:e2e": "bash scripts/run-e2e.sh",
+    "test:e2e:ui": "bash scripts/run-e2e.sh --ui",
+    "test:e2e:debug": "bash scripts/run-e2e.sh --debug"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -42,6 +45,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -50,6 +54,8 @@
     "@types/react-dom": "^19.0.4",
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react-swc": "^3.8.0",
+    "dotenv": "^17.3.1",
+    "env-cmd": "^11.0.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",

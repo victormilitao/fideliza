@@ -1,10 +1,11 @@
 import { LogoutButton } from "@/components/logout-button";
+import { SettingsButton } from "@/components/settings-button";
 import { SupportButton } from "@/components/support";
 import { useAuthStore } from "@/store/useAuthStore";
 import { APP_NAME } from "@/constants/app";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { Menu, Settings } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLogout } from "@/hooks/useLogout";
 
@@ -47,15 +48,7 @@ export const Header = () => {
               <Link href="/login">Acessar minha conta</Link>
             </h1>
           )}
-          {session && (
-            <button
-              onClick={() => router.push("/store/settings")}
-              className="flex items-center gap-1 text-sm font-bold text-primary-600 cursor-pointer hover:opacity-80 transition-opacity"
-            >
-              <Settings className="w-4 h-4" />
-              Configurações
-            </button>
-          )}
+          {session && <SettingsButton className="font-bold" />}
           {session && <SupportButton className="font-bold" />}
           {session && <LogoutButton className="font-bold" />}
         </div>

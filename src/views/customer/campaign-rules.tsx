@@ -26,7 +26,7 @@ export const CampaignRules = ({ campaign }: CampaignRulesProps) => {
         <div className='max-w-sm sm:max-w-md mx-auto text-left flex flex-col gap-5 p-2'>
           <p className='text-sm'>
             <span className='font-bold'>Regra: </span>
-            <span dangerouslySetInnerHTML={{__html: campaign?.rule || ''}} />
+            <span className='whitespace-pre-line'>{campaign?.rule || ''}</span>
           </p>
           <p className='text-sm'>
             <span className='font-bold'>Prêmio: </span>

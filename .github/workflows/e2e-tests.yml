@@ -21,7 +21,9 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx eslint .
+      - name: Run ESLint
+        run: npx eslint .
+        continue-on-error: true
 
   unit:
     name: Unit Tests

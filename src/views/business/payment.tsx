@@ -224,8 +224,8 @@ export const Payment = () => {
           stripe_subscription_id: subscription.stripe_subscription_id,
           stripe_session_id: subscription.stripe_session_id,
           payment_status: subscription.payment_status,
-          subscription_status: "canceled",
-          status: "canceled",
+          subscription_status: "pending_cancellation",
+          status: subscription.status,
         });
 
         if (updateError) {

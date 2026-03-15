@@ -104,7 +104,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className='flex flex-1 justify-center items-center px-0 sm:px-6 pb-48 sm:pb-0 sm:py-12'>
+      <div className='flex flex-1 justify-center items-center px-0 sm:px-6 sm:py-12'>
         <div className='w-full sm:max-w-md flex flex-col items-center justify-center'>
 
           <div className={`bg-white sm:shadow-[0px_0px_30px_0px_rgba(0,0,0,0.1)] w-full ${

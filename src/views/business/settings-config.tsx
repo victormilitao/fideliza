@@ -29,7 +29,7 @@ export const SettingsConfig = () => {
           onClick={() => router.push('/store')}
           className="mt-4"
         >
-          Voltar
+          Acessar página inicial
         </Button>
       </div>
     )
@@ -40,7 +40,7 @@ export const SettingsConfig = () => {
       <div className="flex flex-col gap-4">
         <div className="text-sm text-neutral-700">
           <p className="font-bold mb-1">Como o cliente ganha um selo? (regra)</p>
-          <p>{campaign.rule || 'Não definida'}</p>
+          <p className='whitespace-pre-line'>{campaign.rule || 'Não definida'}</p>
         </div>
 
         <div className="text-sm text-neutral-700">
@@ -63,10 +63,10 @@ export const SettingsConfig = () => {
         </Button>
 
         <Button
-          variant="secondary"
+          variant="link"
           onClick={() => router.push('/store')}
         >
-          Voltar
+          Acessar página inicial
         </Button>
       </div>
     </div>

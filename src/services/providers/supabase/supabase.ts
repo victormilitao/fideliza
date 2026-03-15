@@ -46,6 +46,7 @@ import { createBusinessSubscription } from './api-functions/createBusinessSubscr
 import { updateBusinessSubscription } from './api-functions/updateBusinessSubscription'
 import { getBusinessSubscriptionByBusinessId } from './api-functions/getBusinessSubscriptionByBusinessId'
 import { cancelSubscription } from './api-functions/cancelSubscription'
+import { reactivateSubscription } from './api-functions/reactivateSubscription'
 import { resetPassword } from './api-functions/resetPassword'
 import { updatePassword } from './api-functions/updatePassword'
 import { createPortalSession } from './api-functions/createPortalSession'
@@ -101,6 +102,7 @@ const supabaseApi: ApiFunctions = {
   createBusinessSubscription: createBusinessSubscription,
   updateBusinessSubscription: updateBusinessSubscription,
   cancelSubscription: cancelSubscription,
+  reactivateSubscription: reactivateSubscription,
   resetPassword: resetPassword,
   updatePassword: updatePassword,
   createPortalSession: createPortalSession,

@@ -13,9 +13,11 @@ export const MyAccount = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [isCanceling, setIsCanceling] = useState(false)
+  const [isReactivating, setIsReactivating] = useState(false)
   const [isChangingCard, setIsChangingCard] = useState(false)
 
   const isActive: boolean = subscription?.status === 'complete' || subscription?.status === 'active'
+  const isPendingCancellation: boolean = subscription?.subscription_status === 'pending_cancellation'
   const isCancelled: boolean = subscription?.subscription_status === 'canceled'
 
   const handleChangeCard = useCallback(async () => {
@@ -44,7 +46,7 @@ export const MyAccount = () => {
     if (!subscription?.stripe_subscription_id) return
 
     const confirmed: boolean = window.confirm(
-      'Tem certeza que deseja cancelar sua assinatura? Esta ação não pode ser desfeita.'
+      'Tem certeza que deseja cancelar sua assinatura? Você poderá continuar usando até o final do período atual.'
     )
     if (!confirmed) return
 
@@ -61,8 +63,8 @@ export const MyAccount = () => {
         stripe_subscription_id: subscription.stripe_subscription_id,
         stripe_session_id: subscription.stripe_session_id,
         payment_status: subscription.payment_status,
-        subscription_status: 'canceled',
-        status: 'canceled',
+        subscription_status: 'pending_cancellation',
+        status: subscription.status,
       })
 
       if (business?.id) {
@@ -75,7 +77,37 @@ export const MyAccount = () => {
     }
   }, [subscription, business?.id, queryClient])
 
-  if (isLoading || isChangingCard || isCanceling) {
+  const handleReactivateSubscription = useCallback(async () => {
+    if (!subscription?.stripe_subscription_id) return
+
+    setIsReactivating(true)
+    try {
+      const { error: reactivateError } = await api.reactivateSubscription(
+        subscription.stripe_subscription_id
+      )
+      if (reactivateError) throw reactivateError
+
+      await api.updateBusinessSubscription({
+        business_id: subscription.business_id,
+        stripe_customer_id: subscription.stripe_customer_id,
+        stripe_subscription_id: subscription.stripe_subscription_id,
+        stripe_session_id: subscription.stripe_session_id,
+        payment_status: subscription.payment_status,
+        subscription_status: null,
+        status: subscription.status,
+      })
+
+      if (business?.id) {
+        queryClient.invalidateQueries({ queryKey: ['business-subscription', business.id] })
+      }
+    } catch (err) {
+      console.error('Erro ao reativar assinatura:', err)
+    } finally {
+      setIsReactivating(false)
+    }
+  }, [subscription, business?.id, queryClient])
+
+  if (isLoading || isChangingCard || isCanceling || isReactivating) {
     return (
       <div className="flex flex-col items-center justify-center py-8 gap-3">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
@@ -85,11 +117,57 @@ export const MyAccount = () => {
         {isCanceling && (
           <p className="text-sm text-neutral-600">Cancelando assinatura...</p>
         )}
+        {isReactivating && (
+          <p className="text-sm text-neutral-600">Reativando assinatura...</p>
+        )}
       </div>
     )
   }
 
-  // Cancelled plan
+  // Pending cancellation — still active until end of period
+  if (isPendingCancellation && subscription) {
+    const createdAt: Date = subscription.created_at ? new Date(subscription.created_at) : new Date()
+    const endDate: Date = new Date(createdAt)
+    endDate.setMonth(endDate.getMonth() + 1)
+
+    const formatDate = (date: Date): string =>
+      date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+
+    return (
+      <div className="flex flex-col gap-6">
+        <div className="bg-neutral-200 rounded-xl p-5">
+          <h3 className="text-sm font-bold text-neutral-700 mb-4">Cancelamento agendado</h3>
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-between text-sm">
+              <span className="text-neutral-600">Última cobrança</span>
+              <span className="text-neutral-600">{formatDate(createdAt)}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-neutral-600">Plano ativo até</span>
+              <span className="text-neutral-600">{formatDate(endDate)}</span>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          variant="primary"
+          onClick={handleReactivateSubscription}
+          loading={isReactivating}
+        >
+          Reativar plano
+        </Button>
+
+        <Button
+          variant="link"
+          onClick={() => router.push('/store')}
+        >
+          Acessar página inicial
+        </Button>
+      </div>
+    )
+  }
+
+  // Fully cancelled (period ended) — show pricing
   if (isCancelled && subscription) {
     const createdAt: Date = subscription.created_at ? new Date(subscription.created_at) : new Date()
     const endDate: Date = new Date(createdAt)
@@ -118,11 +196,11 @@ export const MyAccount = () => {
           variant="primary"
           onClick={() => router.push('/store/payment')}
         >
-          Reativar plano
+          Ver planos
         </Button>
 
         <Button
-          variant="primary"
+          variant="link"
           onClick={() => router.push('/store')}
         >
           Acessar página inicial
@@ -149,10 +227,7 @@ export const MyAccount = () => {
               <span className="text-neutral-600">Valor</span>
               <span className="text-neutral-600">R$ 27,90/mês</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-neutral-600">Cartão</span>
-              <span className="text-neutral-600">Visa / Final ****</span>
-            </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-neutral-600">Próxima cobrança</span>
               <span className="text-neutral-600">{formatDate(nextBilling)}</span>
@@ -160,27 +235,24 @@ export const MyAccount = () => {
           </div>
         </div>
 
-        <div className="flex flex-row gap-4 justify-center">
-          <Button
-            variant="link"
-            onClick={handleCancelSubscription}
-            loading={isCanceling}
-            className="text-primary-600 font-bold"
-          >
-            Cancelar plano
-          </Button>
-          <Button
-            variant="link"
-            onClick={handleChangeCard}
-            disabled={isChangingCard || !subscription?.stripe_customer_id}
-            className="text-primary-600 font-bold"
-          >
-            {isChangingCard ? 'Abrindo...' : 'Trocar cartão'}
-          </Button>
-        </div>
+        <Button
+          variant="secondary"
+          onClick={handleChangeCard}
+          disabled={isChangingCard || !subscription?.stripe_customer_id}
+        >
+          {isChangingCard ? 'Abrindo...' : 'Trocar cartão'}
+        </Button>
 
         <Button
-          variant="primary"
+          variant="secondary"
+          onClick={handleCancelSubscription}
+          loading={isCanceling}
+        >
+          Cancelar plano
+        </Button>
+
+        <Button
+          variant="link"
           onClick={() => router.push('/store')}
         >
           Acessar página inicial

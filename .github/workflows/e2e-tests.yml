@@ -1,31 +1,55 @@
-name: E2E Tests (Playwright)
+name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 concurrency:
-  group: e2e-${{ github.event.pull_request.number || github.ref }}
+  group: ci-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run test
+
   e2e:
-    name: Playwright E2E Tests
+    name: E2E Tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
+    needs: [lint, unit]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

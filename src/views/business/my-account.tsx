@@ -196,7 +196,7 @@ export const MyAccount = () => {
           variant="primary"
           onClick={() => router.push('/store/payment')}
         >
-          Ver planos
+          Ver plano
         </Button>
 
         <Button

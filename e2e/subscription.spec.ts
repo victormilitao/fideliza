@@ -204,8 +204,8 @@ test.describe('Subscription Management', () => {
       const heading = page.getByText('Plano encerrado')
       await expect(heading).toBeVisible({ timeout: 15000 })
 
-      // Should show "Ver planos" button
-      await expect(page.getByRole('button', { name: /ver planos/i })).toBeVisible()
+      // Should show "Ver plano" button
+      await expect(page.getByRole('button', { name: /ver plano/i })).toBeVisible()
 
       // Should NOT show reactivate button
       await expect(page.getByRole('button', { name: /reativar plano/i })).not.toBeVisible()
@@ -225,8 +225,8 @@ test.describe('Subscription Management', () => {
 
       await expect(page.getByText('Plano encerrado')).toBeVisible({ timeout: 15000 })
 
-      // Click "Ver planos"
-      await page.getByRole('button', { name: /ver planos/i }).click()
+      // Click "Ver plano"
+      await page.getByRole('button', { name: /ver plano/i }).click()
 
       // Should navigate to payment page
       await expect(page).toHaveURL(/\/store\/payment/, { timeout: 10000 })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '../components/input'
 import { Button } from '../components/button/button'
 import { useAuth } from '@/hooks/useAuth'
@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import Icon from '@/components/icon'
 
 const schema = z.object({
   email: z.string().email('Email inválido').nonempty('Campo obrigatório'),
@@ -16,6 +17,7 @@ type LoginSchema = z.infer<typeof schema>
 
 export const Login: React.FC = () => {
   const { login, loading } = useAuth()
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const {
     handleSubmit,
     formState: { errors },
@@ -58,12 +60,28 @@ export const Login: React.FC = () => {
             name='password'
             control={control}
             render={({ field }) => (
-              <Input
-                label='Senha'
-                type='password'
-                {...field}
-                error={errors.password?.message}
-              />
+              <div className='relative'>
+                <Input
+                  label='Senha'
+                  type='text'
+                  inputClassName={showPassword ? '' : 'password-mask'}
+                  {...field}
+                  autoComplete='off'
+                  error={errors.password?.message}
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='absolute right-1 top-[38px] -translate-y-1/2 cursor-pointer text-primary-600 z-10 bg-white p-2'
+                >
+                  <Icon
+                    name={showPassword ? 'EyeOff' : 'Eye'}
+                    size={20}
+                    color='var(--color-primary-600)'
+                    strokeWidth={2.5}
+                  />
+                </button>
+              </div>
             )}
           />
 

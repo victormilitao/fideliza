@@ -77,19 +77,22 @@ const ResetPasswordForm: React.FC = () => {
               <div className='relative'>
                 <Input
                   label='Nova senha'
-                  type={showPassword ? 'text' : 'password'}
+                  type='text'
+                  inputClassName={showPassword ? '' : 'password-mask'}
                   {...field}
+                  autoComplete='off'
                   error={errors.password?.message}
                 />
                 <button
                   type='button'
                   onClick={() => setShowPassword(!showPassword)}
-                  className='absolute right-3 top-[34px] cursor-pointer text-neutral-500'
+                  className='absolute right-1 top-[38px] -translate-y-1/2 cursor-pointer text-primary-600 z-10 bg-white p-2'
                 >
                   <Icon
                     name={showPassword ? 'EyeOff' : 'Eye'}
-                    size={18}
-                    color='var(--color-neutral-500)'
+                    size={20}
+                    color='var(--color-primary-600)'
+                    strokeWidth={2.5}
                   />
                 </button>
               </div>
@@ -103,19 +106,22 @@ const ResetPasswordForm: React.FC = () => {
               <div className='relative'>
                 <Input
                   label='Repita a nova senha'
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type='text'
+                  inputClassName={showConfirmPassword ? '' : 'password-mask'}
                   {...field}
+                  autoComplete='off'
                   error={errors.confirmPassword?.message}
                 />
                 <button
                   type='button'
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className='absolute right-3 top-[34px] cursor-pointer text-neutral-500'
+                  className='absolute right-1 top-[38px] -translate-y-1/2 cursor-pointer text-primary-600 z-10 bg-white p-2'
                 >
                   <Icon
                     name={showConfirmPassword ? 'EyeOff' : 'Eye'}
-                    size={18}
-                    color='var(--color-neutral-500)'
+                    size={20}
+                    color='var(--color-primary-600)'
+                    strokeWidth={2.5}
                   />
                 </button>
               </div>

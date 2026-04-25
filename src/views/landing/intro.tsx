@@ -24,8 +24,8 @@ export default function Intro() {
           <strong className='text-primary-600'>online</strong>, sem cadastro e
           sem baixar aplicativo.
         </p>
-        <Button className='w-full' onClick={() => router.push('/login')}>
-          Acessar minha conta
+        <Button className='w-full' onClick={() => router.push('/store/create')}>
+          Começar o teste grátis agora
         </Button>
       </div>
 

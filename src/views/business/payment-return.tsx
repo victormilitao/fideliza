@@ -1,18 +1,21 @@
 import { useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 export const PaymentReturn = () => {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const sessionId: string | null = searchParams.get('session_id')
 
   useEffect(() => {
     if (sessionId) {
-      router.replace(`/store/payment?session_id=${sessionId}`)
+      window.location.replace(`/store/payment/success?session_id=${sessionId}`)
     } else {
-      router.replace('/store/payment')
+      window.location.replace('/store/payment')
     }
-  }, [sessionId, router])
+  }, [sessionId])
 
-  return null
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+    </div>
+  )
 }

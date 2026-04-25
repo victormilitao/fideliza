@@ -42,6 +42,7 @@ export const ButtonStyled = styled.button<ButtonVariantProps>`
       background-color: var(${bgColors[$variant]});
       color: var(${colors[$variant]});
       border: ${borderColors[$variant]};
+      ${$variant === 'link' ? 'font-weight: bold;' : ''}
     `
   }}
 

@@ -1,6 +1,7 @@
 import { signInWithPassword } from './api-functions/signInWithPassword'
 import { getMyBusiness } from './api-functions/getMyBusiness'
 import { addStamp } from './api-functions/addStamp'
+import { getTotalStampsByBusiness } from './api-functions/getTotalStampsByBusiness'
 import { getUserLoggedIn } from './api-functions/getUserLoggedIn'
 import { getPersonByPhone } from './api-functions/getPersonByPhone'
 import { getStampsByUserId } from './api-functions/getStampsByUserId'
@@ -45,14 +46,17 @@ import { createBusinessSubscription } from './api-functions/createBusinessSubscr
 import { updateBusinessSubscription } from './api-functions/updateBusinessSubscription'
 import { getBusinessSubscriptionByBusinessId } from './api-functions/getBusinessSubscriptionByBusinessId'
 import { cancelSubscription } from './api-functions/cancelSubscription'
+import { reactivateSubscription } from './api-functions/reactivateSubscription'
 import { resetPassword } from './api-functions/resetPassword'
 import { updatePassword } from './api-functions/updatePassword'
+import { createPortalSession } from './api-functions/createPortalSession'
 
 const supabaseApi: ApiFunctions = {
   signInWithPassword: signInWithPassword,
   signInWithCode: signInWithCode,
   getMyBusiness: getMyBusiness,
   addStamp: addStamp,
+  getTotalStampsByBusiness: getTotalStampsByBusiness,
   getUserLoggedIn: getUserLoggedIn,
   getPersonByPhone: getPersonByPhone,
   getPersonByPhoneWithProfile: getPersonByPhoneWithProfile,
@@ -98,8 +102,10 @@ const supabaseApi: ApiFunctions = {
   createBusinessSubscription: createBusinessSubscription,
   updateBusinessSubscription: updateBusinessSubscription,
   cancelSubscription: cancelSubscription,
+  reactivateSubscription: reactivateSubscription,
   resetPassword: resetPassword,
   updatePassword: updatePassword,
+  createPortalSession: createPortalSession,
 }
 
 export default supabaseApi

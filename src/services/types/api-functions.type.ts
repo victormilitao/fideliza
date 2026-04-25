@@ -23,6 +23,7 @@ export type ApiFunctions = {
   ) => Promise<Response<boolean>>
   getMyBusiness: (user: User) => Promise<Response<Business>>
   addStamp: (personId: string, campaignId: string) => Promise<Response<Stamp>>
+  getTotalStampsByBusiness: (businessId: string) => Promise<Response<number>>
   getUserLoggedIn: () => Promise<Response<User>>
   getPersonByPhone: (phone: string) => Promise<Response<Person>>
   getPersonByPhoneWithProfile: (phone: string) => Promise<Response<Person>>
@@ -102,7 +103,7 @@ export type ApiFunctions = {
   ) => Promise<Response<boolean>>
   sendTestEmail: (to: string) => Promise<Response<boolean>>
   getCampaignCards: (campaignId: string) => Promise<Response<Card[]>>
-  stripeRequest: (priceId: string) => Promise<Response<{ clientSecret: string; sessionId: string | null }>>
+  stripeRequest: (priceId: string, customerEmail?: string) => Promise<Response<{ clientSecret: string; sessionId: string | null }>>
   stripeSessionStatus: (
     sessionId: string
   ) => Promise<Response<{ 
@@ -121,6 +122,8 @@ export type ApiFunctions = {
     subscription: Omit<BusinessSubscription, 'id' | 'created_at' | 'updated_at'>
   ) => Promise<Response<BusinessSubscription>>
   cancelSubscription: (subscriptionId: string) => Promise<Response<any>>
+  reactivateSubscription: (subscriptionId: string) => Promise<Response<any>>
   resetPassword: (email: string) => Promise<Response<boolean>>
   updatePassword: (password: string) => Promise<Response<boolean>>
+  createPortalSession: (customerId: string, returnUrl?: string) => Promise<Response<{ url: string }>>
 }

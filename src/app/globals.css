@@ -93,6 +93,17 @@ body {
   input {
     @apply border border-neutral-500 p-2 rounded-sm min-w-3xs min-h-10;
   }
+  input::-webkit-credentials-auto-fill-button {
+    display: none !important;
+  }
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none !important;
+  }
+  .password-mask {
+    -webkit-text-security: disc;
+    text-security: disc;
+  }
 }
 
 @layer utilities {

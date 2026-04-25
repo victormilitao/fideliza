@@ -28,6 +28,29 @@ test.describe('Login', () => {
     await expect(errorMessage).toBeVisible({ timeout: 10000 })
   })
 
+  test('should toggle password visibility when clicking eye icon', async ({ page }) => {
+    await page.goto('/login')
+
+    // Fill in the password field
+    const passwordInput = page.getByRole('textbox').nth(1)
+    await passwordInput.fill('Test@123456')
+
+    // Password should be masked by default (has password-mask class)
+    await expect(passwordInput).toHaveClass(/password-mask/)
+
+    // Click the eye icon to show password
+    await page.getByRole('button').filter({ has: page.locator('svg') }).first().click()
+
+    // Password should now be visible (no password-mask class)
+    await expect(passwordInput).not.toHaveClass(/password-mask/)
+
+    // Click again to hide password
+    await page.getByRole('button').filter({ has: page.locator('svg') }).first().click()
+
+    // Password should be masked again
+    await expect(passwordInput).toHaveClass(/password-mask/)
+  })
+
   test('should navigate to forgot password', async ({ page }) => {
     await page.goto('/login')
 

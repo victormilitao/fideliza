@@ -98,4 +98,18 @@ describe('Input', () => {
     const input = screen.getByRole('textbox')
     expect(input).toHaveValue('')
   })
+
+  it('should apply inputClassName to the input element', () => {
+    render(<Input inputClassName="password-mask" />)
+    
+    const input = screen.getByRole('textbox')
+    expect(input).toHaveClass('password-mask')
+  })
+
+  it('should default inputClassName to empty string when not provided', () => {
+    render(<Input />)
+    
+    const input = screen.getByRole('textbox')
+    expect(input.className).toBe('')
+  })
 })

@@ -149,7 +149,7 @@ export const Home = () => {
 
             {/* Desktop inline banner */}
             {!isSubscribed && !hasReachedLimit && (
-              <div className={`hidden sm:flex py-4 items-center justify-center gap-1 ${
+              <div className={`hidden sm:flex py-4 items-center justify-center ${
                 isLow ? 'bg-warning-100' : 'bg-gray-100'
               }`}>
                 <span className={`text-sm ${
@@ -163,7 +163,7 @@ export const Home = () => {
                 <Button
                   variant="link"
                   onClick={() => router.push('/store/payment')}
-                  className={`p-0 h-auto text-sm hover:underline ${
+                  className={`!p-0 !px-0 h-auto text-sm hover:underline ml-1 ${
                     isLow ? 'text-neutral-800 font-bold' : 'text-black font-bold'
                   }`}
                 >
@@ -202,7 +202,7 @@ export const Home = () => {
 
       {/* Mobile fixed bottom banner */}
       {!isSubscribed && !hasReachedLimit && (
-        <div className={`sm:hidden fixed bottom-0 left-0 right-0 py-4 flex items-center justify-center gap-1 z-10 ${
+        <div className={`sm:hidden fixed bottom-0 left-0 right-0 py-4 flex items-center justify-center z-10 ${
           isLow ? 'bg-warning-100' : 'bg-gray-100'
         }`}>
           <span className={`text-sm ${
@@ -216,7 +216,7 @@ export const Home = () => {
           <Button
             variant="link"
             onClick={() => router.push('/store/payment')}
-            className={`p-0 h-auto text-sm hover:underline ${
+            className={`!p-0 !px-0 h-auto text-sm hover:underline ml-1 ${
               isLow ? 'text-neutral-800 font-bold' : 'text-black font-bold'
             }`}
           >

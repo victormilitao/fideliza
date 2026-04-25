@@ -7,6 +7,7 @@ type InputProps = {
   label?: string
   error?: string
   className?: string
+  inputClassName?: string
   maskType?: MaskType
   customMask?: MaskOptions
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -15,6 +16,7 @@ type InputProps = {
 export const Input = ({
   type = 'text',
   className,
+  inputClassName,
   label,
   error,
   maskType,
@@ -27,7 +29,7 @@ export const Input = ({
   return (
     <div className={`${className || ''} flex flex-col`}>
       <InputLabel>{label}</InputLabel>
-      <input type={type} {...rest} ref={inputRef} value={value ?? ''} />
+      <input type={type} className={inputClassName || ''} {...rest} ref={inputRef} value={value ?? ''} />
       {error && <Error msg={error} />}
     </div>
   )

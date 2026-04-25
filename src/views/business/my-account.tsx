@@ -271,13 +271,13 @@ export const MyAccount = () => {
       </div>
 
       <div className="bg-primary-600 rounded-2xl p-6 shadow-md relative overflow-hidden">
-        <div className="flex items-baseline mb-6 space-x-1 relative z-10">
+        <div className="flex items-baseline mb-6 space-x-1 relative z-10 justify-center">
           <span className="text-2xl text-neutral-100 font-medium tracking-tight">R$</span>
           <span className="text-5xl font-bold text-white tracking-tighter">27,90</span>
           <span className="text-lg text-neutral-100/80 ml-1">/mês</span>
         </div>
 
-        <ul className="space-y-4 relative z-10">
+        <ul className="space-y-4 relative z-10 px-2">
           {[
             'Selos <b>ilimitados</b>',
             'Sem taxas por envio',
@@ -287,7 +287,7 @@ export const MyAccount = () => {
             <li key={i} className="flex items-center space-x-3 text-neutral-100">
               <Check className="w-5 h-5 text-primary-250 flex-shrink-0" strokeWidth={2} />
               <span
-                className="text-[15px] font-medium"
+                className="text-[15px] font-normal"
                 dangerouslySetInnerHTML={{ __html: feature }}
               />
             </li>
@@ -296,7 +296,7 @@ export const MyAccount = () => {
       </div>
 
       <div className="flex flex-col gap-4">
-        <p className="text-[15px] text-neutral-600 font-medium">
+        <p className="text-[15px] text-neutral-700 font-normal">
           Ative o plano do Eloop e continue enviando selos para seus clientes sem limites.
         </p>
 
@@ -314,7 +314,7 @@ export const MyAccount = () => {
             onClick={() => router.push('/store')}
             className="text-primary-600 font-bold"
           >
-            Sair
+            Voltar
           </Button>
         </div>
       </div>

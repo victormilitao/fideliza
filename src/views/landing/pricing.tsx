@@ -10,7 +10,7 @@ export const Pricing = () => {
       className='py-16 lg:py-20 px-6'
       style={{
         background:
-          'linear-gradient(180deg, #FFFFFF 0%, #EEF8FF 33%, #F7FBFF 66%, #FFFFFF 100%)',
+          'linear-gradient(180deg, #FFFFFF 0%, #F3F9FF 20%, #EBF5FF 40%, #F3F9FF 70%, #FFFFFF 100%)',
       }}
     >
       <div className='max-w-4xl mx-auto text-center'>
@@ -18,8 +18,7 @@ export const Pricing = () => {
           Experimente sem compromisso
         </h2>
         <p className='text-neutral-700 mb-10 max-w-xl mx-auto'>
-          Comece gratuitamente e descubra como um programa de fidelidade pode
-          transformar o seu negócio. Quando estiver pronto, faça o upgrade.
+          Comece com 50 selos grátis para testar e veja como o seu negócio pode crescer
         </p>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto'>
@@ -43,7 +42,7 @@ export const Pricing = () => {
                   />
                 </span>
                 <span>
-                  Até <strong>30 selos</strong> gratuitos
+                  <strong>50 selos</strong> para enviar
                 </span>
               </li>
               <li className='flex items-start gap-3 text-sm text-neutral-700'>
@@ -55,7 +54,7 @@ export const Pricing = () => {
                     className='text-primary-600'
                   />
                 </span>
-                <span>1 campanha ativa</span>
+                <span>Acesso completo a todos os recursos</span>
               </li>
               <li className='flex items-start gap-3 text-sm text-neutral-700'>
                 <span className='bg-primary-100 rounded-full p-1 shrink-0 mt-0.5'>
@@ -66,7 +65,18 @@ export const Pricing = () => {
                     className='text-primary-600'
                   />
                 </span>
-                <span>Suporte por WhatsApp</span>
+                <span>Sem cartão de crédito</span>
+              </li>
+              <li className='flex items-start gap-3 text-sm text-neutral-700'>
+                <span className='bg-primary-100 rounded-full p-1 shrink-0 mt-0.5'>
+                  <Icon
+                    name='Check'
+                    size={14}
+                    strokeWidth={3}
+                    className='text-primary-600'
+                  />
+                </span>
+                <span>Cancele quando quiser</span>
               </li>
             </ul>
 
@@ -74,7 +84,7 @@ export const Pricing = () => {
               className='w-full text-base font-bold mt-auto'
               onClick={() => router.push('/store/create')}
             >
-              Começar agora
+              Começar teste grátis
             </Button>
           </div>
 
@@ -112,9 +122,7 @@ export const Pricing = () => {
                     className='text-white'
                   />
                 </span>
-                <span>
-                  Campanhas <strong>ilimitadas</strong>
-                </span>
+                <span>Sem taxas por envio</span>
               </li>
               <li className='flex items-start gap-3 text-sm text-white'>
                 <span className='bg-white/20 rounded-full p-1 shrink-0 mt-0.5'>
@@ -125,7 +133,18 @@ export const Pricing = () => {
                     className='text-white'
                   />
                 </span>
-                <span>Suporte prioritário</span>
+                <span>Cancelamento a qualquer momento</span>
+              </li>
+              <li className='flex items-start gap-3 text-sm text-white'>
+                <span className='bg-white/20 rounded-full p-1 shrink-0 mt-0.5'>
+                  <Icon
+                    name='Check'
+                    size={14}
+                    strokeWidth={3}
+                    className='text-white'
+                  />
+                </span>
+                <span>Pagamento mensal no cartão</span>
               </li>
             </ul>
 
@@ -133,7 +152,7 @@ export const Pricing = () => {
               className='w-full h-10 rounded-sm bg-white text-primary-600 text-sm font-bold hover:bg-white/90 transition-colors cursor-pointer mt-auto'
               onClick={() => router.push('/store/create')}
             >
-              Assinar agora
+              Assinar
             </button>
           </div>
         </div>

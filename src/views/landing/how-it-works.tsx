@@ -66,7 +66,7 @@ export default function HowItWorks() {
 
         <div className='mt-10'>
           <Button className='w-full' onClick={() => router.push('/store/create')}>
-            Começar o teste grátis agora
+            Começar grátis
           </Button>
         </div>
       </div>

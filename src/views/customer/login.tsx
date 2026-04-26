@@ -39,8 +39,11 @@ export const LoginCustomer: React.FC = () => {
   }
 
   return (
-    <div className='flex items-center justify-center h-screen'>
-      <div className='flex flex-col gap-6 w-3xs'>
+    <div className='flex flex-col items-center justify-center min-h-[100dvh] py-10'>
+      <h1 className='text-center text-primary-600 font-bold text-2xl mt-10'>
+        Eloop
+      </h1>
+      <div className='flex flex-col gap-6 w-3xs my-auto'>
         <h2 className='text-center'>
           <b>Use seu número de celular para acessar e acompanhar seus selos.</b>
         </h2>

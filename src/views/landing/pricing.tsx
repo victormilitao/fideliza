@@ -21,10 +21,10 @@ export const Pricing = () => {
           Comece com 50 selos grátis para testar e veja como o seu negócio pode crescer
         </p>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto'>
           {/* Free Plan */}
           <div className='bg-white rounded-2xl p-8 flex flex-col items-center shadow-sm border border-neutral-400/30'>
-            <p className='text-sm font-semibold text-neutral-700 mb-1'>
+            <p className='text-2xl font-bold text-primary-600 mb-1'>
               Teste grátis
             </p>
             <div className='flex items-baseline gap-1 mb-6'>
@@ -32,8 +32,8 @@ export const Pricing = () => {
             </div>
 
             <ul className='space-y-3 text-left w-full mb-8 flex-1'>
-              <li className='flex items-start gap-3 text-sm text-neutral-700'>
-                <span className='bg-primary-100 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-neutral-700'>
+                <span className='bg-primary-100 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -42,11 +42,11 @@ export const Pricing = () => {
                   />
                 </span>
                 <span>
-                  <strong>50 selos</strong> para enviar
+                  <strong>50 selos para enviar</strong>
                 </span>
               </li>
-              <li className='flex items-start gap-3 text-sm text-neutral-700'>
-                <span className='bg-primary-100 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-neutral-700'>
+                <span className='bg-primary-100 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -56,8 +56,8 @@ export const Pricing = () => {
                 </span>
                 <span>Acesso completo a todos os recursos</span>
               </li>
-              <li className='flex items-start gap-3 text-sm text-neutral-700'>
-                <span className='bg-primary-100 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-neutral-700'>
+                <span className='bg-primary-100 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -67,8 +67,8 @@ export const Pricing = () => {
                 </span>
                 <span>Sem cartão de crédito</span>
               </li>
-              <li className='flex items-start gap-3 text-sm text-neutral-700'>
-                <span className='bg-primary-100 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-neutral-700'>
+                <span className='bg-primary-100 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -90,18 +90,18 @@ export const Pricing = () => {
 
           {/* Unlimited Plan */}
           <div className='bg-primary-600 rounded-2xl p-8 flex flex-col items-center shadow-sm border border-primary-600'>
-            <p className='text-sm font-semibold text-white mb-1'>
+            <p className='text-2xl font-bold text-white mb-1'>
               Plano ilimitado
             </p>
             <div className='flex items-baseline gap-1 mb-6'>
-              <span className='text-sm text-white/80'>R$</span>
+              <span className='text-sm text-white'>R$</span>
               <span className='text-4xl font-bold text-white'>27,90</span>
-              <span className='text-sm text-white/80'>/mês</span>
+              <span className='text-sm text-white'>/mês</span>
             </div>
 
             <ul className='space-y-3 text-left w-full mb-8 flex-1'>
-              <li className='flex items-start gap-3 text-sm text-white'>
-                <span className='bg-white/20 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-white'>
+                <span className='bg-white/20 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -110,11 +110,11 @@ export const Pricing = () => {
                   />
                 </span>
                 <span>
-                  Selos <strong>ilimitados</strong>
+                  <strong>Selos ilimitados</strong>
                 </span>
               </li>
-              <li className='flex items-start gap-3 text-sm text-white'>
-                <span className='bg-white/20 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-white'>
+                <span className='bg-white/20 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -124,8 +124,8 @@ export const Pricing = () => {
                 </span>
                 <span>Sem taxas por envio</span>
               </li>
-              <li className='flex items-start gap-3 text-sm text-white'>
-                <span className='bg-white/20 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-white'>
+                <span className='bg-white/20 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}
@@ -135,8 +135,8 @@ export const Pricing = () => {
                 </span>
                 <span>Cancelamento a qualquer momento</span>
               </li>
-              <li className='flex items-start gap-3 text-sm text-white'>
-                <span className='bg-white/20 rounded-full p-1 shrink-0 mt-0.5'>
+              <li className='flex items-center gap-3 text-sm text-white'>
+                <span className='bg-white/20 rounded-full p-1 shrink-0'>
                   <Icon
                     name='Check'
                     size={14}

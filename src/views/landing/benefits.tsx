@@ -1,4 +1,5 @@
 import Icon, { LucideIconNames } from '@/components/icon'
+import { useRouter } from 'next/navigation'
 
 
 type Benefit = {
@@ -8,6 +9,8 @@ type Benefit = {
 }
 
 export default function Benefits() {
+  const router = useRouter()
+
   const benefits: Benefit[] = [
     {
       icon: 'BarChart',
@@ -80,6 +83,16 @@ export default function Benefits() {
             <Benefit key={benefit.title} {...benefit} />
           ))}
         </div>
+      </div>
+
+      <div className='flex justify-center mt-12'>
+        <button
+          className='w-[400px] max-w-full border border-primary-600 text-primary-600 font-bold rounded-lg hover:bg-primary-50 transition-colors cursor-pointer'
+          style={{ padding: '16px 12px' }}
+          onClick={() => router.push('/store/create')}
+        >
+          Criar meu programa de fidelidade
+        </button>
       </div>
     </section>
   )

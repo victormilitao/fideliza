@@ -112,7 +112,7 @@ jobs:
             echo "deploy_url=$(echo $OUTPUT | jq -r '.deploy_url // .url')" >> $GITHUB_OUTPUT
             echo "is_prod=true" >> $GITHUB_OUTPUT
           else
-            OUTPUT=$(npx netlify-cli deploy --build --json)
+            OUTPUT=$(npx netlify-cli deploy --build --alias "deploy-preview-${{ github.event.pull_request.number }}" --json)
             echo "deploy_url=$(echo $OUTPUT | jq -r '.deploy_url')" >> $GITHUB_OUTPUT
             echo "is_prod=false" >> $GITHUB_OUTPUT
           fi

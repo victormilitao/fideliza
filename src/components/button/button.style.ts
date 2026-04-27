@@ -32,7 +32,7 @@ const borderColors = {
 
 const borderColorsHover = {
   primary: '',
-  secondary: '',
+  secondary: '1px solid var(--color-primary-600)',
   link: '',
 }
 

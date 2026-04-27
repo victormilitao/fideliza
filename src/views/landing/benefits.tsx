@@ -87,7 +87,7 @@ export default function Benefits() {
 
       <div className='flex justify-center mt-12'>
         <button
-          className='w-[400px] max-w-full border border-primary-600 text-primary-600 font-bold rounded-lg hover:bg-primary-50 transition-colors cursor-pointer'
+          className='w-[400px] max-w-full border border-primary-600 text-primary-600 font-bold rounded-lg hover:bg-primary-100 transition-colors cursor-pointer'
           style={{ padding: '16px 12px' }}
           onClick={() => router.push('/store/create')}
         >

@@ -7,7 +7,7 @@ export const Pricing = () => {
 
   return (
     <section
-      className='py-16 lg:py-20 px-6'
+      className='pt-4 pb-16 lg:pt-6 lg:pb-20 px-6'
       style={{
         background:
           'linear-gradient(180deg, #FFFFFF 0%, #F3F9FF 20%, #EBF5FF 40%, #F3F9FF 70%, #FFFFFF 100%)',
@@ -23,15 +23,19 @@ export const Pricing = () => {
 
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto'>
           {/* Free Plan */}
-          <div className='bg-white rounded-2xl p-8 flex flex-col items-center shadow-sm border border-neutral-400/30'>
-            <p className='text-2xl font-bold text-primary-600 mb-1'>
-              Teste grátis
-            </p>
-            <div className='flex items-baseline gap-1 mb-6'>
-              <span className='text-4xl font-bold text-primary-600'>R$ 0</span>
+          <div className='bg-white rounded-2xl py-16 px-8 flex flex-col items-center shadow-sm border border-primary-300 min-h-[488px]'>
+            <div className='flex flex-col items-center h-[100px]'>
+              <p className='text-2xl font-bold text-primary-600 mb-3'>
+                Teste grátis
+              </p>
+              <div className='flex items-baseline gap-1'>
+                <span className='text-4xl font-bold text-primary-600'>R$ 0</span>
+              </div>
             </div>
 
-            <ul className='space-y-3 text-left w-full mb-8 flex-1'>
+            <div className='mb-10' />
+
+            <ul className='space-y-3 text-left w-full max-w-[283px]'>
               <li className='flex items-center gap-3 text-sm text-neutral-700'>
                 <span className='bg-primary-100 rounded-full p-1 shrink-0'>
                   <Icon
@@ -81,7 +85,7 @@ export const Pricing = () => {
             </ul>
 
             <Button
-              className='w-full text-base font-bold mt-auto'
+              className='w-full max-w-[283px] h-[50px] text-base font-bold mt-10'
               onClick={() => router.push('/store/create')}
             >
               Começar teste grátis
@@ -89,17 +93,21 @@ export const Pricing = () => {
           </div>
 
           {/* Unlimited Plan */}
-          <div className='bg-primary-600 rounded-2xl p-8 flex flex-col items-center shadow-sm border border-primary-600'>
-            <p className='text-2xl font-bold text-white mb-1'>
-              Plano ilimitado
-            </p>
-            <div className='flex items-baseline gap-1 mb-6'>
-              <span className='text-sm text-white'>R$</span>
-              <span className='text-4xl font-bold text-white'>27,90</span>
-              <span className='text-sm text-white'>/mês</span>
+          <div className='bg-primary-600 rounded-2xl py-16 px-8 flex flex-col items-center shadow-sm border border-primary-600 min-h-[488px]'>
+            <div className='flex flex-col items-center h-[100px]'>
+              <p className='text-2xl font-bold text-white mb-3'>
+                Plano ilimitado
+              </p>
+              <div className='flex items-baseline gap-1'>
+                <span className='text-sm text-white'>R$</span>
+                <span className='text-4xl font-bold text-white'>27,90</span>
+                <span className='text-sm text-white'>/mês</span>
+              </div>
             </div>
 
-            <ul className='space-y-3 text-left w-full mb-8 flex-1'>
+            <div className='mb-10' />
+
+            <ul className='space-y-3 text-left w-full max-w-[283px]'>
               <li className='flex items-center gap-3 text-sm text-white'>
                 <span className='bg-white/20 rounded-full p-1 shrink-0'>
                   <Icon
@@ -149,7 +157,7 @@ export const Pricing = () => {
             </ul>
 
             <button
-              className='w-full h-10 rounded-sm bg-white text-primary-600 text-sm font-bold hover:bg-white/90 transition-colors cursor-pointer mt-auto'
+              className='w-full max-w-[283px] h-[50px] rounded-sm bg-white text-primary-600 text-sm font-bold hover:bg-white/90 transition-colors cursor-pointer mt-10'
               onClick={() => router.push('/store/create')}
             >
               Assinar

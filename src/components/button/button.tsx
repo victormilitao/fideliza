@@ -17,7 +17,7 @@ export const Button = ({
   return (
     <ButtonStyled
       $variant={variant}
-      className={`cursor-pointer h-10 min-w-fit py-1 px-6 rounded-sm transition-transform duration-300 ease-in-out ${
+      className={`cursor-pointer h-10 min-w-fit py-1 px-6 rounded-sm transition-all duration-300 ease-in-out ${
         className || ''
       }`}
       {...rest}

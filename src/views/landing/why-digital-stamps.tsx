@@ -59,8 +59,8 @@ export const WhyDigitalStamps = () => {
           a fidelização acontece do jeito certo — simples para o cliente,
           eficiente para você.
         </p>
-        <Button className='mt-5 w-full' onClick={() => router.push('/login')}>
-          Acessar minha conta
+        <Button className='mt-5 w-full' onClick={() => router.push('/store/create')}>
+          Criar programa de fidelidade grátis
         </Button>
       </div>
     )

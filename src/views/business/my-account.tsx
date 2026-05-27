@@ -100,12 +100,15 @@ export const MyAccount = () => {
       if (business?.id) {
         queryClient.invalidateQueries({ queryKey: ['business-subscription', business.id] })
       }
+
+      // Redirecionar para criar campanha com pré-preenchimento
+      router.push('/store/create-campaign?prefill=true')
     } catch (err) {
       console.error('Erro ao reativar assinatura:', err)
     } finally {
       setIsReactivating(false)
     }
-  }, [subscription, business?.id, queryClient])
+  }, [subscription, business?.id, queryClient, router])
 
   if (isLoading || isChangingCard || isCanceling || isReactivating) {
     return (

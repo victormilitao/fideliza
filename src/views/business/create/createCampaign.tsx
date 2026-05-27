@@ -8,9 +8,10 @@ import z from 'zod'
 import { createCampaignSchema } from './createCampaignSchema'
 import { useMyBusiness } from '@/hooks/useMyBusiness'
 import { useCampaign } from '@/hooks/useCampaign'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { useLastCampaign } from '@/hooks/useLastCampaign'
 
 type CampaignFormSchema = z.infer<typeof createCampaignSchema>
 
@@ -18,7 +19,13 @@ export const CreateCampaign: React.FC = () => {
   const { business } = useMyBusiness()
   const { createCampaign, createCampaignLoading } = useCampaign()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const queryClient = useQueryClient()
+
+  const shouldPrefill = searchParams.get('prefill') === 'true'
+  const { lastCampaign, isLoading: lastCampaignLoading } = useLastCampaign(
+    shouldPrefill ? business?.id : undefined
+  )
 
   const {
     handleSubmit,
@@ -54,7 +61,18 @@ export const CreateCampaign: React.FC = () => {
     if (business?.id) setValue('business_id', business.id)
   }, [business?.id, setValue])
 
-  if (!business?.id) {
+  // Pré-preencher com dados da última campanha quando ?prefill=true
+  useEffect(() => {
+    if (shouldPrefill && lastCampaign && !lastCampaignLoading) {
+      if (lastCampaign.rule) setValue('rule', lastCampaign.rule)
+      if (lastCampaign.prize) setValue('prize', lastCampaign.prize)
+      if (lastCampaign.stamps_required) {
+        setValue('stamps_required', lastCampaign.stamps_required)
+      }
+    }
+  }, [shouldPrefill, lastCampaign, lastCampaignLoading, setValue])
+
+  if (!business?.id || (shouldPrefill && lastCampaignLoading)) {
     return (
       <div className='flex flex-col min-h-screen'>
         <Header />
@@ -72,10 +90,12 @@ export const CreateCampaign: React.FC = () => {
         <div className='w-full sm:max-w-md flex flex-col sm:items-center sm:justify-center flex-1 py-8 sm:pt-0 px-6'>
           <div className='mb-6'>
             <h2 className='text-primary-600 font-bold text-xl'>
-              Este é o último passo!
+              {shouldPrefill ? 'Configure sua campanha' : 'Este é o último passo!'}
             </h2>
             <p className='text-primary-600 text-base'>
-              Defina como será o programa de fidelidade do seu estabelecimento.
+              {shouldPrefill
+                ? 'Revise os dados da sua campanha anterior e salve para continuar.'
+                : 'Defina como será o programa de fidelidade do seu estabelecimento.'}
             </p>
           </div>
           <form
@@ -146,7 +166,7 @@ export const CreateCampaign: React.FC = () => {
               type='submit'
               loading={createCampaignLoading}
             >
-              Criar
+              {shouldPrefill ? 'Salvar e continuar' : 'Criar'}
             </Button>
           </form>
         </div>

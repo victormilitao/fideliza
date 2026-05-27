@@ -286,7 +286,6 @@ test.describe('Subscription Management', () => {
 
       // Navigate to home (which should trigger redirect)
       await page.goto('/')
-      await page.waitForLoadState('networkidle')
 
       // Should redirect to payment page
       await expect(page).toHaveURL(/\/store\/payment/, { timeout: 15000 })
@@ -304,7 +303,6 @@ test.describe('Subscription Management', () => {
 
       // Navigate to home
       await page.goto('/')
-      await page.waitForLoadState('networkidle')
 
       // Should stay on home (root page) — NOT redirect to payment
       // The home page shows "Enviar selo" button when user has an active subscription

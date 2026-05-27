@@ -285,7 +285,7 @@ test.describe('Subscription Management', () => {
       })
 
       // Navigate to home (which should trigger redirect)
-      await page.goto('/store')
+      await page.goto('/')
       await page.waitForLoadState('networkidle')
 
       // Should redirect to payment page
@@ -303,7 +303,7 @@ test.describe('Subscription Management', () => {
       })
 
       // Navigate to home
-      await page.goto('/store')
+      await page.goto('/')
       await page.waitForLoadState('networkidle')
 
       // Should stay on home (root page) — NOT redirect to payment

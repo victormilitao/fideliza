@@ -1,5 +1,4 @@
 import { Response } from '@/services/types/api.type'
-import supabase from '../config'
 
 export const reactivateSubscription = async (
   subscriptionId: string
@@ -7,18 +6,17 @@ export const reactivateSubscription = async (
   try {
     console.log('Reactivating subscription for subscriptionId:', subscriptionId)
 
-    const requestBody = {
-      subscription_id: subscriptionId,
-    }
-
-    const { data, error } = await supabase.functions.invoke('reactivate-subscription', {
+    const response = await fetch('/api/stripe/reactivate-subscription', {
       method: 'POST',
-      body: requestBody,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subscription_id: subscriptionId }),
     })
 
-    if (error) {
-      console.error('Failed to reactivate subscription:', error)
-      return { data: null, error }
+    const data = await response.json()
+
+    if (!response.ok) {
+      console.error('Failed to reactivate subscription:', data.error)
+      return { data: null, error: new Error(data.error) }
     }
 
     console.log('Subscription reactivated successfully:', data)

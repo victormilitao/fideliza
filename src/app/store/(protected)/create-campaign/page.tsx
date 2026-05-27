@@ -1,7 +1,12 @@
 'use client'
 
+import { Suspense } from 'react'
 import { CreateCampaign } from '@/views/business/create/createCampaign'
 
 export default function CreateCampaignPage() {
-  return <CreateCampaign />
+  return (
+    <Suspense>
+      <CreateCampaign />
+    </Suspense>
+  )
 }

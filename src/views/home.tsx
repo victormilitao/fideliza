@@ -4,7 +4,7 @@ import { Input } from '../components/input'
 import { BottomSheet } from '@/components/bottom-sheet'
 import { TabNavigation } from '@/components/business/tab-navigation'
 import { CampaignInstructionsBottomSheet } from '@/components/business/campaign-instructions-bottom-sheet'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Reward } from './reward'
 import { useSendStampByPhone } from '@/hooks/useSendStampByPhone'
 import { useForm, Controller } from 'react-hook-form'
@@ -37,6 +37,7 @@ export const Home = () => {
   const { totalStamps, refetch: refetchStamps } = useTotalStamps(business?.id)
 
   const isSubscribed = subscription?.status === 'complete' || subscription?.status === 'active'
+  const isCancelled = subscription?.subscription_status === 'canceled'
 
   const { isLoading: onboardLoading } = useOnboardRedirect()
 
@@ -50,7 +51,14 @@ export const Home = () => {
     defaultValues: { phone: '' },
   })
 
-  if (onboardLoading) {
+  // Redirecionar para pagamento se plano cancelado
+  useEffect(() => {
+    if (!onboardLoading && isCancelled) {
+      router.push('/store/payment')
+    }
+  }, [onboardLoading, isCancelled, router])
+
+  if (onboardLoading || isCancelled) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />

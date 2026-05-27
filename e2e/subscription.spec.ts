@@ -271,4 +271,75 @@ test.describe('Subscription Management', () => {
       await expect(page).toHaveURL(/\/store\/payment/, { timeout: 10000 })
     })
   })
+
+  // ─── REDIRECT TESTS ─────────────────────────────────────────
+  test.describe('Redirect Behavior', () => {
+    test('should redirect canceled user from Home to payment page', async ({ page }) => {
+      if (!businessId) test.skip()
+
+      // Seed fully cancelled subscription
+      await seedSubscription(supabase, businessId!, {
+        status: 'canceled',
+        subscriptionStatus: 'canceled',
+        paymentStatus: 'paid',
+      })
+
+      // Navigate to home (which should trigger redirect)
+      await page.goto('/')
+
+      // Should redirect to payment page
+      await expect(page).toHaveURL(/\/store\/payment/, { timeout: 15000 })
+    })
+
+    test('should allow pending_cancellation user to access Home normally', async ({ page }) => {
+      if (!businessId) test.skip()
+
+      // Seed pending cancellation subscription
+      await seedSubscription(supabase, businessId!, {
+        status: 'complete',
+        subscriptionStatus: 'pending_cancellation',
+        paymentStatus: 'paid',
+      })
+
+      // Navigate to home
+      await page.goto('/')
+
+      // Should stay on home (root page) — NOT redirect to payment
+      // The home page shows "Enviar selo" button when user has an active subscription
+      await expect(page).not.toHaveURL(/\/store\/payment/, { timeout: 10000 })
+      await expect(page.getByRole('button', { name: /enviar selo/i })).toBeVisible({ timeout: 15000 })
+    })
+
+    test('should allow pending_cancellation user to access Settings', async ({ page }) => {
+      if (!businessId) test.skip()
+
+      // Seed pending cancellation subscription
+      await seedSubscription(supabase, businessId!, {
+        status: 'complete',
+        subscriptionStatus: 'pending_cancellation',
+        paymentStatus: 'paid',
+      })
+
+      // Navigate to settings
+      await page.goto('/store/settings')
+      await page.waitForLoadState('networkidle')
+
+      // Should stay on settings — NOT redirect to payment
+      await expect(page).toHaveURL(/\/store\/settings/, { timeout: 10000 })
+    })
+  })
+
+  // ─── CLEANUP: Restore active subscription ───────────────────
+  test.describe('Cleanup', () => {
+    test('should restore active subscription for other test suites', async () => {
+      if (!businessId) test.skip()
+
+      // Restore to active state for other tests that may depend on it
+      await seedSubscription(supabase, businessId!, {
+        status: 'complete',
+        subscriptionStatus: null,
+        paymentStatus: 'paid',
+      })
+    })
+  })
 })

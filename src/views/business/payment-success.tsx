@@ -91,10 +91,10 @@ export const PaymentSuccess = () => {
 
           <Button
             variant="primary"
-            onClick={() => router.push("/store")}
+            onClick={() => router.push("/store/create-campaign?prefill=true")}
             className="w-full"
           >
-            Acessar página inicial
+            Configurar campanha
           </Button>
         </div>
       </div>
